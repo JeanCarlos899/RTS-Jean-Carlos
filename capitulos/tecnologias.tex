@@ -1,0 +1,116 @@
+\chapter{Tecnologias Envolvidas} \label{cha:tecnologias}
+
+Este capítulo apresenta as principais tecnologias utilizadas no desenvolvimento do sistema BusLy, organizadas por categoria e detalhando suas versões e funcionalidades no projeto.
+
+\section{Tecnologias do Backend}
+
+O backend utiliza um conjunto robusto de tecnologias para implementar a lógica de negócio, persistência de dados e segurança.
+
+\begin{table}[H]
+\centering
+\caption{Tecnologias utilizadas no backend.}
+\label{tab:tecnologias-backend}
+\begin{tabular}{|p{3cm}|p{2cm}|p{8cm}|}
+\hline
+\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} \\
+\hline
+NestJS & 11.0.1 & Framework Node.js para construção de aplicações server-side escaláveis, baseado em TypeScript e decorators \\
+\hline
+TypeORM & 0.3.20 & ORM (Object-Relational Mapping) para TypeScript que suporta Active Record e Data Mapper patterns \\
+\hline
+PostgreSQL & 8.13.3 & Sistema de gerenciamento de banco de dados relacional open-source (driver pg) \\
+\hline
+Passport.js & 0.7.0 & Middleware de autenticação para Node.js com estratégias modulares (JWT, Local) \\
+\hline
+JSON Web Token & 11.0.0 & Padrão para transmissão segura de informações entre partes como token compacto e autocontido \\
+\hline
+bcrypt & 6.0.0 & Biblioteca para hash de senhas com algoritmo de criptografia adaptativo baseado no Blowfish \\
+\hline
+class-validator & 0.14.1 & Biblioteca para validação de objetos baseada em decorators TypeScript \\
+\hline
+class-transformer & 0.5.1 & Transformação de objetos plain para instâncias de classe e vice-versa \\
+\hline
+Morgan & 1.10.0 & Middleware de logging HTTP para Node.js, usado para registrar requisições \\
+\hline
+TypeScript & 5.7.3 & Superset tipado do JavaScript que adiciona tipos estáticos opcionais ao desenvolvimento \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Tecnologias do Frontend}
+
+O frontend emprega tecnologias modernas para criar uma interface responsiva, interativa e de alta performance.
+
+\begin{table}[H]
+\centering
+\caption{Tecnologias utilizadas no frontend.}
+\label{tab:tecnologias-frontend}
+\begin{tabular}{|p{3cm}|p{2cm}|p{8cm}|}
+\hline
+\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} \\
+\hline
+Next.js & 15.4.6 & Framework React para produção com renderização server-side, App Router e otimizações automáticas \\
+\hline
+React & 19.1.0 & Biblioteca JavaScript para construção de interfaces de usuário baseada em componentes \\
+\hline
+TypeScript & 5.7.3 & Superset tipado do JavaScript que adiciona tipos estáticos opcionais ao desenvolvimento \\
+\hline
+NextAuth.js & 4.24.11 & Biblioteca completa de autenticação para Next.js com suporte a múltiplos provedores \\
+\hline
+Radix UI & 1.x & Coleção de componentes UI primitivos de baixo nível, acessíveis e customizáveis \\
+\hline
+Tailwind CSS & 4.x & Framework CSS utility-first para criação rápida de interfaces customizadas \\
+\hline
+React Hook Form & 7.62.0 & Biblioteca para gerenciamento de formulários React com validação e performance otimizada \\
+\hline
+Zod & 4.0.15 & Schema de validação TypeScript-first com inferência de tipos estáticos \\
+\hline
+Leaflet & 1.9.4 & Biblioteca JavaScript open-source para mapas interativos móveis \\
+\hline
+React-Leaflet & 5.0.0 & Componentes React para integração com Leaflet maps \\
+\hline
+Lucide React & 0.536.0 & Biblioteca de ícones SVG bonitos e consistentes para React \\
+\hline
+date-fns & 4.1.0 & Biblioteca JavaScript moderna para manipulação de datas com funções modulares \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Ferramentas de Desenvolvimento}
+
+As ferramentas de desenvolvimento garantem qualidade de código, padronização e facilidade de implantação.
+
+\begin{table}[H]
+\centering
+\caption{Ferramentas e tecnologias de desenvolvimento.}
+\label{tab:tecnologias-desenvolvimento}
+\begin{tabular}{|p{3cm}|p{2cm}|p{8cm}|}
+\hline
+\textbf{Tecnologia} & \textbf{Versão} & \textbf{Descrição} \\
+\hline
+Docker & 28.0.4 & Plataforma de containerização para empacotamento e implantação de aplicações \\
+\hline
+ESLint & 9 & Ferramenta de linting para identificação e correção de problemas em código JavaScript/TypeScript \\
+\hline
+Prettier & 11.0.0 & Formatador de código opinativo que garante estilo consistente \\
+\hline
+npm & 11.1.0 & Gerenciador de pacotes para Node.js e registro de bibliotecas JavaScript \\
+\hline
+\end{tabular}
+\end{table}
+
+\section{Justificativas Tecnológicas}
+
+A escolha das tecnologias baseou-se em critérios de maturidade, comunidade ativa, documentação, performance e adequação aos requisitos do projeto:
+
+\begin{itemize}
+  \item \textbf{NestJS 11}: Framework maduro que promove arquitetura escalável com decorators, injeção de dependência e módulos bem estruturados
+  \item \textbf{Next.js 15}: Performance otimizada com App Router, Turbopack, renderização híbrida e experiência de desenvolvimento superior
+  \item \textbf{React 19}: Versão mais recente com melhorias de performance e novos recursos de concorrência
+  \item \textbf{TypeScript 5.7}: Tipagem estática robusta que reduz bugs em produção e melhora a manutenibilidade do código
+  \item \textbf{TypeORM 0.3}: ORM maduro com suporte completo a PostgreSQL e migrations automáticas
+  \item \textbf{Radix UI + Tailwind CSS}: Componentes acessíveis e design system flexível com utility-first CSS
+  \item \textbf{NextAuth 4.24}: Solução completa de autenticação com suporte a JWT e múltiplos provedores
+  \item \textbf{Leaflet}: Biblioteca de mapas open-source leve e versátil para funcionalidades geográficas
+\end{itemize}
+

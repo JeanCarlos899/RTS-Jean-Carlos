@@ -651,14 +651,116 @@ O sistema implementa isolamento de dados por empresa através do padrão \texttt
 \end{itemize}
 
 \section{Arquitetura do Frontend}
-O frontend emprega Next.js~15 (React~19) com App Router, compondo páginas e layouts por segmentos de negócio (\texttt{/dashboard/[company]/...}). Destacam-se:
+
+O frontend implementa uma arquitetura moderna baseada em Next.js~15 (React~19) com App Router, utilizando TypeScript para tipagem estática completa. A aplicação segue padrões de arquitetura limpa e organização por domínio.
+
+\subsection{Stack Tecnológico e Organização}
+
+O frontend utiliza um conjunto integrado de tecnologias modernas para garantir performance, experiência do usuário e manutenibilidade:
 
 \begin{itemize}
-  \item \textbf{Sessão e Contexto}: NextAuth com \textit{credentials provider}; o token JWT é persistido na sessão e exposto a componentes via \texttt{useSession} e por um contexto de autenticação.
-  \item \textbf{Serviços de API}: um cliente consolidado (\texttt{api.service.ts}) monta a URL base (\texttt{NEXT\_PUBLIC\_API\_URL}), anexa o token \texttt{Bearer}, trata erros e respostas padronizadas e redireciona para login em caso de 401.
-  \item \textbf{Camada de UI}: biblioteca de componentes com Radix UI e Tailwind CSS, compondo tabelas, diálogos e formulários tipados com React Hook Form e Zod.
-  \item \textbf{Mapas e Geografia}: Leaflet/React-Leaflet para visualização e edição de rotas e paradas (componentes de mapa, formulários e tabelas integrados).
-  \item \textbf{Organização por Domínio}: páginas e componentes agrupados por recursos (empresas, motoristas, veículos, rotas, viagens, bilhetes) favorecem coesão e evolução incremental.
+  \item \textbf{Framework}: Next.js~15 com App Router para roteamento baseado em arquivo
+  \item \textbf{UI}: React~19 com componentes Radix UI e estilização Tailwind CSS
+  \item \textbf{Formulários}: React Hook Form + Zod para validação tipada
+  \item \textbf{Autenticação}: NextAuth v4 com JWT e provedores customizados
+  \item \textbf{Mapas}: Leaflet + React-Leaflet para funcionalidades geográficas
+  \item \textbf{Estado}: Context API do React para gerenciamento de estado global
+  \item \textbf{Tipagem}: TypeScript com definições específicas por domínio
 \end{itemize}
 
-Essa arquitetura promove: (i) separação de preocupações, (ii) segurança com \textit{JWT} e papéis, (iii) multiempresa por chave de escopo e (iv) escalabilidade via modularização e tipagem estática de ponta a ponta.
+\subsection{Arquitetura de Roteamento}
+
+A aplicação utiliza o App Router do Next.js~15 com roteamento dinâmico baseado em empresa. A estrutura principal segue o padrão \texttt{/dashboard/[company]/recurso}, permitindo isolamento completo por empresa:
+
+\begin{itemize}
+  \item \textbf{Páginas Públicas}: \texttt{/login}, \texttt{/criar-empresa}
+  \item \textbf{Dashboard Multiempresa}: \texttt{/dashboard/[company]/\{motoristas, veiculos, rotas, paradas, viagens, passagens\}}
+  \item \textbf{Layouts Aninhados}: Cada nível possui layout específico com providers e componentes apropriados
+  \item \textbf{Proteção de Rotas}: Wrapper \texttt{ProtectedPage} valida autenticação e autorização
+\end{itemize}
+
+\subsection{Gerenciamento de Estado e Contextos}
+
+O sistema implementa uma hierarquia de contextos React para gerenciar estado global de forma eficiente:
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+  % Providers hierarchy
+  \node[draw, rounded corners, thick, fill=blue!15, minimum width=12cm, minimum height=1.5cm, align=center] (session) at (6,6) {
+    \textbf{SessionProvider} - \textit{NextAuth Session Management}
+  };
+  
+  \node[draw, rounded corners, thick, fill=green!15, minimum width=10cm, minimum height=1.5cm, align=center] (theme) at (6,4) {
+    \textbf{ThemeProvider} - \textit{Dark/Light Mode}
+  };
+  
+  \node[draw, rounded corners, thick, fill=orange!15, minimum width=8cm, minimum height=1.5cm, align=center] (auth) at (6,2) {
+    \textbf{AuthProvider} - \textit{User \& Company Context}
+  };
+  
+  \node[draw, rounded corners, thick, fill=purple!15, minimum width=6cm, minimum height=1.5cm, align=center] (company) at (6,0) {
+    \textbf{CompanyProvider} - \textit{Current Company State}
+  };
+  
+  \node[draw, rounded corners, thick, fill=cyan!15, minimum width=4cm, minimum height=1.5cm, align=center] (sidebar) at (6,-2) {
+    \textbf{SidebarProvider} - \textit{UI State}
+  };
+  
+  % Arrows showing hierarchy
+  \draw[->, thick] (session) -- (theme);
+  \draw[->, thick] (theme) -- (auth);
+  \draw[->, thick] (auth) -- (company);
+  \draw[->, thick] (company) -- (sidebar);
+\end{tikzpicture}
+\caption{Hierarquia de providers e contextos do frontend.}
+\label{fig:frontend-providers}
+\end{figure}
+
+Cada contexto tem responsabilidades específicas:
+
+\begin{itemize}
+  \item \textbf{SessionProvider}: Gerencia sessão NextAuth e tokens JWT
+  \item \textbf{AuthProvider}: Expõe dados do usuário autenticado e empresa
+  \item \textbf{CompanyProvider}: Mantém contexto da empresa atual no dashboard
+  \item \textbf{ThemeProvider}: Controla tema dark/light com persistência
+  \item \textbf{SidebarProvider}: Gerencia estado da interface (sidebar, mobile)
+\end{itemize}
+
+\subsection{Sistema de Autenticação e Comunicação}
+
+A autenticação integra NextAuth com o backend NestJS através de JWT. O serviço \texttt{api.service.ts} centraliza toda comunicação HTTP:
+
+\begin{itemize}
+  \item \textbf{Token Management}: Anexa automaticamente \texttt{Bearer} tokens
+  \item \textbf{Error Handling}: Trata respostas de erro padronizadas e redireciona em 401
+  \item \textbf{Response Processing}: Extrai dados da estrutura padrão da API
+  \item \textbf{Public Endpoints}: Diferencia rotas que não requerem autenticação
+  \item \textbf{Session Validation}: Verifica validade da sessão antes de cada requisição
+\end{itemize}
+
+\subsection{Arquitetura de Componentes}
+
+O sistema de componentes segue uma arquitetura em camadas baseada em responsabilidades:
+
+\begin{itemize}
+  \item \textbf{Primitivos UI}: Radix UI como base para acessibilidade e comportamento
+  \item \textbf{Design System}: Componentes tipados (\texttt{components/ui/}) com variantes via CVA
+  \item \textbf{Componentes de Domínio}: Específicos por funcionalidade (forms, tables, dialogs)
+  \item \textbf{Páginas}: Composição de componentes com lógica de negócio específica
+  \item \textbf{Layouts}: Estruturas reutilizáveis com providers e navegação
+\end{itemize}
+
+\subsection{Tipagem e Validação}
+
+O TypeScript é utilizado extensivamente com tipagem específica por domínio:
+
+\begin{itemize}
+  \item \textbf{Types Directory}: Definições tipadas por entidade (\texttt{User}, \texttt{Company}, \texttt{Vehicle}, etc.)
+  \item \textbf{API Responses}: Tipos padronizados para respostas da API
+  \item \textbf{Form Validation}: Schemas Zod para validação client-side
+  \item \textbf{Service Layer}: Métodos tipados para cada endpoint da API
+  \item \textbf{NextAuth Extension}: Tipos customizados para sessão e JWT payload
+\end{itemize}
+
+Esta arquitetura garante: (i) separação clara de responsabilidades, (ii) tipagem estática end-to-end, (iii) reutilização de componentes, (iv) experiência consistente multiempresa e (v) escalabilidade via modularização por domínio.
