@@ -556,6 +556,8 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
 \label{fig:backend-modules}
 \end{figure}
 
+A organização modular agrupa os componentes por responsabilidade funcional. Os \textbf{Módulos Core} gerenciam autenticação, usuários, empresas e configuração de banco de dados. Os \textbf{Módulos Operacionais} implementam as regras de negócio específicas do domínio de transporte. O \textbf{Módulo de Suporte} fornece funcionalidades auxiliares como geocodificação. O \texttt{AppModule} centraliza as configurações globais de segurança e tratamento de erros, aplicadas a todos os módulos.
+
 \subsection{Pipeline de Processamento}
 
 Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, interceptors e filters, garantindo segurança e consistência.
@@ -591,6 +593,8 @@ Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, 
 \caption{Pipeline de processamento de requisições.}
 \label{fig:request-pipeline}
 \end{figure}
+
+O pipeline garante que cada requisição passe por validações sequenciais obrigatórias. Inicialmente, o \textbf{Morgan} registra logs e o \textbf{CORS} valida origens permitidas. A autenticação via \textbf{JwtAuthGuard} verifica tokens válidos, seguida da autorização por \textbf{RolesGuard} que confirma permissões do usuário. O \textbf{ValidationPipe} valida DTOs de entrada. O \textbf{CompanyFilterInterceptor} injeta o contexto multiempresa antes do processamento pelo \textbf{Controller} e \textbf{Service}. Finalmente, o \textbf{TypeORM} persiste dados e os \textbf{Exception Filters} tratam erros de forma padronizada.
 
 \subsection{Fluxo de Autenticação}
 
@@ -632,6 +636,8 @@ O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A F
 \caption{Diagrama de sequência - fluxo de autenticação.}
 \label{fig:auth-sequence}
 \end{figure}
+
+O fluxo de autenticação implementa um processo seguro e eficiente em 11 etapas. O cliente envia credenciais via POST para o \texttt{AuthController}, que delega ao \texttt{AuthService} a validação. O \texttt{UsersService} busca o usuário por email (incluindo senha hash), valida a senha fornecida e retorna o resultado. Confirmada a autenticação, o \texttt{AuthService} consulta os dados da empresa via \texttt{CompanyService} e cria o payload JWT contendo informações do usuário e contexto empresarial. A resposta final inclui o token de acesso, dados do usuário e informações da empresa, permitindo que o frontend mantenha o contexto de sessão multiempresa.
 
 \subsection{Arquitetura Multi-tenant}
 
