@@ -1,47 +1,125 @@
+% % ----------------------------------------------------------
+% % Fundamentação Teórica
+% % ----------------------------------------------------------
+% \chapter{Fundamentação Teórica}
+% \label{cha:fundamentacao_teorica}
+
+% Neste capítulo, são apresentados os conceitos essenciais que fundamentam o desenvolvimento deste trabalho. A primeira seção aborda o modelo \textit{Software as a Service} (SaaS), detalhando sua definição, arquitetura, vantagens e desafios. A segunda seção explora a aplicação de tecnologias no setor de transporte rodoviário, destacando como as plataformas SaaS podem otimizar a gestão e a eficiência operacional.
+
+% \section{Software as a Service (SaaS)}
+
+% O modelo \textit{Software as a Service} (SaaS), ou Software como Serviço, representa uma mudança de paradigma na forma como o software é distribuído e consumido. Em vez de adquirir licenças de uso perpétuo e instalar o software em servidores locais, os usuários acessam a aplicação pela internet, geralmente por meio de um navegador web, pagando uma taxa recorrente (assinatura) pelo serviço \cite{salesforce2025saas}.
+
+% Nesse modelo, toda a infraestrutura subjacente — servidores, armazenamento, redes e o próprio software — é gerenciada pelo provedor do serviço. Isso significa que o fornecedor é responsável pela manutenção, atualizações, segurança e disponibilidade da aplicação, permitindo que as empresas clientes foquem em suas atividades principais sem se preocupar com a complexidade da gestão de TI \cite{microsoft2025azure}.
+
+% \subsection{Arquitetura e Modelo de Negócio}
+
+% A arquitetura mais comum em soluções SaaS é a \textit{multi-tenancy} (multilocação), onde uma única instância da aplicação e da infraestrutura serve a múltiplos clientes (locatários ou \textit{tenants}). Embora compartilhem os mesmos recursos computacionais, os dados de cada cliente são mantidos isolados e seguros, garantindo a privacidade e a confidencialidade das informações \cite{microsoft2025learn}. Essa abordagem permite que o provedor otimize os recursos e reduza os custos, o que se reflete em preços mais acessíveis para o cliente final.
+
+% O modelo de negócio é baseado em assinaturas, que podem variar em preço conforme o número de usuários, os recursos contratados ou o volume de uso. Essa flexibilidade oferece escalabilidade, permitindo que as empresas ajustem o serviço de acordo com seu crescimento e suas necessidades, pagando apenas pelo que utilizam \cite{prologapp2024}.
+
+% \subsection{Vantagens e Desafios}
+
+% A adoção de plataformas SaaS oferece um conjunto significativo de vantagens para as empresas, especialmente para as de pequeno e médio porte, que podem não dispor de grandes orçamentos para investimentos em tecnologia. Entre os principais benefícios, destacam-se:
+
+% \begin{itemize}
+%     \item \textbf{Redução de Custos:} Elimina a necessidade de altos investimentos iniciais em hardware e licenças de software. Os custos de manutenção, atualização e suporte técnico também são responsabilidade do provedor \cite{prologapp2024}.
+%     \item \textbf{Acessibilidade e Mobilidade:} Por ser acessado via internet, o software pode ser utilizado de qualquer lugar e em diferentes dispositivos, bastando uma conexão ativa.
+%     \item \textbf{Escalabilidade:} As empresas podem facilmente aumentar ou diminuir a quantidade de recursos e usuários conforme a demanda, sem a necessidade de reestruturar a infraestrutura de TI.
+%     \item \textbf{Atualizações Automáticas:} O provedor é responsável por manter o software atualizado com as últimas funcionalidades e correções de segurança, garantindo que todos os clientes utilizem sempre a versão mais recente da aplicação \cite{gestran2025saas}.
+%     \item \textbf{Implementação Rápida:} A configuração e o início do uso de um sistema SaaS são geralmente mais rápidos em comparação com a instalação de um software tradicional (on-premise).
+% \end{itemize}
+
+% Apesar das vantagens, o modelo também apresenta desafios que devem ser considerados. A principal desvantagem é a dependência de uma conexão estável com a internet para acessar o serviço. Além disso, as opções de personalização podem ser mais limitadas em comparação com soluções desenvolvidas internamente, e a segurança dos dados, embora robusta, fica sob a responsabilidade de um terceiro, o que exige uma análise cuidadosa na escolha do fornecedor \cite{agendor2025b2b}.
+
+% \section{Tecnologia no Setor de Transporte Rodoviário}
+
+% O setor de transporte rodoviário de passageiros, historicamente caracterizado por processos manuais e uma gestão descentralizada, tem passado por uma profunda transformação impulsionada pela tecnologia. A digitalização das operações não apenas otimiza a gestão, mas também melhora a experiência do cliente e a segurança nas estradas.
+
+% Ferramentas como Sistemas de Gerenciamento de Transporte (TMS, \textit{Transportation Management System}), roteirizadores inteligentes e plataformas de venda online de passagens tornaram-se cruciais para a competitividade das empresas. Um TMS, por exemplo, centraliza informações sobre frotas, motoristas, rotas e finanças, permitindo um controle mais eficaz e uma tomada de decisão baseada em dados \cite{praxio2023tecnologia}.
+
+% \subsection{O Papel das Plataformas SaaS no Transporte}
+
+% As plataformas SaaS surgem como uma solução ideal para democratizar o acesso a essas tecnologias avançadas no setor de transporte alternativo. Ao oferecer um sistema robusto em um modelo de serviço, as barreiras de custo e complexidade técnica são drasticamente reduzidas.
+
+% Uma plataforma SaaS voltada para o transporte rodoviário, como a proposta neste trabalho, pode integrar diversas funcionalidades essenciais em um único ambiente. Segundo a Point Sistemas (2025), a aplicação desse modelo na logística permite obter visibilidade total da operação em tempo real, incluindo o acompanhamento de veículos, a gestão de ocorrências e a otimização de rotas com base em dados como geolocalização e tempo estimado de viagem \cite{pointsistemas2025logistica}.
+
+% A automação de tarefas, como a emissão de bilhetes, o controle de embarque e o fechamento financeiro, reduz a incidência de erros manuais e libera a equipe para se concentrar em atividades estratégicas. Além disso, a capacidade de integrar-se facilmente com outras ferramentas, como sistemas financeiros e de CRM, cria um ecossistema tecnológico coeso e eficiente, fundamental para a modernização e o crescimento sustentável do setor \cite{gestran2025saas}.
+
+
 % ----------------------------------------------------------
 % Fundamentação Teórica
 % ----------------------------------------------------------
+
 \chapter{Fundamentação Teórica}
 \label{cha:fundamentacao_teorica}
 
-Neste capítulo, são apresentados os conceitos essenciais que fundamentam o desenvolvimento deste trabalho. A primeira seção aborda o modelo \textit{Software as a Service} (SaaS), detalhando sua definição, arquitetura, vantagens e desafios. A segunda seção explora a aplicação de tecnologias no setor de transporte rodoviário, destacando como as plataformas SaaS podem otimizar a gestão e a eficiência operacional.
+Neste capítulo, são apresentados os conceitos essenciais que fundamentam o desenvolvimento deste trabalho. A primeira seção aborda o modelo \textit{Software as a Service} (SaaS), detalhando sua definição, arquitetura, vantagens e desafios. A segunda seção explora a aplicação de tecnologias no setor de transporte rodoviário, e a terceira aprofunda-se na arquitetura e nas tecnologias específicas escolhidas para a construção do protótipo.
 
 \section{Software as a Service (SaaS)}
 
-O modelo \textit{Software as a Service} (SaaS), ou Software como Serviço, representa uma mudança de paradigma na forma como o software é distribuído e consumido. Em vez de adquirir licenças de uso perpétuo e instalar o software em servidores locais, os usuários acessam a aplicação pela internet, geralmente por meio de um navegador web, pagando uma taxa recorrente (assinatura) pelo serviço \cite{salesforce2025saas}.
+O modelo \textit{Software as a Service} (SaaS), ou Software como Serviço, representa uma mudança de paradigma na forma como o software é distribuído e consumido. Diferentemente do modelo tradicional \textit{on-premise}, onde o cliente adquire licenças e é responsável pela infraestrutura, no modelo SaaS o cliente paga uma assinatura periódica para acessar a aplicação pela internet, que é hospedada na nuvem pelo provedor do serviço \cite{moveideias2025saas}.
 
-Nesse modelo, toda a infraestrutura subjacente — servidores, armazenamento, redes e o próprio software — é gerenciada pelo provedor do serviço. Isso significa que o fornecedor é responsável pela manutenção, atualizações, segurança e disponibilidade da aplicação, permitindo que as empresas clientes foquem em suas atividades principais sem se preocupar com a complexidade da gestão de TI \cite{microsoft2025azure}.
+Nesse modelo, toda a infraestrutura subjacente — servidores, armazenamento, redes e o próprio software — é gerenciada pelo provedor. Isso significa que o fornecedor é responsável pela manutenção, atualizações, segurança e disponibilidade da aplicação, permitindo que as empresas clientes foquem em suas atividades principais sem se preocupar com a complexidade da gestão de TI \cite{moveideias2025saas}.
 
 \subsection{Arquitetura e Modelo de Negócio}
 
-A arquitetura mais comum em soluções SaaS é a \textit{multi-tenancy} (multilocação), onde uma única instância da aplicação e da infraestrutura serve a múltiplos clientes (locatários ou \textit{tenants}). Embora compartilhem os mesmos recursos computacionais, os dados de cada cliente são mantidos isolados e seguros, garantindo a privacidade e a confidencialidade das informações \cite{microsoft2025learn}. Essa abordagem permite que o provedor otimize os recursos e reduza os custos, o que se reflete em preços mais acessíveis para o cliente final.
+A arquitetura mais comum em soluções SaaS é a \textit{multi-tenancy} (multilocação), onde uma única instância da aplicação e da infraestrutura serve a múltiplos clientes (locatários ou \textit{tenants}) \cite{frontegg2021multitenant}. Embora compartilhem os mesmos recursos computacionais, os dados de cada cliente são mantidos isolados e seguros, garantindo a privacidade e a confidencialidade das informações. Essa abordagem permite que o provedor otimize os recursos e reduza os custos, o que se reflete em preços mais acessíveis para o cliente final.
 
-O modelo de negócio é baseado em assinaturas, que podem variar em preço conforme o número de usuários, os recursos contratados ou o volume de uso. Essa flexibilidade oferece escalabilidade, permitindo que as empresas ajustem o serviço de acordo com seu crescimento e suas necessidades, pagando apenas pelo que utilizam \cite{prologapp2024}.
+O modelo de negócio é baseado em assinaturas, que podem variar em preço conforme o número de usuários, os recursos contratados ou o volume de uso. Essa flexibilidade oferece escalabilidade, permitindo que as empresas ajustem o serviço de acordo com seu crescimento e suas necessidades, pagando apenas pelo que utilizam \cite{prologapp2024saas}.
 
-\subsection{Vantagens e Desafios}
+\subsection{Vantagens e Desafios para PMEs}
 
-A adoção de plataformas SaaS oferece um conjunto significativo de vantagens para as empresas, especialmente para as de pequeno e médio porte, que podem não dispor de grandes orçamentos para investimentos em tecnologia. Entre os principais benefícios, destacam-se:
+A adoção de plataformas SaaS oferece um conjunto significativo de vantagens estratégicas para as Pequenas e Médias Empresas (PMEs). A principal delas é a drástica \textbf{redução de custos}, pois o modelo de assinatura elimina a necessidade de altos investimentos de capital (CAPEX) em licenças e hardware, transformando-os em despesas operacionais (OPEX) previsíveis \cite{praxio2021vantagens}.
 
+Outros benefícios incluem \cite{prologapp2024saas, praxio2021vantagens}:
 \begin{itemize}
-    \item \textbf{Redução de Custos:} Elimina a necessidade de altos investimentos iniciais em hardware e licenças de software. Os custos de manutenção, atualização e suporte técnico também são responsabilidade do provedor \cite{prologapp2024}.
-    \item \textbf{Acessibilidade e Mobilidade:} Por ser acessado via internet, o software pode ser utilizado de qualquer lugar e em diferentes dispositivos, bastando uma conexão ativa.
-    \item \textbf{Escalabilidade:} As empresas podem facilmente aumentar ou diminuir a quantidade de recursos e usuários conforme a demanda, sem a necessidade de reestruturar a infraestrutura de TI.
-    \item \textbf{Atualizações Automáticas:} O provedor é responsável por manter o software atualizado com as últimas funcionalidades e correções de segurança, garantindo que todos os clientes utilizem sempre a versão mais recente da aplicação \cite{gestran2025saas}.
-    \item \textbf{Implementação Rápida:} A configuração e o início do uso de um sistema SaaS são geralmente mais rápidos em comparação com a instalação de um software tradicional (on-premise).
+    \item \textbf{Escalabilidade e Flexibilidade:} As empresas podem facilmente aumentar ou diminuir a capacidade de uso do software para responder rapidamente às mudanças do mercado.
+    \item \textbf{Acessibilidade e Mobilidade:} Por ser acessado via internet, o software pode ser utilizado de qualquer lugar e em diferentes dispositivos, algo transformador para o setor de logística, permitindo que gestores monitorem operações remotamente e equipes externas capturem dados em tempo real.
+    \item \textbf{Foco no \textit{Core Business}:} Ao terceirizar a gestão da infraestrutura de TI, as PMEs podem dedicar mais tempo e recursos para a otimização das operações logísticas e atendimento ao cliente.
+    \item \textbf{Segurança e Disponibilidade:} Provedores de SaaS geralmente oferecem um nível de segurança e redundância de infraestrutura superior ao que uma PME poderia implementar por conta própria, garantido por Acordos de Nível de Serviço (SLAs).
 \end{itemize}
 
-Apesar das vantagens, o modelo também apresenta desafios que devem ser considerados. A principal desvantagem é a dependência de uma conexão estável com a internet para acessar o serviço. Além disso, as opções de personalização podem ser mais limitadas em comparação com soluções desenvolvidas internamente, e a segurança dos dados, embora robusta, fica sob a responsabilidade de um terceiro, o que exige uma análise cuidadosa na escolha do fornecedor \cite{agendor2025b2b}.
+Apesar das vantagens, o modelo também apresenta desafios, como a dependência de uma conexão estável com a internet e opções de personalização potencialmente mais limitadas.
 
-\section{Tecnologia no Setor de Transporte Rodoviário}
+\section{Tecnologia e Inovação no Transporte Rodoviário}
 
-O setor de transporte rodoviário de passageiros, historicamente caracterizado por processos manuais e uma gestão descentralizada, tem passado por uma profunda transformação impulsionada pela tecnologia. A digitalização das operações não apenas otimiza a gestão, mas também melhora a experiência do cliente e a segurança nas estradas.
+O setor de transporte rodoviário de passageiros, apesar de sua importância socioeconômica, apresenta um ritmo lento na adoção de tecnologias digitais \cite{sestsenat2021relatorio}. A ausência de soluções tecnológicas integradas, especialmente no segmento alternativo, resulta em ineficiências como a falta de controle sobre os processos, a incapacidade de atender a picos de demanda e altos índices de reclamação de clientes \cite{fateczl2022impactos}.
 
-Ferramentas como Sistemas de Gerenciamento de Transporte (TMS, \textit{Transportation Management System}), roteirizadores inteligentes e plataformas de venda online de passagens tornaram-se cruciais para a competitividade das empresas. Um TMS, por exemplo, centraliza informações sobre frotas, motoristas, rotas e finanças, permitindo um controle mais eficaz e uma tomada de decisão baseada em dados \cite{praxio2023tecnologia}.
+Plataformas SaaS surgem como uma solução ideal para democratizar o acesso a tecnologias avançadas neste setor. A análise de soluções comerciais existentes, como TOTVS, iTransport e Praxio, revela uma lacuna de mercado: as ferramentas ou são muito complexas e caras para PMEs, ou são focadas em nichos específicos como o fretamento corporativo, não atendendo de forma integrada as necessidades do operador de transporte alternativo \cite{totvs2025passageiros, itransport2025gestao, praxioluna2025venda}.
 
-\subsection{O Papel das Plataformas SaaS no Transporte}
+\section{Arquitetura Tecnológica da Solução Proposta}
 
-As plataformas SaaS surgem como uma solução ideal para democratizar o acesso a essas tecnologias avançadas no setor de transporte alternativo. Ao oferecer um sistema robusto em um modelo de serviço, as barreiras de custo e complexidade técnica são drasticamente reduzidas.
+A concepção de uma plataforma robusta, escalável e de fácil manutenção depende das escolhas arquitetônicas e tecnológicas. Cada componente da arquitetura foi selecionado estrategicamente para maximizar a produtividade, garantir a qualidade do software e mitigar riscos de desenvolvimento.
 
-Uma plataforma SaaS voltada para o transporte rodoviário, como a proposta neste trabalho, pode integrar diversas funcionalidades essenciais em um único ambiente. Segundo a Point Sistemas (2025), a aplicação desse modelo na logística permite obter visibilidade total da operação em tempo real, incluindo o acompanhamento de veículos, a gestão de ocorrências e a otimização de rotas com base em dados como geolocalização e tempo estimado de viagem \cite{pointsistemas2025logistica}.
+\subsection{Tecnologias do Backend}
 
-A automação de tarefas, como a emissão de bilhetes, o controle de embarque e o fechamento financeiro, reduz a incidência de erros manuais e libera a equipe para se concentrar em atividades estratégicas. Além disso, a capacidade de integrar-se facilmente com outras ferramentas, como sistemas financeiros e de CRM, cria um ecossistema tecnológico coeso e eficiente, fundamental para a modernização e o crescimento sustentável do setor \cite{gestran2025saas}.
+O backend é o alicerce da plataforma, responsável pela lógica de negócios, persistência de dados e segurança. A \textit{stack} escolhida foi projetada para ser modular, robusta e escalável, utilizando tecnologias consolidadas no ecossistema TypeScript.
+
+\subsubsection{NestJS e Arquitetura Modular}
+O framework escolhido para o desenvolvimento do backend foi o NestJS. Trata-se de um framework Node.js progressivo, construído com e para o TypeScript, que utiliza uma arquitetura fortemente modular \cite{nestjs2025framework}. O pilar do NestJS é o conceito de Módulos, que organizam o código em blocos coesos e funcionais (e.g., um módulo para autenticação, outro para gestão de rotas). Cada módulo encapsula seus próprios \textit{controllers}, \textit{providers} (serviços) e pode importar ou exportar funcionalidades \cite{nestjs2025modules}. Essa estrutura promove uma forte separação de responsabilidades, facilita a reutilização de código e a manutenção do sistema, sendo ideal para a plataforma proposta, onde funcionalidades complexas podem ser desenvolvidas como módulos independentes \cite{devanddeliver2024architecture}.
+
+\subsubsection{TypeORM e Mapeamento Objeto-Relacional (ORM)}
+Para a camada de persistência de dados, a escolha foi o TypeORM. Um \textit{Object-Relational Mapper} (ORM) é uma técnica que cria uma ponte entre o paradigma orientado a objetos da aplicação e o paradigma relacional dos bancos de dados, permitindo que os desenvolvedores manipulem o banco de dados através de objetos e classes, abstraindo a necessidade de escrever consultas SQL manualmente \cite{logrocket2024typeorm}. O TypeORM é um ORM maduro para o ecossistema TypeScript, que utiliza intensivamente decoradores para definir Entidades (classes que mapeiam para tabelas) de forma declarativa e fortemente tipada. Isso acelera o desenvolvimento e reduz a probabilidade de erros relacionados a dados \cite{devto2024typeorm}.
+
+\subsubsection{Autenticação com JWT e Passport.js}
+A segurança da API é um requisito crítico. A estratégia de autenticação escolhida foi baseada em \textit{JSON Web Tokens} (JWT), implementada com a biblioteca Passport.js. JWT é um padrão aberto (RFC 7519) para a criação de tokens de acesso compactos e autossuficientes. Quando um cliente faz uma requisição a um recurso protegido, ele envia o JWT, e o servidor pode verificar a assinatura para autenticar o usuário sem precisar consultar um banco de dados de sessões, resultando em uma autenticação \textit{stateless} ideal para APIs RESTful \cite{soshace2024jwt}. O Passport.js atua como um \textit{middleware} de autenticação modular, e a estratégia \textit{passport-jwt} é projetada especificamente para extrair e verificar a validade desses tokens, oferecendo uma solução robusta e padronizada para proteger as rotas da API \cite{passportjs2025jwt}.
+
+\subsection{Tecnologias do Frontend}
+
+A interface do usuário (\textit{frontend}) é o principal ponto de contato com os gestores e passageiros. Sua arquitetura foi projetada com foco em performance e robustez, utilizando um ecossistema moderno baseado em React.
+
+\subsubsection{Next.js, SSR e App Router}
+O framework escolhido para o frontend é o Next.js. Uma de suas principais características é o suporte nativo à Renderização no Servidor (\textit{Server-Side Rendering} - SSR), na qual a página HTML é gerada no servidor a cada requisição. Isso melhora o tempo de carregamento inicial da página e a otimização para motores de busca (SEO) \cite{medium2025ssr}. Com a introdução do \textit{App Router}, o Next.js adotou por padrão o uso de \textit{React Server Components}, que permitem que a busca de dados e a renderização de componentes não interativos ocorram exclusivamente no servidor. Isso resulta em uma redução significativa da quantidade de JavaScript enviada ao cliente e otimiza a performance geral da aplicação \cite{nextjs2025servercomponents}.
+
+\subsubsection{React, TypeScript e Ecossistema de UI}
+A base da interface é o React, uma biblioteca JavaScript para a construção de interfaces baseada em um modelo de componentes reutilizáveis. Para garantir a robustez e a manutenibilidade, o React é utilizado com o TypeScript, um superconjunto do JavaScript que adiciona tipagem estática. O TypeScript permite a detecção de erros em tempo de compilação e serve como uma forma de documentação viva, tornando o código mais fácil de entender e facilitando a colaboração \cite{dhiwise2024reacttypescript}.
+
+Para a estilização, foi adotado o Tailwind CSS, um framework \textit{utility-first} que acelera o desenvolvimento e garante consistência visual \cite{medium2025cssframeworks}. Comple-mentando-o, a biblioteca de componentes \textit{shadcn/ui} foi utilizada. Diferente de bibliotecas tradicionais, seus componentes são copiados para o código-fonte do projeto, dando ao desenvolvedor controle total sobre o código e permitindo personalizações profundas sem \textit{vendor lock-in} \cite{shadcnui2025docs}.
+
+\subsubsection{Gerenciamento de Formulários e Validação}
+Para a gestão de formulários e a validação de dados, foi utilizada a combinação do React Hook Form com a biblioteca Zod. O React Hook Form se destaca pela sua performance, minimizando re-renderizações desnecessárias \cite{reacthookform2025getstarted}. O Zod é uma biblioteca de validação de esquemas \textit{TypeScript-first} que permite definir regras de validação de forma declarativa e, a partir delas, inferir automaticamente os tipos TypeScript correspondentes. A integração entre as duas cria um sistema de validação de formulários poderoso e com segurança de tipos de ponta a ponta \cite{contentful2024zod}.
+
+\subsection{Conteinerização com Docker}
+
+Para garantir a consistência do ambiente de desenvolvimento e simplificar o processo de implantação, a aplicação e seus serviços dependentes (como o banco de dados) foram conteinerizados usando Docker. O Docker é uma plataforma que permite empacotar uma aplicação e todas as suas dependências em uma unidade padronizada e isolada chamada contêiner. Isso garante que a aplicação funcione da mesma forma em qualquer ambiente, seja na máquina de um desenvolvedor ou em produção, eliminando o clássico problema de "funciona na minha máquina" \cite{docker2025overview}. Através de arquivos de configuração como o \texttt{Dockerfile} (que descreve como construir a imagem da aplicação) e o \texttt{docker-compose.yml} (que orquestra múltiplos contêineres), o processo de setup e implantação é simplificado e padronizado.
