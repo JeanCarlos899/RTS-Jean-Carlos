@@ -1,27 +1,44 @@
 % ----------------------------------------------------------
 % Introdução
 % ----------------------------------------------------------
-\chapter{Introdução}
+\chapter{Introdução}  
 
-A introdução deve contextualizar o trabalho, apresentando o cenário em que o software será desenvolvido ou analisado. Descreva o problema que o projeto busca resolver, sua relevância e a justificativa para a escolha do tema. Explique por que essa solução é necessária e como ela pode impactar positivamente o contexto em que será aplicada. Além disso, forneça uma visão geral do que será abordado ao longo do relatório.
+% Contextualização 
 
-Exemplos de citações:
+Em um país de dimensões continentais como o Brasil, o transporte rodoviário de passageiros desempenha um papel estratégico na promoção da mobilidade interurbana, conectando municípios e regiões e garantindo o acesso a serviços, trabalho e lazer para milhões de pessoas. Esse serviço, regulamentado pela Agência Nacional de Transportes Terrestres (ANTT), é operado por empresas privadas e possui alta capilaridade, conectando centros urbanos de diferentes portes e promovendo interações espaciais ao longo do território nacional \cite{santos2024}.
 
-Citação com autor no texto, segundo \textcite{araujo2012} isso e tal.
+A relevância desse modal de transporte fica evidente nos números: em 2019, o sistema interestadual atendeu mais de 2.000 municípios em 25 estados e no Distrito Federal, transportando cerca de 80 milhões de passageiros \cite{santos2024}. Esse volume expressivo de deslocamentos ressalta a necessidade de soluções tecnológicas para modernizar a gestão desse sistema, otimizando a venda de passagens e a administração operacional das empresas de transporte.
 
-Citação sem citar o autor no texto \cite{araujo2012}.
+% Delimitação do tema
 
+Diante desse cenário, este trabalho propõe o desenvolvimento de uma plataforma baseada no modelo Software como Serviço (\textit{SaaS, Software as a Service}) para a gestão integrada de empresas de transporte rodoviário alternativo, abordando seus impactos na eficiência operacional e na digitalização do setor. Segundo Chong e Carraro (2006, apud Melo et al., 2007), o \textit{SaaS} pode ser definido como "Software implementado como um serviço hospedado e acessado pela Internet" \cite{melo2007software}. Esse modelo permite que empresas utilizem soluções baseadas em nuvem, reduzindo custos operacionais e facilitando a escalabilidade dos serviços, o que pode ser especialmente vantajoso no setor de transporte rodoviário alternativo.
 
+% % Problema
+
+O transporte rodoviário intermunicipal de passageiros no Brasil enfrenta desafios significativos relacionados à adoção e integração de tecnologias avançadas. A ausência de sistemas integrados de gestão e a resistência à inovação tecnológica comprometem a eficiência operacional e a qualidade dos serviços prestados. De acordo com o Relatório de Análise de Impacto Regulatório da Agência Nacional de Transportes Terrestres (ANTT), a incerteza regulatória e a falta de experimentação com novas tecnologias dificultam a modernização do setor \cite{antt2022}. 
+
+% % Relevância do tema {Justificativa}
+\section{Justificativa}
+
+A modernização do transporte rodoviário alternativo de passageiros no Brasil é essencial para aumentar a eficiência operacional das empresas do setor, garantindo maior acessibilidade e conectividade. A falta de soluções tecnológicas integradas tem limitado o crescimento desse segmento, que opera de forma fragmentada e sem padronização na gestão de frotas e vendas de passagens. A adoção de plataformas \textit{SaaS} pode transformar esse cenário ao digitalizar processos administrativos e operacionais, reduzindo custos e otimizando recursos. Estudos indicam que tecnologias no setor de transportes podem elevar a eficiência logística em até 15\%, diminuindo desperdícios e melhorando os serviços prestados \cite{setcepar2023}.
+
+Além disso, uma plataforma \textit{SaaS} voltada para o transporte alternativo pode facilitar o acesso à inovação para pequenas e médias empresas, sem exigir altos investimentos. Esse modelo permite automação da bilhetagem, gestão integrada de rotas e melhor experiência para o passageiro. Essas soluções já demonstram impacto positivo em outros segmentos do transporte, aumentando a competitividade e garantindo serviços mais confiáveis \cite{prologapp2024}. Assim, a digitalização do setor não só fortalece as empresas, mas também melhora a mobilidade interurbana, tornando os serviços mais eficientes e acessíveis.
 
 
 \section{Objetivos}
 
-Esta seção apresenta o objetivo geral do estudo e os objetivos específicos, que detalham as etapas para sua realização.
-
 \subsection{Geral}
 
-Descreva o objetivo principal do projeto. Seja claro e direto, indicando o que se pretende alcançar com o projeto. Por exemplo, "Desenvolver e avaliar a usabilidade de um sistema de gerenciamento de tarefas para pequenas empresas."
+Propor e desenvolver uma plataforma SaaS para a gestão integrada do transporte rodoviário alternativo de passageiros, avaliando sua funcionalidade e eficiência na otimização dos processos operacionais.
 
 \subsection{Específicos}
 
-Liste os objetivos específicos que contribuirão para alcançar o objetivo geral. Eles devem ser detalhados e mensuráveis. Por exemplo, "Identificar as principais ferramentas para gestão de tarefas em pequenas empresas", "Identificar necessidades nas ferramentas atuais" e "Propor e desenvolver um protótipo de uma ferramenta fácil de usar para gestão de tarefas de pequenas empresas".
+\begin{itemize}
+    \item Identificar as principais ferramentas tecnológicas utilizadas por empresas de transporte rodoviário alternativo, especialmente para gestão de paradas, rotas e agendamento de passagens;
+
+    \item Levantar as necessidades e limitações dessas ferramentas, com foco nas dificuldades operacionais enfrentadas pelas empresas do setor;
+
+    \item Propor e desenvolver um protótipo simplificado de sistema \textit{SaaS}, oferecendo funcionalidades para gestão integrada de paradas e rotas, além do agendamento digital de passagens;
+
+    \item Realizar uma avaliação funcional e de usabilidade do protótipo desenvolvido, analisando sua eficiência e capacidade de atender às necessidades específicas das empresas do transporte alternativo.
+\end{itemize}
