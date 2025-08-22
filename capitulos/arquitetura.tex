@@ -12,18 +12,18 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.78, every node/.style={transform shape}]
+\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
   \tikzumlset{font=\footnotesize}
   % Blocos
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=4.2cm, minimum height=1.4cm, align=center] (fe) at (0,0) {\textbf{Frontend}: Next.js 15 + NextAuth + Leaflet};
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=4.8cm, minimum height=1.4cm, align=center] (be) at (7,0) {\textbf{Backend}: NestJS 11 + TypeORM + JWT};
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=4.2cm, minimum height=1.4cm, align=center] (db) at (7,-3) {\textbf{Banco de Dados}: PostgreSQL};
-  \node[draw, dashed, rounded corners, thick, fill=gray!5, minimum width=4.2cm, minimum height=1.4cm, align=center] (maps) at (0,-3) {\textbf{Mapas}: Leaflet/OSM};
+  \node[draw, rounded corners, thick, fill=blue!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (fe) at (0,2) {\textbf{Frontend}\\Next.js 15 + NextAuth + Leaflet};
+  \node[draw, rounded corners, thick, fill=green!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (be) at (9,2) {\textbf{Backend}\\NestJS 11 + TypeORM + JWT};
+  \node[draw, rounded corners, thick, fill=orange!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (db) at (9,-2) {\textbf{Banco de Dados}\\PostgreSQL};
+  \node[draw, dashed, rounded corners, thick, fill=purple!5, minimum width=4.5cm, minimum height=1.6cm, align=center] (maps) at (0,-2) {\textbf{Mapas}\\Leaflet/OSM};
 
   % Conexões
-  \draw[->, thick] (fe) -- node[above]{HTTPS (REST)} (be);
-  \draw[->, thick] (be) -- node[right]{SQL (TypeORM)} (db);
-  \draw[<->, thick, dashed] (fe) -- node[left]{Camada de visualização} (maps);
+  \draw[->, thick] (fe) -- node[above, font=\small]{HTTPS (REST)} (be);
+  \draw[->, thick] (be) -- node[right, font=\small]{SQL (TypeORM)} (db);
+  \draw[<->, thick, dashed] (fe) -- node[left, font=\small]{Visualização} (maps);
 \end{tikzpicture}
 \caption{Visão de alto nível da solução.}
 \end{figure}
@@ -285,90 +285,364 @@ Para facilitar a leitura, os diagramas a seguir detalham os principais agregados
 \subsubsection*{Agregado Organizacional: Empresas e Usuários}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
-  \tikzumlset{font=\footnotesize}
-  \umlclass[x=0,y=0]{Company}{id: uuid\\ legalName: string\\ tradeName: string\\ slug: string\\ cnpj: string\\ email: string}{ }
-  \umlclass[x=6,y=0]{User}{id: uuid\\ name: string\\ email: string\\ password: string\\ role: UserRole\\ status: UserStatus\\ companyId: uuid}{ }
-  \umlassoc[arg1=1,arg2=*,mult1=1,mult2=*]{Company}{User}
-  \umlnote[x=0,y=-3, width=8cm]{Company}{Escopo multiempresa: chaves estrangeiras \texttt{companyId} nas entidades operacionais}\end{tikzpicture}
-\caption{Agregado organizacional (empresa e usuários).}
+\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+  \tikzumlset{font=\tiny}
+  \umlclass[x=0,y=0]{Company}{
+    id: uuid\\
+    legalName: string\\
+    tradeName: string\\
+    slug: string\\
+    cnpj: string\\
+    email: string\\
+    phone: string\\
+    logoUrl: string\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlclass[x=8,y=0]{User}{
+    id: uuid\\
+    name: string\\
+    email: string\\
+    phone: string\\
+    photoUrl: string\\
+    password: string\\
+    role: UserRole\\
+    status: UserStatus\\
+    companyId: uuid\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlassoc[mult1=1,mult2=*]{Company}{User}
+  \umlnote[x=0,y=-4, width=12cm]{Company}{Escopo multiempresa: todas as entidades operacionais possuem \texttt{companyId} para isolamento de dados}
+\end{tikzpicture}
+\caption{Agregado organizacional - estrutura multiempresa.}
 \end{figure}
 
 \subsubsection*{Agregado de Rotas e Paradas}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
-  \tikzumlset{font=\footnotesize}
-  \umlclass[x=0,y=0]{Address}{id: uuid\\ cep: string\\ street: string\\ city: string\\ state: string\\ latitude: decimal\\ longitude: decimal}{ }
-  \umlclass[x=6,y=0]{Stop}{id: uuid\\ name: string\\ addressId: uuid\\ isActive: bool\\ companyId: uuid}{ }
-  \umlclass[x=0,y=-5]{Route}{id: uuid\\ name: string\\ estimatedDuration: string\\ distance: float\\ isActive: bool\\ companyId: uuid}{ }
-  \umlclass[x=6,y=-5]{RouteStop}{order: int\\ departureTime: time}{ }
-  \umlclass[x=12,y=-5]{RouteSchedule}{dayOfWeek: int\\ isActive: bool}{ }
-  \umlassoc[mult1=1,mult2=1]{Stop}{Address}
+\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  \tikzumlset{font=\tiny}
+  \umlclass[x=0,y=2]{Address}{
+    id: uuid\\
+    cep: string\\
+    street: string\\
+    number: string\\
+    complement: string\\
+    neighborhood: string\\
+    city: string\\
+    state: string\\
+    latitude: number\\
+    longitude: number\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlclass[x=8,y=2]{Stop}{
+    id: uuid\\
+    name: string\\
+    addressId: uuid\\
+    isActive: boolean\\
+    hasAccessibility: boolean\\
+    hasShelter: boolean\\
+    companyId: uuid
+  }{ }
+  \umlclass[x=0,y=-3]{RouteSchedule}{
+    id: uuid\\
+    routeId: uuid\\
+    dayOfWeek: number\\
+    isActive: boolean\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlclass[x=6,y=-3]{Route}{
+    id: uuid\\
+    name: string\\
+    description: string\\
+    isActive: boolean\\
+    estimatedDuration: string\\
+    distance: number\\
+    companyId: uuid
+  }{ }
+  \umlclass[x=12,y=-3]{RouteStop}{
+    id: uuid\\
+    routeId: uuid\\
+    stopId: uuid\\
+    order: number\\
+    departureTime: string
+  }{ }
+  \umlassoc[mult1=1,mult2=*]{Address}{Stop}
   \umlassoc[mult1=1,mult2=*]{Route}{RouteStop}
   \umlassoc[mult1=1,mult2=*]{Stop}{RouteStop}
   \umlassoc[mult1=1,mult2=*]{Route}{RouteSchedule}
+  \umlnote[x=4,y=-6, width=10cm]{Route}{RouteStop implementa relacionamento many-to-many entre Route e Stop com ordem e horários específicos}
 \end{tikzpicture}
-\caption{Agregado de rotas, paradas e endereços.}
+\caption{Agregado de configuração de rotas, paradas e horários.}
 \end{figure}
 
-\subsubsection*{Agregado de Frota e Motoristas}
+\subsubsection*{Agregado de Recursos Operacionais}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
-  \tikzumlset{font=\footnotesize}
-  \umlclass[x=0,y=0]{Driver}{id: uuid\\ name: string\\ cpf: string\\ licenseNumber: string\\ licenseCategory: string\\ status: DriverStatus\\ companyId: uuid}{ }
-  \umlclass[x=8,y=0]{Vehicle}{id: uuid\\ plate: string\\ capacity: int\\ category: VehicleCategory\\ comfortConfiguration: ComfortConfiguration\\ status: VehicleStatus\\ companyId: uuid}{ }
+\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  \tikzumlset{font=\tiny}
+  \umlclass[x=0,y=2]{Vehicle}{
+    id: uuid\\
+    plate: string\\
+    model: string\\
+    brand: string\\
+    year: number\\
+    capacity: number\\
+    category: VehicleCategory\\
+    comfortConfiguration: ComfortConfiguration\\
+    busType: BusType\\
+    acquisitionDate: Date\\
+    odometer: number\\
+    lastMaintenance: Date\\
+    nextMaintenance: Date\\
+    status: VehicleStatus\\
+    notes: string\\
+    companyId: uuid
+  }{ }
+  \umlclass[x=15,y=2]{Driver}{
+    id: uuid\\
+    name: string\\
+    cpf: string\\
+    licenseNumber: string\\
+    licenseCategory: string\\
+    licenseExpiry: Date\\
+    phone: string\\
+    email: string\\
+    birthDate: Date\\
+    hireDate: Date\\
+    status: DriverStatus\\
+    emergencyContactName: string\\
+    emergencyContactPhone: string\\
+    address: string\\
+    notes: string\\
+    companyId: uuid
+  }{ }
+  \umlclass[x=7.5,y=-2]{TripVehicle}{
+    id: uuid\\
+    tripId: uuid\\
+    vehicleId: uuid\\
+    primaryDriverId: uuid\\
+    secondaryDriverId: uuid\\
+    isActive: boolean\\
+    observations: string\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlassoc[mult1=1,mult2=*]{Vehicle}{TripVehicle}
+  \umlassoc[mult1=1,mult2=*,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
+  \umlnote[x=2,y=-6, width=16cm]{TripVehicle}{TripVehicle associa dinamicamente veículos e motoristas às viagens. Um veículo pode ter motorista principal e secundário por viagem}
 \end{tikzpicture}
-\caption{Agregado de frota (veículos) e motoristas.}
+\caption{Agregado de recursos operacionais - frota e motoristas.}
 \end{figure}
 
-\subsubsection*{Agregado de Execução e Vendas}
+\subsubsection*{Agregado de Operação e Vendas}
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.9, every node/.style={transform shape}]
-  \tikzumlset{font=\footnotesize}
-  \umlclass[x=0,y=0]{Trip}{id: uuid\\ routeId: uuid\\ departureTime: timestamp\\ estimatedArrivalTime: timestamp\\ status: TripStatus\\ totalSeats: int\\ availableSeats: int\\ companyId: uuid}{ }
-  \umlclass[x=9,y=0]{TripVehicle}{vehicleId: uuid\\ primaryDriverId: uuid\\ secondaryDriverId: uuid?\\ isActive: bool}{ }
-  \umlclass[x=0,y=-5]{Ticket}{id: uuid\\ tripId: uuid\\ passengerName: string\\ seatNumber: string?\\ price: decimal\\ status: TicketStatus\\ boardingPointType: BoardingPointType}{ }
+\begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
+  \tikzumlset{font=\tiny}
+  \umlclass[x=6,y=3]{Trip}{
+    id: uuid\\
+    routeId: uuid\\
+    departureTime: Date\\
+    estimatedArrivalTime: Date\\
+    actualDepartureTime: Date\\
+    actualArrivalTime: Date\\
+    status: TripStatus\\
+    basePrice: number\\
+    totalSeats: number\\
+    availableSeats: number\\
+    isAutoGenerated: boolean\\
+    observations: string\\
+    companyId: uuid\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlclass[x=0,y=0]{TripVehicle}{
+    id: uuid\\
+    tripId: uuid\\
+    vehicleId: uuid\\
+    primaryDriverId: uuid\\
+    secondaryDriverId: uuid\\
+    isActive: boolean\\
+    observations: string\\
+    createdAt: Date\\
+    updatedAt: Date
+  }{ }
+  \umlclass[x=12,y=0]{Ticket}{
+    id: uuid\\
+    tripId: uuid\\
+    passengerName: string\\
+    passengerDocument: string\\
+    passengerPhone: string\\
+    passengerEmail: string\\
+    seatNumber: string\\
+    price: number\\
+    status: TicketStatus\\
+    boardingPointType: BoardingPointType\\
+    boardingStopId: uuid\\
+    boardingLocationDescription: string\\
+    landingPointType: BoardingPointType\\
+    landingStopId: uuid\\
+    landingLocationDescription: string\\
+    observations: string\\
+    companyId: uuid
+  }{ }
+  \umlclass[x=18,y=3]{Stop}{
+    id: uuid\\
+    name: string\\
+    companyId: uuid
+  }{ }
   \umlassoc[mult1=1,mult2=*]{Trip}{TripVehicle}
   \umlassoc[mult1=1,mult2=*]{Trip}{Ticket}
+  \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*]{Stop}{Ticket}
+  \umlnote[x=1,y=-4, width=14cm]{Trip}{TripVehicle associa veículos e motoristas às viagens. Ticket permite embarque/desembarque em paradas específicas ou localizações customizadas}
 \end{tikzpicture}
-\caption{Agregado de execução (viagens) e vendas (bilhetes).}
+\caption{Agregado de operação - viagens, recursos e vendas.}
 \end{figure}
 
 \section{Arquitetura do Backend}
-O backend adota os princípios do NestJS, segmentando responsabilidades por módulos de domínio e camadas (\textit{controller} \textrightarrow{} \textit{service} \textrightarrow{} repositórios/TypeORM). Pontos estruturantes:
 
-\begin{itemize}
-  \item \textbf{Módulos e Serviços}: cada \textit{module} (por exemplo, \texttt{routes}, \texttt{stops}, \texttt{trips}, \texttt{tickets}) encapsula controladores e serviços específicos, promovendo isolamento e reutilização.
-  \item \textbf{Validação e Tratamento de Erros}: \textit{pipes} globais de validação (\texttt{ValidationPipe}) e \textit{filters} específicos/globais padronizam respostas de erro e logging (\textit{morgan}).
-  \item \textbf{Autenticação e Autorização}: guarda global \texttt{JwtAuthGuard} protege rotas privadas e \texttt{RolesGuard} aplica papéis. O token contém \texttt{sub}, e-mail, \texttt{role} e \texttt{companyId}.
-  \item \textbf{Multiempresa}: o interceptor de empresa injeta \texttt{companyId} no contexto da requisição quando aplicável, permitindo filtragem transparente nos serviços.
-  \item \textbf{API REST}: prefixo global (por exemplo, \texttt{/v1}), CORS configurável e modelagem RESTful por recursos.
-  \item \textbf{Persistência}: mapeamento objeto-relacional com TypeORM para PostgreSQL, incluindo \textit{relations} explícitas e colunas de auditoria.
-\end{itemize}
+O backend implementa uma arquitetura modular baseada no framework NestJS 11, seguindo os princípios de \textit{Separation of Concerns} e \textit{Dependency Injection}. A aplicação é estruturada em 10 módulos de domínio, com camadas bem definidas de segurança, validação e persistência.
 
-O fluxo de autenticação/consumo de API é ilustrado na Figura~\ref{fig:fluxo-auth}.
+\subsection{Organização Modular}
+
+O sistema está organizado em três grupos funcionais de módulos, conforme ilustrado na Figura~\ref{fig:backend-modules}.
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}
-  % Nós
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=3.4cm, minimum height=1.2cm] (user) at (0,0) {\textbf{Usuário}};
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=4.1cm, minimum height=1.2cm] (fe) at (5,0) {\textbf{Next.js/NextAuth}};
-  \node[draw, rounded corners, thick, fill=gray!10, minimum width=4.4cm, minimum height=1.2cm] (be) at (10,0) {\textbf{NestJS Auth}};
-
-  % Passos
-  \draw[->, thick] (user) -- node[above]{1) Credenciais} (fe);
-  \draw[->, thick] (fe) -- node[above]{2) POST /auth/login} (be);
-  \draw[->, thick] (be) -- node[above]{3) JWT (claims: sub, role, companyId)} (fe);
-  \draw[->, thick] (fe) -- node[below]{4) Requisições com Authorization: Bearer} (be);
-  \draw[->, thick] (be) -- node[below]{5) Respostas REST (dados)} (fe);
+\begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
+  % Módulos Core
+  \node[draw, rounded corners, thick, fill=blue!15, minimum width=5cm, minimum height=2.5cm, align=center] (core) at (0,3) {
+    \textbf{Módulos Core}\\[0.3cm]
+    \texttt{AuthModule}\\
+    \texttt{CompanyModule}\\
+    \texttt{UsersModule}\\
+    \texttt{DatabaseModule}
+  };
+  
+  % Módulos Operacionais
+  \node[draw, rounded corners, thick, fill=green!15, minimum width=5cm, minimum height=3cm, align=center] (operational) at (8,3) {
+    \textbf{Módulos Operacionais}\\[0.3cm]
+    \texttt{VehiclesModule}\\
+    \texttt{DriversModule}\\
+    \texttt{RoutesModule}\\
+    \texttt{StopsModule}\\
+    \texttt{TripsModule}\\
+    \texttt{TicketsModule}
+  };
+  
+  % Módulos de Suporte
+  \node[draw, rounded corners, thick, fill=orange!15, minimum width=5cm, minimum height=1.5cm, align=center] (support) at (4,0) {
+    \textbf{Módulo de Suporte}\\[0.3cm]
+    \texttt{AddressesModule}
+  };
+  
+  % AppModule
+  \node[draw, rounded corners, thick, fill=purple!15, minimum width=10cm, minimum height=1.5cm, align=center] (app) at (4,6) {
+    \textbf{AppModule} - \textit{Configurações Globais}\\[0.2cm]
+    Guards: \texttt{JwtAuthGuard}, \texttt{RolesGuard} • Filters: \texttt{HttpExceptionFilter}, \texttt{AllExceptionsFilter}
+  };
+  
+  % Setas
+  \draw[->, thick] (app) -- (core);
+  \draw[->, thick] (app) -- (operational);
+  \draw[<->, thick] (core) -- (operational);
+  \draw[<->, thick] (support) -- (operational);
 \end{tikzpicture}
-\caption{Fluxo simplificado de autenticação e consumo da API.}
-\label{fig:fluxo-auth}
+\caption{Organização modular do backend BusLy.}
+\label{fig:backend-modules}
 \end{figure}
+
+\subsection{Pipeline de Processamento}
+
+Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, interceptors e filters, garantindo segurança e consistência.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  % Pipeline stages
+  \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (morgan) at (0,0) {\textbf{Morgan Logging}};
+  \node[draw, rounded corners, thick, fill=red!10, minimum width=2.5cm, minimum height=1cm] (cors) at (4.5,0) {\textbf{CORS Validation}};
+  \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (jwt) at (8.5,0) {\textbf{JWT Auth}};
+  \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (roles) at (12,0) {\textbf{Roles Guard}};
+  \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (validation) at (15.5,0) {\textbf{Validation}};
+  
+  \node[draw, rounded corners, thick, fill=yellow!10, minimum width=3cm, minimum height=1cm] (interceptor) at (3.5,-2.5) {\textbf{Company Filter}};
+  \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (controller) at (7,-2.5) {\textbf{Controller}};
+  \node[draw, rounded corners, thick, fill=pink!10, minimum width=2.5cm, minimum height=1cm] (service) at (10.5,-2.5) {\textbf{Service}};
+  
+  \node[draw, rounded corners, thick, fill=gray!10, minimum width=2.5cm, minimum height=1cm] (typeorm) at (7,-5) {\textbf{TypeORM}};
+  \node[draw, rounded corners, thick, fill=red!15, minimum width=3cm, minimum height=1cm] (filters) at (10.5,-5) {\textbf{Exception Filters}};
+  
+  % Arrows
+  \draw[->, thick] (morgan) -- (cors);
+  \draw[->, thick] (cors) -- (jwt);
+  \draw[->, thick] (jwt) -- (roles);
+  \draw[->, thick] (roles) -- (validation);
+  \draw[->, thick] (validation) -- ++(0,-1.5) -| (interceptor);
+  \draw[->, thick] (interceptor) -- (controller);
+  \draw[->, thick] (controller) -- (service);
+  \draw[->, thick] (service) -- ++(0,-1.5) -| (typeorm);
+  \draw[->, thick, dashed] (service) -- (filters);
+\end{tikzpicture}
+\caption{Pipeline de processamento de requisições.}
+\label{fig:request-pipeline}
+\end{figure}
+
+\subsection{Fluxo de Autenticação}
+
+O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A Figura~\ref{fig:auth-sequence} detalha o processo completo.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  % Participantes
+  \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (client) at (0,11) {\textbf{Cliente}};
+  \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (auth) at (4,11) {\textbf{AuthController}};
+  \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (service) at (8,11) {\textbf{AuthService}};
+  \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (users) at (12,11) {\textbf{UsersService}};
+  \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (company) at (16,11) {\textbf{CompanyService}};
+  
+  % Linhas de vida
+  \draw[dashed] (client) -- (0,-1);
+  \draw[dashed] (auth) -- (4,-1);
+  \draw[dashed] (service) -- (8,-1);
+  \draw[dashed] (users) -- (12,-1);
+  \draw[dashed] (company) -- (16,-1);
+  
+  % Mensagens
+  \draw[->, thick] (0,10) -- node[above, font=\tiny]{1. POST /auth/login} (4,10);
+  \draw[->, thick] (4,9) -- node[above, font=\tiny]{2. login(email, password)} (8,9);
+  \draw[->, thick] (8,8) -- node[above, font=\tiny]{3. findByEmailWithPassword(email)} (12,8);
+  \draw[<-, thick] (8,7) -- node[below, font=\tiny]{4. user + password} (12,7);
+  \draw[->, thick] (8,6) -- node[above, font=\tiny]{5. validatePassword(password)} (12,6);
+  \draw[<-, thick] (8,5) -- node[below, font=\tiny]{6. isValid: boolean} (12,5);
+  \draw[->, thick] (8,4) -- node[above, font=\tiny]{7. findOne(companyId)} (16,4);
+  \draw[<-, thick] (8,3) -- node[below, font=\tiny]{8. company} (16,3);
+  
+  % Processamento interno
+  \node[draw, fill=yellow!20, align=left, font=\tiny] at (8,1.5) {9. Criar JWT Payload:\\sub: userId\\email: user.email\\role: user.role\\companyId: user.companyId};
+  
+  \draw[<-, thick] (4,0.5) -- node[below, font=\tiny]{10. AuthResponse} (8,0.5);
+  \draw[<-, thick] (0,-0.5) -- node[below, font=\tiny]{11. \{access\_token, user, company\}} (4,-0.5);
+\end{tikzpicture}
+\caption{Diagrama de sequência - fluxo de autenticação.}
+\label{fig:auth-sequence}
+\end{figure}
+
+\subsection{Arquitetura Multi-tenant}
+
+O sistema implementa isolamento de dados por empresa através do padrão \texttt{BaseCompanyService}, que injeta automaticamente o \texttt{companyId} em todas as operações de banco de dados. O \texttt{CompanyFilterInterceptor} extrai o contexto da empresa do token JWT e disponibiliza para os serviços.
+
+\begin{itemize}
+  \item \textbf{Isolamento Automático}: Todas as entidades operacionais possuem \texttt{companyId}
+  \item \textbf{Herança de Comportamento}: Services estendem \texttt{BaseCompanyService<T>}
+  \item \textbf{Contexto de Requisição}: Interceptor injeta \texttt{companyId} baseado no token JWT
+  \item \textbf{Validação de Acesso}: Queries automáticas com filtro por empresa
+\end{itemize}
 
 \section{Arquitetura do Frontend}
 O frontend emprega Next.js~15 (React~19) com App Router, compondo páginas e layouts por segmentos de negócio (\texttt{/dashboard/[company]/...}). Destacam-se:
