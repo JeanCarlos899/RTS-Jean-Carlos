@@ -58,7 +58,7 @@ O diagrama de classes da Figura~\ref{fig:uml-dominio} sintetiza os relacionament
 
 \begin{figure}[H]
 \centering
-\begin{tikzpicture}[scale=0.35, every node/.style={transform shape}]
+\begin{tikzpicture}[scale=0.4, every node/.style={transform shape}]
   \tikzumlset{font=\tiny}
   
   % NÍVEL 1: Empresa (topo da hierarquia)
@@ -240,39 +240,39 @@ O diagrama de classes da Figura~\ref{fig:uml-dominio} sintetiza os relacionament
 
   % RELACIONAMENTOS HIERÁRQUICOS PRINCIPAIS
   % Company -> Recursos
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Company}{User}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Company}{Vehicle}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Company}{Driver}
+  \umlassoc[mult1=1,mult2=*]{Company}{User}
+  \umlassoc[mult1=1,mult2=*]{Company}{Vehicle}
+  \umlassoc[mult1=1,mult2=*]{Company}{Driver}
   
   % Company -> Configuração
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95,arm1=-135,arm2=90]{Company}{Route}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95,arm1=-45,arm2=90]{Company}{Stop}
+  \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Route}
+  \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=90]{Company}{Stop}
   
   % Configuração de endereços
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Address}{Stop}
+  \umlassoc[mult1=1,mult2=*]{Address}{Stop}
   
   % FLUXO PRINCIPAL: Route -> RouteStop <- Stop
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Route}{RouteStop}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Stop}{RouteStop}
+  \umlassoc[mult1=1,mult2=*]{Route}{RouteStop}
+  \umlassoc[mult1=1,mult2=*]{Stop}{RouteStop}
   
   % Horários das rotas
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Route}{RouteSchedule}
+  \umlassoc[mult1=1,mult2=*]{Route}{RouteSchedule}
   
   % FLUXO OPERACIONAL: Route -> Trip
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Route}{Trip}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95,arm1=-135,arm2=90]{Company}{Trip}
+  \umlassoc[mult1=1,mult2=*]{Route}{Trip}
+  \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Trip}
   
   % Trip -> TripVehicle (associação veículo/motorista)
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95]{Trip}{TripVehicle}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95,arm1=-90,arm2=90]{Vehicle}{TripVehicle}
-  \umlassoc[mult1=1,mult2=*,pos1=0.05,pos2=0.95,arm1=-90,arm2=135,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
-  
-  % Relacionamentos de TripVehicle
+  \umlassoc[mult1=1,mult2=*]{Trip}{TripVehicle}
   \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=90]{Vehicle}{TripVehicle}
-  \umlassoc[mult1=1,mult2=*,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
+  \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=135,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
+  
+  % FLUXO DE VENDAS: Trip -> Ticket
+  \umlassoc[mult1=1,mult2=*]{Trip}{Ticket}
+  \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=135]{Company}{Ticket}
   
   % Relacionamento opcional: Stop -> Ticket (embarque/desembarque específico)
-  \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*,pos1=0.05,pos2=0.95,arm1=-90,arm2=135]{Stop}{Ticket}
+  \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*,arm1=-90,arm2=135]{Stop}{Ticket}
   
 \end{tikzpicture}
 \caption{Diagrama de classes detalhado do domínio BusLy.}
