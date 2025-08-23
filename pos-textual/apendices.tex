@@ -1,22 +1,199 @@
 %% Apêndices
 
-%\begin{apendicesenv}
-%
-%%% Imprime uma página indicando o início dos apêndices (opcional, comente para retirar)
-%\partapendices
-%
-%%% Cada Capítulo será um apêndice
-%\chapter{Este será o apêndice A}
-%Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent congue, turpis quis rutrum fringilla, lacus lorem faucibus diam, sit amet viverra urna quam sed metus. Pellentesque quis eros ex. Nullam vel ante rutrum eros placerat egestas. Morbi volutpat sapien elementum tincidunt fringilla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed rutrum vestibulum bibendum. Sed tincidunt, magna sit amet tempor tincidunt, turpis neque blandit eros, a tincidunt felis mauris vitae est. Aliquam sit amet placerat risus. Nunc eget est pulvinar est tristique convallis sit amet vel risus. Maecenas turpis nisl, blandit ac porttitor non, ultrices id est. Cras eleifend nulla ut condimentum ullamcorper. Quisque at gravida massa, fringilla varius sapien. Nulla ullamcorper mauris vel ipsum elementum, vel tincidunt ante pretium. Ut iaculis nunc ex, vitae elementum ante efficitur non. Pellentesque venenatis tristique odio, nec volutpat dui dapibus sit amet. Maecenas eu velit at arcu hendrerit sagittis vel a odio.
-%
-%Nulla gravida metus at gravida ultricies. Nulla auctor id mi id suscipit. Proin vestibulum metus non eros feugiat, ac blandit diam vestibulum. Sed in arcu eget mauris rhoncus semper. Integer dignissim dui quis massa vestibulum, luctus ultrices metus mollis. Sed aliquam leo hendrerit lacus ultricies efficitur. Praesent quis quam sed lorem tincidunt fringilla non interdum odio. Phasellus vel enim mattis, tempor arcu ut, pulvinar est. Sed ut tempus est. Fusce erat nisi, scelerisque quis tellus sit amet, lacinia sagittis libero. Sed ultrices odio ipsum, ut vestibulum nulla auctor in.
-%
-%
-%
-%
-%
-%\chapter{Este será o apêndice B}
-%Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer malesuada elit vel lacus fringilla, in luctus orci finibus. Praesent eget augue et enim luctus cursus ut ac nisl. In lobortis tellus non mauris euismod, tempus hendrerit nisi euismod. Integer id magna sapien. Nunc urna magna, consequat sed vehicula quis, convallis non justo. Aliquam risus dolor, viverra quis dignissim eget, convallis id sapien. Ut id turpis suscipit, mollis quam sed, lacinia lacus. Donec ac nulla dui.
-%
-%
-%\end{apendicesenv}
+\begin{apendicesenv}
+  %% Cada Capítulo será um apêndice
+  \chapter{Questionário da Pesquisa de Mercado}
+  \label{apendice:questionario}
+
+  Este apêndice apresenta a transcrição fiel do questionário, desenvolvido na plataforma Google Forms, que foi utilizado para o levantamento de requisitos do sistema ViaBus.
+
+  \vspace{1cm} % Adiciona um espaço vertical
+
+  \noindent\textbf{Título do Formulário:} ViaBus: simplificando a gestão do seu transporte de passageiros (pesquisa de mercado)
+
+  \section*{Perguntas}
+  \begin{enumerate}
+    \item \textbf{Em qual empresa ou serviço você atua? (Opcional)} \\
+          \textit{Campo para resposta curta.}
+
+    \item \textbf{Qual o tamanho da frota de veículos?} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item 1 veículo
+            \item 2 a 5 veículos
+            \item 6 a 10 veículos
+            \item 11 a 20 veículos
+            \item Mais de 20 veículos
+          \end{itemize}
+
+    \item \textbf{Quantas rotas (trechos) diferentes a empresa opera regularmente?} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item 1 a 2 rotas
+            \item 3 a 5 rotas
+            \item 6 a 10 rotas
+            \item Mais de 10 rotas
+            \item Não opero rotas fixas (apenas fretamento)
+          \end{itemize}
+
+    \item \textbf{A operação é principalmente:} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item Intermunicipal (dentro do mesmo estado)
+            \item Interestadual (entre estados diferentes)
+            \item Ambos
+          \end{itemize}
+
+    \item \textbf{Como é gerenciada a venda de passagens e a lista de passageiros hoje?} \\
+          \textit{Marque todas que se aplicam.}
+          \begin{itemize}
+            \item Caderno de anotações / Planilha em papel
+            \item Planilhas no computador (Excel, Google Sheets)
+            \item Mensagens diretas (WhatsApp, Telegram)
+            \item Ligação telefônica
+            \item Diretamente com o motorista, na hora do embarque
+            \item Utilizo outro sistema/software
+            \item Outro
+          \end{itemize}
+
+    \item \textbf{Quais são os maiores desafios operacionais hoje para a empresa?} \\
+          \textit{Marque todas que se aplicam.}
+          \begin{itemize}
+            \item Realizar o embarque de passageiros com planilhas manuais.
+            \item Controlar quais assentos já foram vendidos e quais estão livres.
+            \item Perda de tempo organizando listas de passageiros e viagens.
+            \item Prejuízo com assentos vazios (baixa ocupação)
+            \item Comunicação com os motoristas sobre a rota e os passageiros.
+            \item Receber os pagamentos (muito dinheiro em espécie, dificuldade com Pix, etc.).
+            \item Outro
+          \end{itemize}
+
+    \item \textbf{Quão valioso seria ter um sistema único para gerenciar rotas, horários, veículos, motoristas e passagens em um só lugar, acessível pelo celular ou computador?} \\
+          \textit{Marcar apenas uma oval, em uma escala de 1 a 5.}
+          \begin{itemize}
+            \item 1 \quad 2 \quad 3 \quad 4 \quad 5
+          \end{itemize}
+
+    \item \textbf{Quais funcionalidades de um sistema como o ViaBus seriam mais importantes para o seu negócio?} \\
+          \textit{Marque todas que se aplicam.}
+          \begin{itemize}
+            \item Embarque facilitado através de um aplicativo/site, substituindo planilhas manuais.
+            \item Painel para cadastrar e organizar minhas rotas, horários e preços.
+            \item Possibilidade de agendamento externo (ex.: prefeituras às quais a empresa presta serviços).
+            \item Venda de passagens online (com pagamento por Pix e cartão).
+            \item Cadastro e gestão de motoristas e veículos.
+            \item Relatórios financeiros (vendas por período, por rota, etc.).
+            \item Outro
+          \end{itemize}
+
+    \item \textbf{Se você pudesse oferecer aos seus passageiros um aplicativo para eles mesmos comprarem e acompanharem a viagem (ver horário, paradas, etc.), você acredita que isso seria um diferencial contra seus concorrentes?} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item Sim, com certeza seria um grande diferencial.
+            \item Talvez, poderia atrair mais clientes.
+            \item Não, acho que não faria diferença.
+            \item Tenho dúvidas se meus clientes usariam.
+          \end{itemize}
+
+    \item \textbf{Qual modelo de parceria você consideraria mais justo para usar um sistema completo como este?} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item Uma pequena taxa fixa por mês.
+            \item Uma pequena porcentagem (\%) sobre cada passagem vendida pelo sistema.
+            \item Um modelo misto (taxa mensal baixa + porcentagem pequena).
+            \item Não tenho certeza.
+          \end{itemize}
+
+    \item \textbf{Gostaria de receber um convite para testar a plataforma ViaBus em primeira mão e sem custos quando estiver disponível?} \\
+          \textit{Marcar apenas uma oval.}
+          \begin{itemize}
+            \item Sim, tenho interesse!
+            \item Não, obrigado.
+            \item Talvez, gostaria de mais informações antes.
+          \end{itemize}
+  \end{enumerate}
+
+
+  \chapter{Resultados da Pesquisa de Mercado}
+  \label{apendice:resultados}
+
+  Este apêndice apresenta os resultados visuais coletados através da pesquisa de mercado realizada com gestores de empresas de transporte de passageiros.
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem1.png}
+    \caption{Resultado da pergunta sobre empresa ou serviço.}
+    \label{fig:resultado1}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem2.png}
+    \caption{Resultado da pergunta sobre tamanho da frota de veículos.}
+    \label{fig:resultado2}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem3.png}
+    \caption{Resultado da pergunta sobre número de rotas operadas.}
+    \label{fig:resultado3}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem4.png}
+    \caption{Resultado da pergunta sobre tipo de operação.}
+    \label{fig:resultado4}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem5.png}
+    \caption{Resultado da pergunta sobre gerenciamento atual de passagens.}
+    \label{fig:resultado5}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem6.png}
+    \caption{Resultado da pergunta sobre maiores desafios operacionais.}
+    \label{fig:resultado6}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem7.png}
+    \caption{Resultado da pergunta sobre valor de um sistema único.}
+    \label{fig:resultado7}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem8.png}
+    \caption{Resultado da pergunta sobre funcionalidades mais importantes.}
+    \label{fig:resultado8}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem9.png}
+    \caption{Resultado da pergunta sobre aplicativo como diferencial.}
+    \label{fig:resultado9}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem10.png}
+    \caption{Resultado da pergunta sobre modelo de parceria.}
+    \label{fig:resultado10}
+  \end{figure}
+
+  \begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{imagens/imagem11.png}
+    \caption{Resultado da pergunta sobre interesse em testar a plataforma.}
+    \label{fig:resultado11}
+  \end{figure}
+
+\end{apendicesenv}

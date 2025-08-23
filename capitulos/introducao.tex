@@ -1,11 +1,11 @@
 % ----------------------------------------------------------
 % Introdução
 % ----------------------------------------------------------
-\chapter{Introdução}  
+\chapter{Introdução}
 
 % Contextualização 
 
-Karielly Em um país de dimensões continentais como o Brasil, o transporte rodoviário de passageiros desempenha um papel estratégico na promoção da mobilidade interurbana, conectando municípios e regiões e garantindo o acesso a serviços, trabalho e lazer para milhões de pessoas. Esse serviço, regulamentado pela Agência Nacional de Transportes Terrestres (ANTT), é operado por empresas privadas e possui alta capilaridade, conectando centros urbanos de diferentes portes e promovendo interações espaciais ao longo do território nacional \cite{santos2024}.
+Em um país de dimensões continentais como o Brasil, o transporte rodoviário de passageiros desempenha um papel estratégico na promoção da mobilidade interurbana, conectando municípios e regiões e garantindo o acesso a serviços, trabalho e lazer para milhões de pessoas. Esse serviço, regulamentado pela Agência Nacional de Transportes Terrestres (ANTT), é operado por empresas privadas e possui alta capilaridade, conectando centros urbanos de diferentes portes e promovendo interações espaciais ao longo do território nacional \cite{santos2024}.
 
 A relevância desse modal de transporte fica evidente nos números: em 2019, o sistema interestadual atendeu mais de 2.000 municípios em 25 estados e no Distrito Federal, transportando cerca de 80 milhões de passageiros \cite{santos2024}. Esse volume expressivo de deslocamentos ressalta a necessidade de soluções tecnológicas para modernizar a gestão desse sistema, otimizando a venda de passagens e a administração operacional das empresas de transporte.
 
@@ -15,7 +15,7 @@ Diante desse cenário, este trabalho propõe o desenvolvimento de uma plataforma
 
 % % Problema
 
-O transporte rodoviário intermunicipal de passageiros no Brasil enfrenta desafios significativos relacionados à adoção e integração de tecnologias avançadas. A ausência de sistemas integrados de gestão e a resistência à inovação tecnológica comprometem a eficiência operacional e a qualidade dos serviços prestados. De acordo com o Relatório de Análise de Impacto Regulatório da Agência Nacional de Transportes Terrestres (ANTT), a incerteza regulatória e a falta de experimentação com novas tecnologias dificultam a modernização do setor \cite{antt2022}. 
+O transporte rodoviário intermunicipal de passageiros no Brasil enfrenta desafios significativos relacionados à adoção e integração de tecnologias avançadas. A ausência de sistemas integrados de gestão e a resistência à inovação tecnológica comprometem a eficiência operacional e a qualidade dos serviços prestados. De acordo com o Relatório de Análise de Impacto Regulatório da Agência Nacional de Transportes Terrestres (ANTT), a incerteza regulatória e a falta de experimentação com novas tecnologias dificultam a modernização do setor \cite{antt2022}.
 
 % % Relevância do tema {Justificativa}
 \section{Justificativa}
@@ -42,3 +42,23 @@ Propor e desenvolver uma plataforma SaaS para a gestão integrada do transporte 
 
     \item Realizar uma avaliação funcional e de usabilidade do protótipo desenvolvido, analisando sua eficiência e capacidade de atender às necessidades específicas das empresas do transporte alternativo.
 \end{itemize}
+
+\section{Metodologia}
+
+A metodologia adotada para o desenvolvimento do projeto ViaBus combinou uma abordagem moderna de engenharia de software com uma pesquisa qualitativa para o levantamento de requisitos. O processo foi estruturado em duas frentes principais: a metodologia de desenvolvimento do software e a metodologia de pesquisa de campo.
+
+\subsection{Metodologia de Desenvolvimento}
+
+A abordagem de desenvolvimento foi a \textit{Frontend-First}, uma estratégia iterativa centrada na prototipagem evolutiva da interface do usuário (UI). Priorizou-se a construção da experiência do usuário, desenvolvendo todas as telas da aplicação com dados estáticos (mockados) em um primeiro momento. Esta escolha se baseia na premissa de que a prototipação com ferramentas modernas, como o framework Next.js e a biblioteca de componentes shadcn/ui, é um processo ágil e de alta fidelidade, que elimina a necessidade de ferramentas de design intermediárias e permite um ciclo de refinamento contínuo da interface. Com o frontend validado, o desenvolvimento do backend foi realizado de forma direcionada, construindo a API para atender precisamente às necessidades já estabelecidas.
+
+\subsection{Pesquisa de Mercado}
+
+O levantamento de requisitos foi realizado através de uma abordagem mista. A base inicial foi a experiência prática do autor no uso de transportes alternativos, complementada por uma pesquisa de mercado qualitativa para validar as hipóteses. Foi elaborado um questionário online (detalhado no \autoref{apendice:questionario}) e aplicado junto a gestores de duas empresas de transporte de passageiros. As respostas, consolidadas no \autoref{apendice:resultados}, foram fundamentais para identificar os principais desafios operacionais do setor e para definir e priorizar os requisitos funcionais e não funcionais que nortearam a construção do sistema.
+
+\subsection{Avaliação}
+
+Para a avaliação do sistema ViaBus, considerando a impossibilidade de realizar testes de validação com usuários finais devido ao estágio de desenvolvimento do protótipo, optou-se por uma abordagem de verificação interna em duas frentes.
+
+A primeira frente consistiu na \textit{Verificação de Requisitos}. Este processo teve como objetivo analisar de forma sistemática cada um dos requisitos funcionais (RF) e não funcionais (RNF) especificados no Capítulo 3. Para isso, foi elaborada uma tabela de verificação onde cada requisito foi classificado quanto ao seu status de implementação (Implementado, Parcialmente Implementado ou Não Implementado), juntamente com as observações e evidências correspondentes no sistema.
+
+A segunda frente foi uma \textit{Avaliação Heurística} da interface do usuário. Atuando como avaliador especialista, o autor inspecionou os principais fluxos de interação do sistema, como o cadastro de rotas e a venda de passagens. A análise foi pautada pelas 10 Heurísticas de Usabilidade de Jakob Nielsen, princípios reconhecidos na área de Interação Humano-Computador. O objetivo desta avaliação foi identificar potenciais problemas de usabilidade na interface e garantir que o protótipo adere a boas práticas de design, como consistência, feedback ao usuário e prevenção de erros. Os resultados detalhados de ambas as avaliações são apresentados no Capítulo 5 (Resultados e Discussão).
