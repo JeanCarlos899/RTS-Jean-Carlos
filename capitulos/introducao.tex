@@ -29,36 +29,26 @@ Além disso, uma plataforma \textit{SaaS} voltada para o transporte alternativo 
 
 \subsection{Geral}
 
-Propor e desenvolver uma plataforma SaaS para a gestão integrada do transporte rodoviário alternativo de passageiros, avaliando sua funcionalidade e eficiência na otimização dos processos operacionais.
+Desenvolver um protótipo funcional de uma plataforma SaaS para a gestão integrada do transporte rodoviário alternativo de passageiros, verificando a implementação de suas funcionalidades essenciais e avaliando a usabilidade de sua interface a partir de princípios de design.
 
 \subsection{Específicos}
 
 \begin{itemize}
-    \item Identificar as principais ferramentas tecnológicas utilizadas por empresas de transporte rodoviário alternativo, especialmente para gestão de paradas, rotas e agendamento de passagens;
+    \item Realizar uma pesquisa de mercado para identificar as dores e os processos manuais de empresas do setor de transporte alternativo;
 
-    \item Levantar as necessidades e limitações dessas ferramentas, com foco nas dificuldades operacionais enfrentadas pelas empresas do setor;
+    \item Especificar os requisitos funcionais e não funcionais de um sistema de gestão com base nas necessidades levantadas na pesquisa;
 
-    \item Propor e desenvolver um protótipo simplificado de sistema \textit{SaaS}, oferecendo funcionalidades para gestão integrada de paradas e rotas, além do agendamento digital de passagens;
+    \item Desenvolver um protótipo funcional da plataforma ViaBus, implementando os módulos de gestão de rotas, paradas, veículos, motoristas e um fluxo para agendamento de passagens;
 
-    \item Realizar uma avaliação funcional e de usabilidade do protótipo desenvolvido, analisando sua eficiência e capacidade de atender às necessidades específicas das empresas do transporte alternativo.
+    \item Realizar uma verificação técnica do protótipo para analisar a aderência do software aos requisitos especificados e conduzir uma avaliação heurística para identificar possíveis melhorias de usabilidade na interface.
 \end{itemize}
 
 \section{Metodologia}
 
-A metodologia adotada para o desenvolvimento do projeto ViaBus combinou uma abordagem moderna de engenharia de software com uma pesquisa qualitativa para o levantamento de requisitos. O processo foi estruturado em duas frentes principais: a metodologia de desenvolvimento do software e a metodologia de pesquisa de campo.
+A metodologia empregada para a concepção e desenvolvimento do sistema ViaBus foi estruturada em três etapas sequenciais: levantamento de requisitos, desenvolvimento do protótipo e avaliação da solução.
 
-\subsection{Metodologia de Desenvolvimento}
+A primeira etapa, de levantamento de requisitos, utilizou uma abordagem mista, partindo da observação empírica do autor sobre os desafios do setor de transporte alternativo. Tais observações foram então validadas por meio de uma pesquisa de mercado qualitativa. Para tal, foi elaborado um questionário online (detalhado no \autoref{apendice:questionario}) e aplicado junto a gestores de duas empresas do setor. As respostas, consolidadas na tabela do \autoref{apendice:resultados}, foram essenciais para a especificação formal dos requisitos que nortearam o desenvolvimento.
 
-A abordagem de desenvolvimento foi a \textit{Frontend-First}, uma estratégia iterativa centrada na prototipagem evolutiva da interface do usuário (UI). Priorizou-se a construção da experiência do usuário, desenvolvendo todas as telas da aplicação com dados estáticos (mockados) em um primeiro momento. Esta escolha se baseia na premissa de que a prototipação com ferramentas modernas, como o framework Next.js e a biblioteca de componentes shadcn/ui, é um processo ágil e de alta fidelidade, que elimina a necessidade de ferramentas de design intermediárias e permite um ciclo de refinamento contínuo da interface. Com o frontend validado, o desenvolvimento do backend foi realizado de forma direcionada, construindo a API para atender precisamente às necessidades já estabelecidas.
+A segunda etapa, de desenvolvimento do protótipo, seguiu um processo iterativo alinhado a práticas de prototipagem evolutiva, onde o software é construído e refinado em ciclos contínuos \cite{sommerville2011software}. Adotou-se a estratégia \textit{Frontend-First}, que prioriza a construção da interface do usuário (UI) como guia para o desenvolvimento do sistema. Utilizando o framework Next.js e a biblioteca de componentes shadcn/ui, todas as telas da aplicação foram inicialmente desenvolvidas com dados estáticos (\textit{mockados}), permitindo a validação dos fluxos de interação antes da implementação da lógica de negócio no backend.
 
-\subsection{Pesquisa de Mercado}
-
-O levantamento de requisitos foi realizado através de uma abordagem mista. A base inicial foi a experiência prática do autor no uso de transportes alternativos, complementada por uma pesquisa de mercado qualitativa para validar as hipóteses. Foi elaborado um questionário online (detalhado no \autoref{apendice:questionario}) e aplicado junto a gestores de duas empresas de transporte de passageiros. As respostas, consolidadas no \autoref{apendice:resultados}, foram fundamentais para identificar os principais desafios operacionais do setor e para definir e priorizar os requisitos funcionais e não funcionais que nortearam a construção do sistema.
-
-\subsection{Avaliação}
-
-Para a avaliação do sistema ViaBus, considerando a impossibilidade de realizar testes de validação com usuários finais devido ao estágio de desenvolvimento do protótipo, optou-se por uma abordagem de verificação interna em duas frentes.
-
-A primeira frente consistiu na \textit{Verificação de Requisitos}. Este processo teve como objetivo analisar de forma sistemática cada um dos requisitos funcionais (RF) e não funcionais (RNF) especificados no Capítulo 3. Para isso, foi elaborada uma tabela de verificação onde cada requisito foi classificado quanto ao seu status de implementação (Implementado, Parcialmente Implementado ou Não Implementado), juntamente com as observações e evidências correspondentes no sistema.
-
-A segunda frente foi uma \textit{Avaliação Heurística} da interface do usuário. Atuando como avaliador especialista, o autor inspecionou os principais fluxos de interação do sistema, como o cadastro de rotas e a venda de passagens. A análise foi pautada pelas 10 Heurísticas de Usabilidade de Jakob Nielsen, princípios reconhecidos na área de Interação Humano-Computador. O objetivo desta avaliação foi identificar potenciais problemas de usabilidade na interface e garantir que o protótipo adere a boas práticas de design, como consistência, feedback ao usuário e prevenção de erros. Os resultados detalhados de ambas as avaliações são apresentados no Capítulo 5 (Resultados e Discussão).
+Por fim, a terceira etapa consistiu na avaliação do protótipo. Devido à impossibilidade de realizar testes com usuários finais, optou-se por uma verificação interna em duas frentes. A primeira foi uma \textit{Verificação de Requisitos}, na qual se analisou sistematicamente o atendimento aos requisitos funcionais e não funcionais. A segunda foi uma \textit{Avaliação Heurística}, um método de inspeção consolidado para encontrar problemas de usabilidade em interfaces \cite{Nielsen1994}. Atuando como avaliador especialista, o autor inspecionou o sistema com base nas 10 heurísticas de usabilidade de Nielsen, cujos resultados detalhados são apresentados no Capítulo 5.
