@@ -821,4 +821,44 @@ O TypeScript é utilizado extensivamente com tipagem específica por domínio:
 
 Esta arquitetura garante: (i) separação clara de responsabilidades, (ii) tipagem estática end-to-end, (iii) reutilização de componentes, (iv) experiência consistente multiempresa e (v) escalabilidade via modularização por domínio.
 
-\section{Estratégia de Implantação com Docker}
+\section{Estratégia de Implantação}
+
+Para a implantação do sistema ViaBus, foi adotada uma arquitetura nativa da nuvem, utilizando os serviços da Google Cloud Platform (GCP). Esta abordagem foi escolhida para garantir alta disponibilidade, escalabilidade, segurança e manutenibilidade, abstraindo a complexidade do gerenciamento de infraestrutura física e alinhando-se às melhores práticas de DevOps. A estratégia foi dividida em quatro pilares: conteinerização da aplicação, implantação em ambiente serverless, gerenciamento do banco de dados e configuração dos ambientes de CI/CD.
+
+\subsection{Conteinerização da Aplicação com Docker}
+
+A fim de garantir a portabilidade e a paridade entre os ambientes de desenvolvimento e produção, a aplicação foi conteinerizada com Docker, atendendo ao requisito não funcional de portabilidade (RNF05). Foram criados Dockerfiles distintos para cada um dos serviços principais:
+
+Frontend (Next.js): Um Dockerfile com múltiplos estágios (multi-stage build) foi configurado. O primeiro estágio (build) é responsável por instalar as dependências e compilar a aplicação Next.js, gerando os artefatos estáticos e o servidor otimizado. O estágio final copia apenas os artefatos de produção para uma imagem base do Node.js enxuta, resultando em um contêiner leve e seguro.
+
+Backend (NestJS): De forma similar, o Dockerfile do backend também utiliza múltiplos estágios para compilar o código TypeScript em JavaScript e, em seguida, copiar apenas o build final e as dependências de produção para a imagem final.
+
+Para a orquestração do ambiente de desenvolvimento local, foi utilizado o Docker Compose, conforme definido no arquivo docker-compose.yml, que automatiza a criação da rede e a inicialização dos contêineres do frontend, backend e do banco de dados, garantindo que o ambiente de desenvolvimento espelhe a arquitetura de produção.
+
+\subsection{Implantação na Nuvem com Google Cloud Run}
+
+A implantação dos contêineres na nuvem foi realizada utilizando o Google Cloud Run, uma plataforma de computação serverless gerenciada. Esta escolha se deu por suas características de autoescalabilidade e modelo de cobrança baseado no uso, ideal para aplicações com demanda variável.
+
+Serviços Independentes: Os contêineres do frontend e do backend foram implantados como dois serviços distintos no Cloud Run, permitindo que escalem de forma independente e tenham configurações de recursos (CPU, memória) específicas para suas necessidades.
+
+Escalabilidade Automática: Os serviços foram configurados para escalar automaticamente com base no número de requisições concorrentes, podendo inclusive escalar a zero quando não há tráfego, otimizando os custos.
+
+Configurações de Execução: Foram definidos parâmetros como o tempo limite de requisição (request timeout), crucial para operações mais longas da API, e a alocação de memória para cada serviço. O Cloud Run também gerencia automaticamente o provisionamento de certificados TLS/SSL, garantindo a comunicação via HTTPS.
+
+\subsection{Gerenciamento do Banco de Dados com Google Cloud SQL}
+
+Para o armazenamento persistente dos dados, foi utilizado o Google Cloud SQL, um serviço de banco de dados relacional totalmente gerenciado. A escolha pelo PostgreSQL foi baseada em sua robustez e compatibilidade com o TypeORM, utilizado no backend.
+
+Alta Disponibilidade e Segurança: A instância do Cloud SQL foi configurada com backups automáticos diários para recuperação de desastres. A comunicação entre a API no Cloud Run e o banco de dados ocorre através de uma conexão segura e privada, com todos os dados sendo criptografados em trânsito e em repouso.
+
+Manutenção Gerenciada: O serviço gerencia automaticamente tarefas como aplicação de patches, atualizações e replicação, liberando a equipe de desenvolvimento da carga de administração do banco de dados.
+
+\subsection{Gerenciamento de Ambientes e CI/CD}
+
+Para garantir a integridade e a segurança do ciclo de vida da aplicação, foram adotadas práticas de gerenciamento de configuração e automação.
+
+Separação de Ambientes: Foram estruturados ambientes distintos dentro do Google Cloud para desenvolvimento e produção, cada um com sua própria instância do Cloud SQL e serviços no Cloud Run, garantindo o isolamento e evitando que testes afetem os usuários finais.
+
+Gerenciamento de Segredos: Todas as informações sensíveis, como credenciais de banco de dados e chaves de API, são gerenciadas como segredos no Google Secret Manager e injetadas nos serviços do Cloud Run como variáveis de ambiente, evitando a exposição de dados sigilosos no código-fonte.
+
+Automação de Implantação (CI/CD): Foi configurado um pipeline de integração e implantação contínuas utilizando o Google Cloud Build. O processo é automatizado para que, a cada push no repositório principal do Git, o Cloud Build seja acionado para construir as novas imagens Docker e, após a conclusão bem-sucedida, implantar a nova versão automaticamente no Cloud Run, garantindo agilidade e reduzindo a possibilidade de falha humana nas atualizações.

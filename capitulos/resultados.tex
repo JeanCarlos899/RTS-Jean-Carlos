@@ -4,6 +4,93 @@
 
 \section{Verificação de Requisitos}
 
+A primeira etapa da avaliação consistiu na verificação sistemática do grau de implementação dos Requisitos Funcionais (RF) e Não Funcionais (RNF) definidos no Capítulo 3. A análise buscou constatar se as funcionalidades e características planejadas foram efetivamente traduzidas em software. As Tabelas \ref{tab:verificacao-rf} e \ref{tab:verificacao-rnf} apresentam o resultado consolidado desta verificação.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Verificação dos Requisitos Funcionais (RF)}
+  \label{tab:verificacao-rf}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|c|p{9.5cm}|}
+      \hline
+      \textbf{Requisito}             & \textbf{Status}           & \textbf{Observações e Evidências}                                                                        \\
+      \hline
+      RF01 -- Registro               & Implementado              & Fluxo de cadastro de usuários disponível na API de autenticação, com validação de dados.                 \\
+      RF02 -- Login                  & Implementado              & Autenticação via e-mail e senha com emissão de JWT e proteção de rotas.                                  \\
+      RF03 -- Permissões             & Implementado              & Controle de acesso por perfis/roles com guards no backend e proteção de rotas no frontend.               \\
+      RF04 -- Empresas               & Implementado              & Criação e gestão de perfis de empresa disponíveis; página de criação de empresa no frontend.             \\
+      RF05 -- Isolamento             & Implementado              & Interceptor/serviço central aplica filtro por \textit{companyId} do usuário em todas as requisições.     \\
+      RF06 -- Motoristas             & Implementado              & CRUD completo de motoristas no módulo dedicado.                                                          \\
+      RF07 -- Veículos               & Implementado              & CRUD completo de veículos no módulo dedicado.                                                            \\
+      RF08 -- Paradas                & Implementado              & CRUD de pontos de parada com armazenamento de geolocalização.                                            \\
+      RF09 -- Rotas                  & Implementado              & Criação e manutenção de rotas com sequência de paradas.                                                  \\
+      RF10 -- Horários               & Parcialmente Implementado & Associação de horários e preços às rotas; serviços de \textit{schedules} no frontend.                    \\
+      RF11 -- Mapas                  & Parcialmente Implementado & Visualização de rotas e paradas disponível; ausência de mapa interativo avançado em algumas telas.       \\
+      RF12 -- Agendamento de Viagens & Implementado              & Criação de viagens baseada em rotas e horários no módulo de viagens.                                     \\
+      RF13 -- Atribuição             & Implementado              & Associação de veículos e motoristas às viagens.                                                          \\
+      RF14 -- Status de Viagens      & Parcialmente Implementado & Atualização de status disponível; sem comunicação em tempo real por WebSocket.                           \\
+      RF15 -- Wizard de Venda        & Implementado              & Fluxo guiado de venda com \textit{wizard} no frontend.                                                   \\
+      RF16 -- Embarque/Desembarque   & Implementado              & Seleção flexível de pontos ao longo da rota no ato da venda.                                             \\
+      RF17 -- Passageiros            & Implementado              & Coleta e armazenamento dos dados completos dos passageiros.                                              \\
+      RF18 -- Anti-Overbooking       & Implementado              & Verificação de disponibilidade antes da emissão; criação de ticket bloqueada com erro 409 quando lotado. \\
+      RF19 -- Listas                 & Implementado              & Geração/visualização de listas de passageiros por viagem nas telas operacionais.                         \\
+      RF20 -- Busca                  & Parcialmente Implementado & Filtros múltiplos disponíveis nas listagens; oportunidades de ampliar critérios e combinações.           \\
+      RF21 -- Ocupação em Tempo Real & Parcialmente Implementado & Visualização de ocupação por viagem; ausência de atualização \textit{push} em tempo real.                \\
+      \hline
+    \end{tabular}%
+  }
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{Verificação dos Requisitos Não Funcionais (RNF)}
+  \label{tab:verificacao-rnf}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{|l|c|p{9.5cm}|}
+      \hline
+      \textbf{Requisito}                  & \textbf{Status}           & \textbf{Observações e Evidências}                                                         \\
+      \hline
+      RNF01 -- Responsividade             & Implementado              & Interface responsiva, componentes padronizados e adaptação a diferentes tamanhos de tela. \\
+      RNF02 -- Navegação                  & Parcialmente Implementado & Fluxos principais claros; avaliação heurística indica melhorias na prevenção de erros.    \\
+      RNF03 -- Acessibilidade             & Parcialmente Implementado & Formulários com indicadores de progresso; faltam recursos avançados de acessibilidade.    \\
+      RNF04 -- Autenticação               & Implementado              & Login seguro com JWT e controle de sessão.                                                \\
+      RNF05 -- Autorização                & Implementado              & Acesso baseado em perfis com guards e verificação centralizada.                           \\
+      RNF06 -- Isolamento                 & Implementado              & Separação de dados por empresa garantida via filtro automático por \textit{companyId}.    \\
+      RNF07 -- Validação                  & Implementado              & Validação de entrada no backend (DTOs/validators) e no frontend.                          \\
+      RNF08 -- Desempenho de Carregamento & Implementado              & Páginas com tempos de resposta adequados nos fluxos críticos.                             \\
+      RNF09 -- Otimização de Consultas    & Parcialmente Implementado & Consultas indexadas nos módulos principais; há espaço para otimizações adicionais.        \\
+      RNF10 -- Escalabilidade             & Parcialmente Implementado & Arquitetura modular; ausência de escalonamento horizontal automático e fila de mensagens. \\
+      RNF11 -- Arquitetura                & Implementado              & Código organizado por módulos com camadas bem definidas.                                  \\
+      RNF12 -- Padrões                    & Implementado              & Padrões de codificação consistentes e lint configurado.                                   \\
+      RNF13 -- Documentação               & Parcialmente Implementado & Documentação básica presente; falta detalhamento abrangente de API e decisões de projeto. \\
+      RNF14 -- Containerização            & Implementado              & Dockerfile no frontend e backend; orquestração via \texttt{docker-compose}.               \\
+      RNF15 -- Configuração de Ambientes  & Implementado              & Suporte a múltiplos ambientes com variáveis de ambiente.                                  \\
+      \hline
+    \end{tabular}%
+  }
+\end{table}
+
 \section{Avaliação Heurística}
+A segunda etapa da avaliação do protótipo consistiu em uma Avaliação Heurística, método de inspeção de usabilidade consolidado por Nielsen (1994). Atuando como avaliador especialista, foram analisados os principais fluxos de interação do sistema, como o cadastro de rotas e a venda de passagens, com o objetivo de identificar potenciais problemas e pontos de aderência a boas práticas de design de interface. A seguir, são discutidos os achados mais relevantes, agrupados pelas heurísticas correspondentes.
+
+Visibilidade do status do sistema (Heurística 1)
+O sistema se destaca na aplicação desta heurística. Em operações que demandam tempo, como o carregamento de tabelas de dados, a interface exibe componentes de skeleton loading (Figura X, a ser inserida por você, mostrando a tabela "carregando"), comunicando claramente ao usuário que uma ação está em progresso. Adicionalmente, ações de sucesso ou falha, como salvar um novo veículo, disparam notificações do tipo toast no canto da tela, como ilustrado na Figura \ref{fig:toast-success}, fornecendo feedback imediato e não intrusivo.
+
+Correspondência entre o sistema e o mundo real (Heurística 2)
+A plataforma utiliza uma linguagem e iconografia familiar ao usuário-alvo. Termos como "Frota", "Motoristas", "Paradas" e "Rotas" são diretos e correspondem à terminologia do setor. A utilização de mapas interativos para a gestão de paradas e visualização de rotas, como visto na Figura \ref{fig:mapa-paradas}, cria uma representação visual que espelha diretamente a operação logística do mundo real, facilitando o entendimento e a manipulação dos dados.
+
+Consistência e padronização (Heurística 4)
+Este é um dos pontos mais fortes do protótipo. A utilização sistemática da biblioteca de componentes shadcn/ui garante uma alta consistência visual e de interação. Elementos como botões, formulários, tabelas e modais, como o de cadastro de nova parada (Figura \ref{fig:modal-parada}), mantêm uma identidade e um comportamento padronizados em todos os módulos. Essa consistência reduz a carga cognitiva do usuário e acelera a curva de aprendizado da ferramenta.
+
+Prevenção de erros (Heurística 5)
+Neste ponto, foram identificadas oportunidades de melhoria. No formulário de criação de rotas (Figura \ref{fig:form-rotas}), o sistema atualmente permite que o usuário avance e tente salvar uma rota sem ter selecionado nenhuma parada. Isso representa um erro potencial, pois uma rota sem paradas é funcionalmente inútil e pode gerar dados inconsistentes. Uma melhoria recomendada seria a implementação de uma validação no frontend que desabilite o botão "Salvar" ou exiba uma mensagem de alerta enquanto a lista de paradas da rota estiver vazia.
+
+Reconhecimento em vez de memorização (Heurística 6)
+A interface faz um bom trabalho ao manter as opções e informações visíveis. O menu lateral persistente (Figura \ref{fig:sidebar}) permite que o usuário navegue entre os módulos sem precisar memorizar o caminho. No entanto, no fluxo de venda de passagens, o sistema poderia melhorar ao exibir um resumo da seleção (ex: "Rota: Picos x Teresina, Data: 29/08/2025") em todos os passos do assistente, para que o usuário não precise memorizar as informações inseridas nos passos anteriores.
+
+Estética e design minimalista (Heurística 8)
+A interface do ViaBus é limpa e funcional. Não há excesso de informações ou elementos visuais que possam distrair o usuário de suas tarefas. O uso de espaços em branco e a hierarquia visual clara, como visto no Dashboard (Figura \ref{fig:dashboard}), contribuem para um design minimalista que prioriza o conteúdo e a funcionalidade.
 
 \section{Discussão dos Resultados}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
