@@ -1,10 +1,7 @@
-% ----------------------------------------------------------
-% Tecnologias Envolvidas
-% ----------------------------------------------------------
 \chapter{Arquitetura e Modelagem do Sistema} \label{cha:arquitetura}
 
 \section{Arquitetura da Solução}
-Esta seção descreve a organização estrutural do sistema BusLy, que provê funções de gestão de transporte para empresas: cadastro de empresas, usuários, motoristas, veículos, rotas, paradas, viagens e bilhetes. A solução adota uma arquitetura web em camadas, com separação clara entre apresentação (frontend), lógica de negócio e APIs (backend) e persistência (banco de dados).
+Esta seção descreve a organização estrutural do sistema ViaBus, que provê funções de gestão de transporte para empresas: cadastro de empresas, usuários, motoristas, veículos, rotas, paradas, viagens e bilhetes. A solução adota uma arquitetura web em camadas, com separação clara entre apresentação (frontend), lógica de negócio e APIs (backend) e persistência (banco de dados).
 
 No \textit{frontend}, utiliza-se Next.js~15 com roteamento via App Router, estado de sessão via NextAuth (estratégia \textit{JWT}) e componentes React tipados (TypeScript). O \textit{frontend} consome APIs REST autenticadas, mantém contexto de usuário/empresa e incorpora mapas e edição geográfica com Leaflet/React-Leaflet para operações sobre rotas e paradas.
 
@@ -275,7 +272,7 @@ O diagrama de classes da Figura~\ref{fig:uml-dominio} sintetiza os relacionament
     \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*,arm1=-90,arm2=135]{Stop}{Ticket}
 
   \end{tikzpicture}
-  \caption{Diagrama de classes detalhado do domínio BusLy.}
+  \caption{Diagrama de classes detalhado do domínio ViaBus.}
   \label{fig:uml-dominio}
 \end{figure}
 
@@ -552,7 +549,7 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
     \draw[<->, thick] (core) -- (operational);
     \draw[<->, thick] (support) -- (operational);
   \end{tikzpicture}
-  \caption{Organização modular do backend BusLy.}
+  \caption{Organização modular do backend ViaBus.}
   \label{fig:backend-modules}
 \end{figure}
 
@@ -656,7 +653,7 @@ A implementação garante que todas as operações de banco de dados incluam aut
   \begin{tikzpicture}[scale=0.75, every node/.style={transform shape}]
     % Single application instance
     \node[draw, rounded corners, thick, fill=blue!15, minimum width=10cm, minimum height=2cm, align=center] (app) at (7,8) {
-      \textbf{Aplicação BusLy} - \textit{Multi-tenant}
+      \textbf{Aplicação ViaBus} - \textit{Multi-tenant}
     };
 
     % JWT Token extraction with better positioning
