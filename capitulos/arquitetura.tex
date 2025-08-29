@@ -26,260 +26,41 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
 \end{figure}
 
 \section{Modelagem do Banco de Dados}
-O modelo de dados foi projetado para refletir as agregações de negócio. A Tabela~\ref{tab:principais-entidades} sumariza as principais entidades e seus papéis. De forma geral, todas as entidades operacionais são associadas a uma empresa (\textit{multi-tenancy} por chave estrangeira \texttt{company\_id}). Rotas possuem paradas ordenadas (\texttt{route\_stops}) e agenda de operação (\texttt{route\_schedules}); viagens instanciam rotas em horários específicos e originam bilhetes.
+
+O modelo de dados foi projetado para refletir as agregações de negócio, garantindo a coesão e a integridade das entidades do domínio. A Tabela~\ref{tab:principais-entidades} sumariza as principais entidades e seus papéis. Para facilitar a análise, a modelagem será apresentada através de diagramas UML fracionados por agregado. A visão completa e detalhada de todos os relacionamentos do domínio está disponível para consulta no \autoref{apendice:diagrama-classe}.
 
 \begin{table}[H]
   \centering
-  \begin{tabular}{ll}
+  \begin{tabular}{p{3.5cm}p{11.5cm}}
     \toprule
-    \textbf{Entidade}         & \textbf{Descrição resumida}                                               \\
+    \textbf{Entidade}         & \textbf{Descrição resumida}                                                                                                                                              \\
     \midrule
-    \texttt{companies}        & Empresa (razão social, nome fantasia, CNPJ, slug, contato)                \\
-    \texttt{users}            & Usuário (nome, e-mail, senha, papel, status, \texttt{company\_id})        \\
-    \texttt{drivers}          & Motorista (CPF, CNH, categoria, status, \texttt{company\_id})             \\
-    \texttt{vehicles}         & Veículo (placa, capacidade, categoria, status, \texttt{company\_id})      \\
-    \texttt{addresses}        & Endereço (CEP, logradouro, geocoordenadas)                                \\
-    \texttt{stops}            & Parada (nome, \texttt{address\_id}, acessibilidade, \texttt{company\_id}) \\
-    \texttt{routes}           & Rota (nome, distância, duração estimada, \texttt{company\_id})            \\
-    \texttt{route\_stops}     & Associação rota–parada com ordem e horário opcional                       \\
-    \texttt{route\_schedules} & Agenda por dia da semana para a rota                                      \\
-    \texttt{trips}            & Viagem (rota, janelas horárias, status, assentos, \texttt{company\_id})   \\
-    \texttt{tickets}          & Bilhete (passageiro, preço, assento, pontos de embarque)                  \\
+    \texttt{companies}        & Empresa (razão social, nome fantasia, CNPJ, slug, e-mail, telefone, logo)                                                                                                \\
+    \texttt{users}            & Usuário (nome, e-mail, senha, papel, status, telefone, foto, \texttt{company\_id})                                                                                       \\
+    \texttt{drivers}          & Motorista (nome, CPF, CNH, categoria, validade, telefone, e-mail, data nascimento, contratação, status, contato emergência, endereço, observações, \texttt{company\_id}) \\
+    \texttt{vehicles}         & Veículo (placa, modelo, marca, ano, capacidade, categoria, conforto, tipo ônibus, data aquisição, hodômetro, manutenção, status, observações, \texttt{company\_id})      \\
+    \texttt{addresses}        & Endereço (CEP, logradouro, número, complemento, bairro, cidade, estado, longitude, latitude)                                                                             \\
+    \texttt{stops}            & Parada (nome, \texttt{address\_id}, ativa, acessibilidade, abrigo, \texttt{company\_id})                                                                                 \\
+    \texttt{routes}           & Rota (nome, descrição, ativa, duração estimada, distância, \texttt{company\_id})                                                                                         \\
+    \texttt{route\_stops}     & Associação rota–parada com ordem e horário de partida opcional                                                                                                           \\
+    \texttt{route\_schedules} & Agenda por dia da semana para a rota (0-6, domingo-sábado)                                                                                                               \\
+    \texttt{trips}            & Viagem (rota, horários partida/chegada, status, preço base, assentos total/disponível, auto-gerada, observações, \texttt{company\_id})                                   \\
+    \texttt{trip\_vehicles}   & Associação viagem–veículo com motoristas primário/secundário                                                                                                             \\
+    \texttt{tickets}          & Bilhete (passageiro, documento, telefone, e-mail, assento, preço, status, pontos embarque/desembarque com coordenadas, observações, \texttt{company\_id})                \\
     \bottomrule
   \end{tabular}
   \caption{Principais entidades do domínio.}
   \label{tab:principais-entidades}
 \end{table}
 
-O diagrama de classes da Figura~\ref{fig:uml-dominio} sintetiza os relacionamentos mais relevantes do domínio.
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}[scale=0.4, every node/.style={transform shape}]
-    \tikzumlset{font=\tiny}
-
-    % NÍVEL 1: Empresa (topo da hierarquia)
-    \umlclass[x=18,y=25]{Company}{
-      id: uuid\\
-      legalName: string\\
-      tradeName: string\\
-      slug: string\\
-      cnpj: string\\
-      email: string\\
-      phone: string\\
-      logoUrl: string\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    % NÍVEL 2: Gestão de usuários e recursos
-    \umlclass[x=3,y=18]{User}{
-      id: uuid\\
-      name: string\\
-      email: string\\
-      phone: string\\
-      photoUrl: string\\
-      password: string\\
-      role: UserRole\\
-      status: UserStatus\\
-      companyId: uuid\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    \umlclass[x=18,y=18]{Vehicle}{
-      id: uuid\\
-      plate: string\\
-      model: string\\
-      brand: string\\
-      year: number\\
-      capacity: number\\
-      category: VehicleCategory\\
-      comfortConfiguration: ComfortConfiguration\\
-      busType: BusType\\
-      acquisitionDate: Date\\
-      odometer: number\\
-      lastMaintenance: Date\\
-      nextMaintenance: Date\\
-      status: VehicleStatus\\
-      notes: string\\
-      companyId: uuid
-    }{ }
-
-    \umlclass[x=33,y=18]{Driver}{
-      id: uuid\\
-      name: string\\
-      cpf: string\\
-      licenseNumber: string\\
-      licenseCategory: string\\
-      licenseExpiry: Date\\
-      phone: string\\
-      email: string\\
-      birthDate: Date\\
-      hireDate: Date\\
-      status: DriverStatus\\
-      emergencyContactName: string\\
-      emergencyContactPhone: string\\
-      address: string\\
-      notes: string\\
-      companyId: uuid
-    }{ }
-
-    % NÍVEL 3: Configuração de rotas
-    \umlclass[x=8,y=11]{Route}{
-      id: uuid\\
-      name: string\\
-      description: string\\
-      isActive: boolean\\
-      estimatedDuration: string\\
-      distance: number\\
-      companyId: uuid
-    }{ }
-
-    \umlclass[x=23,y=11]{Stop}{
-      id: uuid\\
-      name: string\\
-      addressId: uuid\\
-      isActive: boolean\\
-      hasAccessibility: boolean\\
-      hasShelter: boolean\\
-      companyId: uuid
-    }{ }
-
-    \umlclass[x=38,y=11]{Address}{
-      id: uuid\\
-      cep: string\\
-      street: string\\
-      number: string\\
-      complement: string\\
-      neighborhood: string\\
-      city: string\\
-      state: string\\
-      longitude: number\\
-      latitude: number\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    % NÍVEL 4: Relacionamentos de configuração
-    \umlclass[x=8,y=4]{RouteSchedule}{
-      id: uuid\\
-      routeId: uuid\\
-      dayOfWeek: number\\
-      isActive: boolean\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    \umlclass[x=23,y=4]{RouteStop}{
-      id: uuid\\
-      routeId: uuid\\
-      stopId: uuid\\
-      order: number\\
-      departureTime: string
-    }{ }
-
-    % NÍVEL 5: Operação - Viagens
-    \umlclass[x=3,y=-3]{TripVehicle}{
-      id: uuid\\
-      tripId: uuid\\
-      vehicleId: uuid\\
-      primaryDriverId: uuid\\
-      secondaryDriverId: uuid\\
-      isActive: boolean\\
-      observations: string\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    \umlclass[x=18,y=-3]{Trip}{
-      id: uuid\\
-      routeId: uuid\\
-      departureTime: Date\\
-      estimatedArrivalTime: Date\\
-      actualDepartureTime: Date\\
-      actualArrivalTime: Date\\
-      status: TripStatus\\
-      basePrice: number\\
-      totalSeats: number\\
-      availableSeats: number\\
-      isAutoGenerated: boolean\\
-      observations: string\\
-      companyId: uuid\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-
-    % NÍVEL 6: Vendas - Bilhetes
-    \umlclass[x=33,y=-3]{Ticket}{
-      id: uuid\\
-      tripId: uuid\\
-      passengerName: string\\
-      passengerDocument: string\\
-      passengerPhone: string\\
-      passengerEmail: string\\
-      seatNumber: string\\
-      price: number\\
-      status: TicketStatus\\
-      boardingPointType: BoardingPointType\\
-      boardingStopId: uuid\\
-      boardingLocationDescription: string\\
-      boardingLatitude: number\\
-      boardingLongitude: number\\
-      landingPointType: BoardingPointType\\
-      landingStopId: uuid\\
-      landingLocationDescription: string\\
-      landingLatitude: number\\
-      landingLongitude: number\\
-      observations: string\\
-      companyId: uuid
-    }{ }
-
-    % RELACIONAMENTOS HIERÁRQUICOS PRINCIPAIS
-    % Company -> Recursos
-    \umlassoc[mult1=1,mult2=*]{Company}{User}
-    \umlassoc[mult1=1,mult2=*]{Company}{Vehicle}
-    \umlassoc[mult1=1,mult2=*]{Company}{Driver}
-
-    % Company -> Configuração
-    \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Route}
-    \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=90]{Company}{Stop}
-
-    % Configuração de endereços
-    \umlassoc[mult1=1,mult2=*]{Address}{Stop}
-
-    % FLUXO PRINCIPAL: Route -> RouteStop <- Stop
-    \umlassoc[mult1=1,mult2=*]{Route}{RouteStop}
-    \umlassoc[mult1=1,mult2=*]{Stop}{RouteStop}
-
-    % Horários das rotas
-    \umlassoc[mult1=1,mult2=*]{Route}{RouteSchedule}
-
-    % FLUXO OPERACIONAL: Route -> Trip
-    \umlassoc[mult1=1,mult2=*]{Route}{Trip}
-    \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Trip}
-
-    % Trip -> TripVehicle (associação veículo/motorista)
-    \umlassoc[mult1=1,mult2=*]{Trip}{TripVehicle}
-    \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=90]{Vehicle}{TripVehicle}
-    \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=135,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
-
-    % FLUXO DE VENDAS: Trip -> Ticket
-    \umlassoc[mult1=1,mult2=*]{Trip}{Ticket}
-    \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=135]{Company}{Ticket}
-
-    % Relacionamento opcional: Stop -> Ticket (embarque/desembarque específico)
-    \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*,arm1=-90,arm2=135]{Stop}{Ticket}
-
-  \end{tikzpicture}
-  \caption{Diagrama de classes detalhado do domínio ViaBus.}
-  \label{fig:uml-dominio}
-\end{figure}
-
 \subsection{Diagramas UML Fracionados por Agregado}
-Para facilitar a leitura, os diagramas a seguir detalham os principais agregados do domínio.
+
+Para facilitar a análise do domínio e a compreensão das decisões de modelagem, o esquema de dados foi decomposto em agregados lógicos. Um agregado é um cluster de objetos de domínio que podem ser tratados como uma única unidade, garantindo a consistência das regras de negócio. A seguir, cada agregado principal é detalhado, justificando-se as principais decisões de modelagem.
 
 \subsubsection*{Agregado Organizacional: Empresas e Usuários}
+
+O pilar da arquitetura multi-tenant do sistema reside neste agregado. A entidade \texttt{Company} é a raiz de todos os dados operacionais. A decisão de incluir a chave estrangeira \texttt{companyId} na entidade \texttt{User} estabelece o vínculo fundamental que garante que cada usuário pertença inequivocamente a uma única empresa. Este design é a base para o filtro de isolamento de dados que será aplicado em todas as consultas subsequentes, conforme detalhado na seção de arquitetura do backend.
+
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
@@ -315,7 +96,10 @@ Para facilitar a leitura, os diagramas a seguir detalham os principais agregados
   \caption{Agregado organizacional - estrutura multiempresa.}
 \end{figure}
 
-\subsubsection*{Agregado de Rotas e Paradas}
+\subsubsection*{Agregado de Configuração: Rotas e Paradas}
+
+Este agregado modela a estrutura logística fundamental de uma empresa de transporte. A decisão mais crítica aqui foi a criação da entidade associativa \texttt{RouteStop}. Em vez de uma relação simples, a \texttt{RouteStop} foi necessária para resolver o relacionamento N:N entre \texttt{Route} e \texttt{Stop}, permitindo que uma mesma parada (ex: "Rodoviária de Picos") possa pertencer a múltiplas rotas. Mais importante, esta entidade armazena o atributo \texttt{order}, que é a regra de negócio central para definir a sequência do trajeto, transformando um conjunto de pontos em um itinerário ordenado. Adicionalmente, a entidade \texttt{RouteSchedule} foi criada para desacoplar a definição da rota de sua frequência operacional, permitindo que uma mesma rota tenha horários diferentes dependendo do dia da semana.
+
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
@@ -376,10 +160,13 @@ Para facilitar a leitura, os diagramas a seguir detalham os principais agregados
   \caption{Agregado de configuração de rotas, paradas e horários.}
 \end{figure}
 
-\subsubsection*{Agregado de Recursos Operacionais}
+\subsubsection*{Agregado de Recursos Operacionais: Veículos e Motoristas}
+
+Este agregado representa os ativos físicos e humanos da empresa. As entidades \texttt{Vehicle} e \texttt{Driver} são recursos independentes que são dinamicamente alocados às viagens. A modelagem através da entidade associativa \texttt{TripVehicle} foi uma decisão deliberada para conferir flexibilidade operacional. Em vez de vincular um motorista fixo a um veículo, a \texttt{TripVehicle} permite que a alocação seja feita por viagem, refletindo a realidade das operações de transporte. A inclusão de campos para motorista primário e secundário (\texttt{primaryDriverId}, \texttt{secondaryDriverId}) nesta entidade já prevê a complexidade de viagens longas ou que necessitam de revezamento, demonstrando a escalabilidade do modelo.
+
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  \begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
     \tikzumlset{font=\tiny}
     \umlclass[x=0,y=2]{Vehicle}{
       id: uuid\\
@@ -435,7 +222,10 @@ Para facilitar a leitura, os diagramas a seguir detalham os principais agregados
   \caption{Agregado de recursos operacionais - frota e motoristas.}
 \end{figure}
 
-\subsubsection*{Agregado de Operação e Vendas}
+\subsubsection*{Agregado de Operação e Vendas: Viagens e Bilhetes}
+
+Este é o agregado central que conecta a configuração (Rotas) com os recursos (Veículos/Motoristas) e a atividade comercial (Bilhetes). A entidade \texttt{Trip} é a instância de uma \texttt{Route} em uma data e horário específicos. Uma decisão de modelagem importante na entidade \texttt{Ticket} foi a inclusão de campos para registrar os pontos de embarque e desembarque (\texttt{boardingStopId}, \texttt{landingStopId}), permitindo a venda de bilhetes para trechos seccionados da viagem. Além disso, a flexibilidade foi aumentada ao permitir que os pontos de embarque/desembarque possam ser tanto uma parada pré-cadastrada quanto uma localização customizada (com descrição e coordenadas), atendendo à demanda do transporte alternativo onde pontos de encontro podem ser flexíveis.
+
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
