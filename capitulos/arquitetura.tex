@@ -27,7 +27,7 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
 
 \section{Modelagem do Banco de Dados}
 
-O modelo de dados foi projetado para refletir as agregações de negócio, garantindo a coesão e a integridade das entidades do domínio. A Tabela~\ref{tab:principais-entidades} sumariza as principais entidades e seus papéis. Para facilitar a análise, a modelagem será apresentada através de diagramas UML fracionados por agregado. A visão completa e detalhada de todos os relacionamentos do domínio está disponível para consulta no \autoref{apendice:diagrama-classe}.
+O modelo de dados foi projetado para refletir as agregações de negócio, garantindo a coesão e a integridade das entidades do domínio. A \autoref{tab:principais-entidades} sumariza as principais entidades e seus papéis. Para facilitar a análise, a modelagem será apresentada através de diagramas UML fracionados por agregado. A visão completa e detalhada de todos os relacionamentos do domínio está disponível para consulta no \autoref{apendice:diagrama-classe}.
 
 \begin{table}[H]
   \small
@@ -65,7 +65,8 @@ O pilar da arquitetura multi-tenant do sistema reside neste agregado. A entidade
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
-    \tikzumlset{font=\tiny}
+    \tikzumlset{font=\footnotesize}
+
     \umlclass[x=0,y=0]{Company}{
       id: uuid\\
       legalName: string\\
@@ -74,10 +75,9 @@ O pilar da arquitetura multi-tenant do sistema reside neste agregado. A entidade
       cnpj: string\\
       email: string\\
       phone: string\\
-      logoUrl: string\\
-      createdAt: Date\\
-      updatedAt: Date
+      logoUrl: string
     }{ }
+
     \umlclass[x=8,y=0]{User}{
       id: uuid\\
       name: string\\
@@ -87,11 +87,13 @@ O pilar da arquitetura multi-tenant do sistema reside neste agregado. A entidade
       password: string\\
       role: UserRole\\
       status: UserStatus\\
-      companyId: uuid\\
-      createdAt: Date\\
-      updatedAt: Date
+      companyId: uuid
     }{ }
-    \umlassoc[mult1=1,mult2=*]{Company}{User}
+
+    % --- ALTERAÇÃO PRINCIPAL AQUI ---
+    % Trocamos \umlassoc por \umluniaggreg para criar o losango de agregação
+    \umluniaggreg[mult1=1,mult2=*]{Company}{User}
+
     \umlnote[x=0,y=-4, width=12cm]{Company}{Escopo multiempresa: todas as entidades operacionais possuem \texttt{companyId} para isolamento de dados}
   \end{tikzpicture}
   \caption{Agregado organizacional - estrutura multiempresa.}
@@ -104,39 +106,11 @@ Este agregado modela a estrutura logística fundamental de uma empresa de transp
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
-    \tikzumlset{font=\tiny}
-    \umlclass[x=0,y=2]{Address}{
-      id: uuid\\
-      cep: string\\
-      street: string\\
-      number: string\\
-      complement: string\\
-      neighborhood: string\\
-      city: string\\
-      state: string\\
-      latitude: number\\
-      longitude: number\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-    \umlclass[x=8,y=2]{Stop}{
-      id: uuid\\
-      name: string\\
-      addressId: uuid\\
-      isActive: boolean\\
-      hasAccessibility: boolean\\
-      hasShelter: boolean\\
-      companyId: uuid
-    }{ }
-    \umlclass[x=0,y=-3]{RouteSchedule}{
-      id: uuid\\
-      routeId: uuid\\
-      dayOfWeek: number\\
-      isActive: boolean\\
-      createdAt: Date\\
-      updatedAt: Date
-    }{ }
-    \umlclass[x=6,y=-3]{Route}{
+    % Aumentando a fonte para melhor legibilidade
+    \tikzumlset{font=\footnotesize}
+
+    % Entidades reorganizadas para melhor fluxo visual
+    \umlclass[x=6,y=7]{Route}{
       id: uuid\\
       name: string\\
       description: string\\
@@ -145,18 +119,57 @@ Este agregado modela a estrutura logística fundamental de uma empresa de transp
       distance: number\\
       companyId: uuid
     }{ }
-    \umlclass[x=12,y=-3]{RouteStop}{
+
+    \umlclass[x=0,y=2]{RouteSchedule}{
+      id: uuid\\
+      routeId: uuid\\
+      dayOfWeek: number\\
+      isActive: boolean\\
+      createdAt: Date\\
+      updatedAt: Date
+    }{ }
+
+    \umlclass[x=6,y=2]{RouteStop}{
       id: uuid\\
       routeId: uuid\\
       stopId: uuid\\
       order: number\\
       departureTime: string
     }{ }
-    \umlassoc[mult1=1,mult2=*]{Address}{Stop}
-    \umlassoc[mult1=1,mult2=*]{Route}{RouteStop}
-    \umlassoc[mult1=1,mult2=*]{Stop}{RouteStop}
-    \umlassoc[mult1=1,mult2=*]{Route}{RouteSchedule}
-    \umlnote[x=4,y=-6, width=10cm]{Route}{RouteStop implementa relacionamento many-to-many entre Route e Stop com ordem e horários específicos}
+
+    \umlclass[x=12,y=2]{Stop}{
+      id: uuid\\
+      name: string\\
+      addressId: uuid\\
+      isActive: boolean\\
+      hasAccessibility: boolean\\
+      hasShelter: boolean\\
+      companyId: uuid
+    }{ }
+
+    \umlclass[x=17,y=2]{Address}{
+      id: uuid\\
+      cep: string\\
+      street: string\\
+      ...
+    }{ }
+
+    % --- RELACIONAMENTOS ESPECÍFICOS ---
+    % Composição: Route "possui" seus RouteSchedules. Se a rota for apagada, seus horários também são.
+    \umlcompo[mult1=1, mult2=*]{Route}{RouteSchedule}
+
+    % Composição: Route "possui" sua sequência de paradas (RouteStop).
+    \umlcompo[mult1=1, mult2=*]{Route}{RouteStop}
+
+    % Associação: RouteStop "aponta para" uma Stop. A Stop existe independentemente.
+    \umluniassoc[mult1=*, mult2=1]{RouteStop}{Stop}
+
+    % Composição: Stop "possui" um Address.
+    \umlcompo[mult1=1, mult2=1]{Stop}{Address}
+
+    \umlnote[x=4,y=-2, width=10cm]{RouteStop}{
+      \texttt{RouteStop} é uma classe associativa que resolve o relacionamento N:N entre \texttt{Route} e \texttt{Stop}, adicionando o atributo de ordem (\texttt{order}).
+    }
   \end{tikzpicture}
   \caption{Agregado de configuração de rotas, paradas e horários.}
 \end{figure}
@@ -167,9 +180,12 @@ Este agregado representa os ativos físicos e humanos da empresa. As entidades \
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
-    \tikzumlset{font=\tiny}
-    \umlclass[x=0,y=2]{Vehicle}{
+  \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+    % Aumentando a fonte para melhor legibilidade
+    \tikzumlset{font=\footnotesize}
+
+    % Entidades com todos os atributos restaurados
+    \umlclass[x=-2,y=0]{Vehicle}{
       id: uuid\\
       plate: string\\
       model: string\\
@@ -187,7 +203,8 @@ Este agregado representa os ativos físicos e humanos da empresa. As entidades \
       notes: string\\
       companyId: uuid
     }{ }
-    \umlclass[x=15,y=2]{Driver}{
+
+    \umlclass[x=11,y=0]{Driver}{
       id: uuid\\
       name: string\\
       cpf: string\\
@@ -205,7 +222,8 @@ Este agregado representa os ativos físicos e humanos da empresa. As entidades \
       notes: string\\
       companyId: uuid
     }{ }
-    \umlclass[x=7.5,y=-2]{TripVehicle}{
+
+    \umlclass[x=5,y=0]{TripVehicle}{
       id: uuid\\
       tripId: uuid\\
       vehicleId: uuid\\
@@ -216,9 +234,15 @@ Este agregado representa os ativos físicos e humanos da empresa. As entidades \
       createdAt: Date\\
       updatedAt: Date
     }{ }
-    \umlassoc[mult1=1,mult2=*]{Vehicle}{TripVehicle}
-    \umlassoc[mult1=1,mult2=*,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
-    \umlnote[x=2,y=-6, width=16cm]{TripVehicle}{TripVehicle associa dinamicamente veículos e motoristas às viagens. Um veículo pode ter motorista principal e secundário por viagem}
+
+    % Relacionamentos específicos mantidos
+    \umluniassoc[mult1=*, mult2=1]{TripVehicle}{Vehicle}
+    \umluniassoc[arm2=2.5, mult1=*, mult2=1]{TripVehicle}{Driver}
+    \umluniassoc[arm2=3.5, mult1=*, mult2=1]{TripVehicle}{Driver}
+
+    \umlnote[x=5, y=-6, width=12cm]{TripVehicle}{
+      A entidade \texttt{TripVehicle} associa dinamicamente os recursos a uma viagem, permitindo a designação de um motorista principal e um secundário (opcional).
+    }
   \end{tikzpicture}
   \caption{Agregado de recursos operacionais - frota e motoristas.}
 \end{figure}
@@ -229,9 +253,10 @@ Este é o agregado central que conecta a configuração (Rotas) com os recursos 
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
-    \tikzumlset{font=\tiny}
-    \umlclass[x=6,y=3]{Trip}{
+  \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+    \tikzumlset{font=\footnotesize}
+
+    \umlclass[x=7,y=0]{Trip}{
       id: uuid\\
       routeId: uuid\\
       departureTime: Date\\
@@ -244,28 +269,22 @@ Este é o agregado central que conecta a configuração (Rotas) com os recursos 
       availableSeats: number\\
       isAutoGenerated: boolean\\
       observations: string\\
-      companyId: uuid\\
-      createdAt: Date\\
-      updatedAt: Date
+      companyId: uuid
     }{ }
+
     \umlclass[x=0,y=0]{TripVehicle}{
       id: uuid\\
       tripId: uuid\\
       vehicleId: uuid\\
       primaryDriverId: uuid\\
       secondaryDriverId: uuid\\
-      isActive: boolean\\
-      observations: string\\
-      createdAt: Date\\
-      updatedAt: Date
+      ...
     }{ }
-    \umlclass[x=12,y=0]{Ticket}{
+
+    \umlclass[x=14,y=0]{Ticket}{
       id: uuid\\
       tripId: uuid\\
       passengerName: string\\
-      passengerDocument: string\\
-      passengerPhone: string\\
-      passengerEmail: string\\
       seatNumber: string\\
       price: number\\
       status: TicketStatus\\
@@ -278,15 +297,24 @@ Este é o agregado central que conecta a configuração (Rotas) com os recursos 
       observations: string\\
       companyId: uuid
     }{ }
-    \umlclass[x=18,y=3]{Stop}{
+
+    \umlclass[x=14,y=6]{Stop}{
       id: uuid\\
       name: string\\
       companyId: uuid
     }{ }
-    \umlassoc[mult1=1,mult2=*]{Trip}{TripVehicle}
-    \umlassoc[mult1=1,mult2=*]{Trip}{Ticket}
-    \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*]{Stop}{Ticket}
-    \umlnote[x=1,y=-4, width=14cm]{Trip}{TripVehicle associa veículos e motoristas às viagens. Ticket permite embarque/desembarque em paradas específicas ou localizações customizadas}
+
+    % Composição: Trip "possui" seus Tickets e TripVehicles.
+    \umlcompo[mult1=1, mult2=*]{Trip}{Ticket}
+    \umlcompo[mult1=1, mult2=*]{Trip}{TripVehicle}
+
+    % Associação: Ticket "aponta para" uma Stop de embarque e desembarque.
+    \umluniassoc[mult1=*, mult2=0..1]{Ticket}{Stop}
+    \umluniassoc[mult1=*, mult2=0..1]{Ticket}{Stop}
+
+    \umlnote[x=7,y=-5, width=14cm]{Trip}{
+      A entidade \texttt{Trip} é a raiz do agregado, da qual \texttt{Ticket} e \texttt{TripVehicle} dependem. Um \texttt{Ticket} pode ter referências a \texttt{Stop} para embarque e desembarque.
+    }
   \end{tikzpicture}
   \caption{Agregado de operação - viagens, recursos e vendas.}
 \end{figure}
@@ -297,7 +325,7 @@ O backend implementa uma arquitetura modular baseada no framework NestJS 11, seg
 
 \subsection{Organização Modular}
 
-O sistema está organizado em três grupos funcionais de módulos, conforme ilustrado na Figura~\ref{fig:backend-modules}.
+O sistema está organizado em três grupos funcionais de módulos, conforme ilustrado na \autoref{fig:backend-modules}.
 
 \begin{figure}[H]
   \centering
@@ -386,11 +414,11 @@ O pipeline garante que cada requisição passe por validações sequenciais obri
 
 \subsection{Fluxo de Autenticação}
 
-O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A Figura~\ref{fig:auth-sequence} detalha o processo completo.
+O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A \autoref{fig:auth-sequence} detalha o processo completo.
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
+  \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
     % Participantes
     \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (client) at (0,11) {\text{Cliente}};
     \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (auth) at (4,11) {\text{AuthController}};
@@ -441,60 +469,82 @@ A implementação garante que todas as operações de banco de dados incluam aut
 
 \begin{figure}[H]
   \centering
-  \begin{tikzpicture}[scale=0.75, every node/.style={transform shape}]
-    % Single application instance
-    \node[draw, rounded corners, thick, fill=blue!15, minimum width=10cm, minimum height=2cm, align=center] (app) at (7,8) {
-      \text{Aplicação ViaBus} - \textit{Multi-tenant}
+  \begin{tikzpicture}[
+      % Estilos para os nós do diagrama
+      tenant/.style={
+          rectangle,
+          rounded corners,
+          draw,
+          thick,
+          fill=blue!10,
+          minimum height=1cm,
+          font=\small
+        },
+      application/.style={
+          rectangle,
+          rounded corners,
+          draw,
+          thick,
+          fill=purple!20,
+          minimum width=8cm,
+          minimum height=1.5cm,
+          font=\bfseries
+        },
+      database/.style={
+          cylinder,
+          shape border rotate=90,
+          draw,
+          thick,
+          fill=gray!20,
+          minimum height=4cm, %<-- Aumentado
+          minimum width=4.5cm,    %<-- Aumentado
+          aspect=0.25
+        },
+      label/.style={
+          font=\footnotesize\itshape,
+          text=gray!80!black
+        }
+    ]
+
+    % --- Nível 1: Requisições dos Clientes (Tenants) ---
+    \node[tenant] (tenantA) at (-4, 5) {Empresa A};
+    \node[tenant] (tenantB) at (0, 5)  {Empresa B};
+    \node[tenant] (tenantC) at (4, 5)  {Empresa C};
+
+    % --- Nível 2: Aplicação Única ---
+    \node[application] (app) at (0, 2.5) {Aplicação ViaBus (Instância Única)};
+
+    % --- Nível 3: Camada de Identificação ---
+    \node[trapezium, draw, thick, fill=orange!20, shape border rotate=180, minimum width=4cm] (jwt) at (0, 0.5) {
+      \small\bfseries Filtro de Autenticação (JWT)
     };
+    \node[label, below=0.1 of jwt] {\textit{companyId} extraído do token};
 
-    % JWT Token extraction with better positioning
-    \node[draw, rounded corners, fill=orange!20, minimum width=10cm, minimum height=1.5cm, align=center] (jwt) at (7,5.5) {
-      \text{JWT Token} - \textit{companyId extraído automaticamente}
-    };
+    % --- Nível 4: Banco de Dados com Dados Isolados ---
+    % Movido para baixo para acomodar o novo tamanho
+    \node[database, label={[label distance=-1.5cm]90:\textbf{Banco de Dados}}] (db) at (0, -3) {};
 
-    % Database container - background
-    \node[draw, rounded corners, thick, fill=green!10, minimum width=14cm, minimum height=3cm, align=center] (dbContainer) at (7,2) {
+    % Partições lógicas dentro do banco de dados (ajustadas)
+    \node[font=\tiny, fill=blue!25, draw, rounded corners] at (-1, -3.2) {Empresa A};
+    \node[font=\tiny, fill=green!25, draw, rounded corners] at (0, -3.8) {Empresa B};
+    \node[font=\tiny, fill=orange!25, draw, rounded corners] at (1, -3.2) {Empresa C};
+    % Label "Dados Isolados" movido para baixo
+    \node[font=\small\bfseries] at (0, -4.5) {DB - Dados Isolados};
 
-    };
+    % --- Setas de Fluxo (ajustadas para as novas posições) ---
+    \draw[-{Stealth[length=3mm]}, thick] (tenantA.south) -- (app.north);
+    \draw[-{Stealth[length=3mm]}, thick] (tenantB.south) -- (app.north);
+    \draw[-{Stealth[length=3mm]}, thick] (tenantC.south) -- (app.north);
 
-    % Tenant A data - positioned above background
-    \node[draw, rounded corners, fill=blue!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantA) at (2.5,2) {
-      \text{Empresa A}
-    };
+    \draw[-{Stealth[length=3mm]}, thick] (app.south) -- (jwt.north);
 
-    % Tenant B data - positioned above background
-    \node[draw, rounded corners, fill=green!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantB) at (7,2) {
-      \text{Empresa B}
-    };
+    \draw[-{Stealth[length=3mm]}, thick, blue!50!black] (jwt.south) to[out=-135, in=90] (-1, -2.8);
+    \draw[-{Stealth[length=3mm]}, thick, green!50!black] (jwt.south) to[out=-90, in=90] (0, -3.4);
+    \draw[-{Stealth[length=3mm]}, thick, orange!50!black] (jwt.south) to[out=-45, in=90] (1, -2.8);
 
-    % Tenant C data - positioned above background
-    \node[draw, rounded corners, fill=orange!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantC) at (11.5,2) {
-      \text{Empresa C}
-    };
-
-    % Flow arrows with better positioning
-    \draw[->, very thick, blue] (app) -- (jwt);
-    \draw[->, very thick, green] (jwt) -- (tenantA);
-    \draw[->, very thick, green] (jwt) -- (tenantB);
-    \draw[->, very thick, green] (jwt) -- (tenantC);
-
-    % Isolation lines - positioned below the tenant boxes
-    \draw[dashed, very thick, red] (0.5,-0.5) -- (4.5,-0.5);
-    \draw[dashed, very thick, red] (4.5,-0.5) -- (9.5,-0.5);
-    \draw[dashed, very thick, red] (9.5,-0.5) -- (13.5,-0.5);
-
-    % Isolation labels - positioned below the lines
-    \node[text=red, font=\small, font=\bfseries] at (2.5,-0.5) {Isolamento A};
-    \node[text=red, font=\small, font=\bfseries] at (7,-0.5) {Isolamento B};
-    \node[text=red, font=\small, font=\bfseries] at (11.5,-0.5) {Isolamento C};
-
-    % Data flow explanation
-    \node[text=blue, font=\small, align=center] at (7,7.5) {Requisições de múltiplas empresas};
-    \node[text=orange, font=\small, align=center] at (7,5) {Identificação automática da empresa};
-    \node[text=black, font=\small, align=center] at (7,0.9) {Dados isolados por empresa no banco de dados};
   \end{tikzpicture}
-  \caption{Arquitetura multi-tenant: uma aplicação serve múltiplas empresas com isolamento automático de dados.}
-  \label{fig:multi-tenant-simple}
+  \caption{Arquitetura multi-tenant: uma única aplicação com dados logicamente isolados por empresa no banco de dados.}
+  \label{fig:multi-tenant-melhorada}
 \end{figure}
 
 \section{Arquitetura do Frontend}
@@ -511,42 +561,7 @@ A aplicação utiliza o \textit{App Router} do Next.js~15, que permite um roteam
 
 \subsection{Gerenciamento de Estado e Contextos}
 
-O gerenciamento do estado global da aplicação é implementado através de uma hierarquia de \textit{Contextos} React, conforme ilustrado na Figura~\ref{fig:frontend-providers}. Essa abordagem permite um compartilhamento de dados eficiente e desacoplado entre os componentes. No topo da hierarquia, o \texttt{SessionProvider} gerencia a sessão do NextAuth e os tokens JWT. Abaixo dele, o \texttt{ThemeProvider} controla o tema visual da aplicação (claro/escuro). Em seguida, o \texttt{AuthProvider} expõe os dados do usuário autenticado e da empresa associada. O \texttt{CompanyProvider} mantém o estado específico da empresa que está sendo visualizada no \textit{dashboard}, enquanto o \texttt{SidebarProvider}, na camada mais interna, gerencia estados de UI, como a visibilidade do menu lateral.
-
-
-\begin{figure}[H]
-  \centering
-  \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
-    % Providers hierarchy
-    \node[draw, rounded corners, thick, fill=blue!15, minimum width=12cm, minimum height=1.5cm, align=center] (session) at (6,6) {
-      \text{SessionProvider} - \textit{NextAuth Session Management}
-    };
-
-    \node[draw, rounded corners, thick, fill=green!15, minimum width=10cm, minimum height=1.5cm, align=center] (theme) at (6,4) {
-      \text{ThemeProvider} - \textit{Dark/Light Mode}
-    };
-
-    \node[draw, rounded corners, thick, fill=orange!15, minimum width=8cm, minimum height=1.5cm, align=center] (auth) at (6,2) {
-      \text{AuthProvider} - \textit{User \& Company Context}
-    };
-
-    \node[draw, rounded corners, thick, fill=purple!15, minimum width=6cm, minimum height=1.5cm, align=center] (company) at (6,0) {
-      \text{CompanyProvider} - \textit{Current Company State}
-    };
-
-    \node[draw, rounded corners, thick, fill=cyan!15, minimum width=4cm, minimum height=1.5cm, align=center] (sidebar) at (6,-2) {
-      \text{SidebarProvider} - \textit{UI State}
-    };
-
-    % Arrows showing hierarchy
-    \draw[->, thick] (session) -- (theme);
-    \draw[->, thick] (theme) -- (auth);
-    \draw[->, thick] (auth) -- (company);
-    \draw[->, thick] (company) -- (sidebar);
-  \end{tikzpicture}
-  \caption{Hierarquia de providers e contextos do frontend.}
-  \label{fig:frontend-providers}
-\end{figure}
+O gerenciamento do estado global da aplicação é implementado através de uma hierarquia de \textit{Contextos} React. Essa abordagem permite um compartilhamento de dados eficiente e desacoplado entre os componentes. No topo da hierarquia, o \texttt{SessionProvider} gerencia a sessão do NextAuth e os tokens JWT. Abaixo dele, o \texttt{ThemeProvider} controla o tema visual da aplicação (claro/escuro). Em seguida, o \texttt{AuthProvider} expõe os dados do usuário autenticado e da empresa associada. O \texttt{CompanyProvider} mantém o estado específico da empresa que está sendo visualizada no \textit{dashboard}, enquanto o \texttt{SidebarProvider}, na camada mais interna, gerencia estados de UI, como a visibilidade do menu lateral.
 
 \subsection{Sistema de Autenticação e Comunicação}
 
@@ -560,6 +575,75 @@ O sistema de componentes foi projetado em camadas, seguindo uma lógica de compo
 \subsection{Tipagem e Validação}
 
 O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do backend correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{tikzpicture}[
+      scale=0.8,
+      every node/.style={transform shape},
+      node distance=1.5cm,
+      layer/.style={
+          rectangle,
+          draw,
+          thick,
+          rounded corners,
+          fill=#1,
+          minimum width=9cm,
+          minimum height=1.8cm,
+          align=center,
+          text width=8.5cm,
+          font=\bfseries\small
+        },
+      actor/.style={
+          font=\bfseries\small,
+          rectangle,
+          draw,
+          fill=gray!15,
+          rounded corners,
+          minimum width=2cm
+        },
+      arrow/.style={-Stealth, thick}
+    ]
+
+    % --- Nível 1: Atores Externos ---
+    \node[actor] (user) at (-7, 6.5) {Usuário};
+    \node[actor] (backend) at (7, -0.5) {Backend API};
+
+    % --- Camadas da Aplicação Frontend ---
+    \node[layer=blue!15] (view) at (0, 4.5) {
+      Camada de Visualização \\
+      \normalfont{\small (\textit{App Router}, Páginas, Layouts, Componentes de UI e Domínio)}
+    };
+
+    \node[layer=green!15] (logic) at (0, 2) {
+      Camada de Lógica e Estado \\
+      \normalfont{\small (Contextos, Hooks, Validação Zod, React Hook Form)}
+    };
+
+    \node[layer=red!15] (data) at (0, -0.5) {
+      Camada de Acesso a Dados \\
+      \normalfont{\small (\texttt{api.service.ts}, NextAuth - Gerenciamento de Tokens)}
+    };
+
+    % --- Fluxo de Dados ---
+    % Usuário -> View
+    \draw[arrow] (user.east) to[out=0, in=180] node[pos=0.5, above, font=\tiny]{Interage com UI / Navega} (view.west);
+
+    % View <-> Lógica (bidirecional para interação e estado)
+    \draw[arrow] (view.south) -- node[left, font=\tiny]{1. Dispara Ações / Solicita Dados} (logic.north);
+    \draw[arrow] (logic.north) -- node[right, font=\tiny]{4. Atualiza Estado / UI} (view.south);
+
+    % Lógica <-> Dados (bidirecional para requisição e resposta)
+    \draw[arrow] (logic.south) -- node[left, font=\tiny]{2. Chama Serviço API} (data.north);
+    \draw[arrow] (data.north) -- node[right, font=\tiny]{3. Retorna Resposta API} (logic.south);
+
+    % Dados <-> Backend
+    \draw[arrow] (data.east) -- (backend.west);
+
+  \end{tikzpicture}
+  \caption{Arquitetura em camadas do frontend e fluxo de dados principal.}
+  \label{fig:arquitetura-frontend-simplificada}
+\end{figure}
 
 \section{Estratégia de Implantação}
 
