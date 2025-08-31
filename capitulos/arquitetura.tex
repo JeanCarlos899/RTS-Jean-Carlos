@@ -12,10 +12,10 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
   \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
     \tikzumlset{font=\footnotesize}
     % Blocos
-    \node[draw, rounded corners, thick, fill=blue!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (fe) at (0,2) {\textbf{Frontend}\\Next.js 15 + NextAuth + Leaflet};
-    \node[draw, rounded corners, thick, fill=green!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (be) at (9,2) {\textbf{Backend}\\NestJS 11 + TypeORM + JWT};
-    \node[draw, rounded corners, thick, fill=orange!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (db) at (9,-2) {\textbf{Banco de Dados}\\PostgreSQL};
-    \node[draw, dashed, rounded corners, thick, fill=purple!5, minimum width=4.5cm, minimum height=1.6cm, align=center] (maps) at (0,-2) {\textbf{Mapas}\\Leaflet/OSM};
+    \node[draw, rounded corners, thick, fill=blue!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (fe) at (0,2) {\text{Frontend}\\Next.js 15 + NextAuth + Leaflet};
+    \node[draw, rounded corners, thick, fill=green!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (be) at (9,2) {\text{Backend}\\NestJS 11 + TypeORM + JWT};
+    \node[draw, rounded corners, thick, fill=orange!10, minimum width=4.5cm, minimum height=1.6cm, align=center] (db) at (9,-2) {\text{Banco de Dados}\\PostgreSQL};
+    \node[draw, dashed, rounded corners, thick, fill=purple!5, minimum width=4.5cm, minimum height=1.6cm, align=center] (maps) at (0,-2) {\text{Mapas}\\Leaflet/OSM};
 
     % Conexões
     \draw[->, thick] (fe) -- node[above, font=\small]{HTTPS (REST)} (be);
@@ -30,10 +30,11 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
 O modelo de dados foi projetado para refletir as agregações de negócio, garantindo a coesão e a integridade das entidades do domínio. A Tabela~\ref{tab:principais-entidades} sumariza as principais entidades e seus papéis. Para facilitar a análise, a modelagem será apresentada através de diagramas UML fracionados por agregado. A visão completa e detalhada de todos os relacionamentos do domínio está disponível para consulta no \autoref{apendice:diagrama-classe}.
 
 \begin{table}[H]
+  \small
   \centering
   \begin{tabular}{p{3.5cm}p{11.5cm}}
     \toprule
-    \textbf{Entidade}         & \textbf{Descrição resumida}                                                                                                                                              \\
+    \text{Entidade}           & \text{Descrição resumida}                                                                                                                                                \\
     \midrule
     \texttt{companies}        & Empresa (razão social, nome fantasia, CNPJ, slug, e-mail, telefone, logo)                                                                                                \\
     \texttt{users}            & Usuário (nome, e-mail, senha, papel, status, telefone, foto, \texttt{company\_id})                                                                                       \\
@@ -303,7 +304,7 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
   \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
     % Módulos Core
     \node[draw, rounded corners, thick, fill=blue!15, minimum width=5cm, minimum height=2.5cm, align=center] (core) at (0,3) {
-      \textbf{Módulos Core}\\[0.3cm]
+      \text{Módulos Core}\\[0.3cm]
       \texttt{AuthModule}\\
       \texttt{CompanyModule}\\
       \texttt{UsersModule}\\
@@ -312,7 +313,7 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
 
     % Módulos Operacionais
     \node[draw, rounded corners, thick, fill=green!15, minimum width=5cm, minimum height=3cm, align=center] (operational) at (8,3) {
-      \textbf{Módulos Operacionais}\\[0.3cm]
+      \text{Módulos Operacionais}\\[0.3cm]
       \texttt{VehiclesModule}\\
       \texttt{DriversModule}\\
       \texttt{RoutesModule}\\
@@ -323,13 +324,13 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
 
     % Módulos de Suporte
     \node[draw, rounded corners, thick, fill=orange!15, minimum width=5cm, minimum height=1.5cm, align=center] (support) at (4,0) {
-      \textbf{Módulo de Suporte}\\[0.3cm]
+      \text{Módulo de Suporte}\\[0.3cm]
       \texttt{AddressesModule}
     };
 
     % AppModule
     \node[draw, rounded corners, thick, fill=purple!15, minimum width=10cm, minimum height=1.5cm, align=center] (app) at (4,6) {
-      \textbf{AppModule} - \textit{Configurações Globais}\\[0.2cm]
+      \text{AppModule} - \textit{Configurações Globais}\\[0.2cm]
       Guards: \texttt{JwtAuthGuard}, \texttt{RolesGuard} • Filters: \texttt{HttpExceptionFilter}, \texttt{AllExceptionsFilter}
     };
 
@@ -343,7 +344,7 @@ O sistema está organizado em três grupos funcionais de módulos, conforme ilus
   \label{fig:backend-modules}
 \end{figure}
 
-A organização modular agrupa os componentes por responsabilidade funcional. Os \textbf{Módulos Core} gerenciam autenticação, usuários, empresas e configuração de banco de dados. Os \textbf{Módulos Operacionais} implementam as regras de negócio específicas do domínio de transporte. O \textbf{Módulo de Suporte} fornece funcionalidades auxiliares como geocodificação. O \texttt{AppModule} centraliza as configurações globais de segurança e tratamento de erros, aplicadas a todos os módulos.
+A organização modular agrupa os componentes por responsabilidade funcional. Os \text{Módulos Core} gerenciam autenticação, usuários, empresas e configuração de banco de dados. Os \text{Módulos Operacionais} implementam as regras de negócio específicas do domínio de transporte. O \text{Módulo de Suporte} fornece funcionalidades auxiliares como geocodificação. O \texttt{AppModule} centraliza as configurações globais de segurança e tratamento de erros, aplicadas a todos os módulos.
 
 \subsection{Pipeline de Processamento}
 
@@ -353,18 +354,18 @@ Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, 
   \centering
   \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
     % Pipeline stages
-    \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (morgan) at (0,0) {\textbf{Morgan Logging}};
-    \node[draw, rounded corners, thick, fill=red!10, minimum width=2.5cm, minimum height=1cm] (cors) at (4.5,0) {\textbf{CORS Validation}};
-    \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (jwt) at (8.5,0) {\textbf{JWT Auth}};
-    \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (roles) at (12,0) {\textbf{Roles Guard}};
-    \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (validation) at (15.5,0) {\textbf{Validation}};
+    \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (morgan) at (0,0) {\text{Morgan Logging}};
+    \node[draw, rounded corners, thick, fill=red!10, minimum width=2.5cm, minimum height=1cm] (cors) at (4.5,0) {\text{CORS Validation}};
+    \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (jwt) at (8.5,0) {\text{JWT Auth}};
+    \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (roles) at (12,0) {\text{Roles Guard}};
+    \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (validation) at (15.5,0) {\text{Validation}};
 
-    \node[draw, rounded corners, thick, fill=yellow!10, minimum width=3cm, minimum height=1cm] (interceptor) at (3.5,-2.5) {\textbf{Company Filter}};
-    \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (controller) at (7,-2.5) {\textbf{Controller}};
-    \node[draw, rounded corners, thick, fill=pink!10, minimum width=2.5cm, minimum height=1cm] (service) at (10.5,-2.5) {\textbf{Service}};
+    \node[draw, rounded corners, thick, fill=yellow!10, minimum width=3cm, minimum height=1cm] (interceptor) at (3.5,-2.5) {\text{Company Filter}};
+    \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (controller) at (7,-2.5) {\text{Controller}};
+    \node[draw, rounded corners, thick, fill=pink!10, minimum width=2.5cm, minimum height=1cm] (service) at (10.5,-2.5) {\text{Service}};
 
-    \node[draw, rounded corners, thick, fill=gray!10, minimum width=2.5cm, minimum height=1cm] (typeorm) at (7,-5) {\textbf{TypeORM}};
-    \node[draw, rounded corners, thick, fill=red!15, minimum width=3cm, minimum height=1cm] (filters) at (10.5,-5) {\textbf{Exception Filters}};
+    \node[draw, rounded corners, thick, fill=gray!10, minimum width=2.5cm, minimum height=1cm] (typeorm) at (7,-5) {\text{TypeORM}};
+    \node[draw, rounded corners, thick, fill=red!15, minimum width=3cm, minimum height=1cm] (filters) at (10.5,-5) {\text{Exception Filters}};
 
     % Arrows
     \draw[->, thick] (morgan) -- (cors);
@@ -381,7 +382,7 @@ Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, 
   \label{fig:request-pipeline}
 \end{figure}
 
-O pipeline garante que cada requisição passe por validações sequenciais obrigatórias. Inicialmente, o \textbf{Morgan} registra logs e o \textbf{CORS} valida origens permitidas. A autenticação via \textbf{JwtAuthGuard} verifica tokens válidos, seguida da autorização por \textbf{RolesGuard} que confirma permissões do usuário. O \textbf{ValidationPipe} valida DTOs de entrada. O \textbf{CompanyFilterInterceptor} injeta o contexto multiempresa antes do processamento pelo \textbf{Controller} e \textbf{Service}. Finalmente, o \textbf{TypeORM} persiste dados e os \textbf{Exception Filters} tratam erros de forma padronizada.
+O pipeline garante que cada requisição passe por validações sequenciais obrigatórias. Inicialmente, o \text{Morgan} registra logs e o \text{CORS} valida origens permitidas. A autenticação via \text{JwtAuthGuard} verifica tokens válidos, seguida da autorização por \text{RolesGuard} que confirma permissões do usuário. O \text{ValidationPipe} valida DTOs de entrada. O \text{CompanyFilterInterceptor} injeta o contexto multiempresa antes do processamento pelo \text{Controller} e \text{Service}. Finalmente, o \text{TypeORM} persiste dados e os \text{Exception Filters} tratam erros de forma padronizada.
 
 \subsection{Fluxo de Autenticação}
 
@@ -391,11 +392,11 @@ O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A F
   \centering
   \begin{tikzpicture}[scale=0.7, every node/.style={transform shape}]
     % Participantes
-    \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (client) at (0,11) {\textbf{Cliente}};
-    \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (auth) at (4,11) {\textbf{AuthController}};
-    \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (service) at (8,11) {\textbf{AuthService}};
-    \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (users) at (12,11) {\textbf{UsersService}};
-    \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (company) at (16,11) {\textbf{CompanyService}};
+    \node[draw, rounded corners, thick, fill=blue!10, minimum width=2.5cm, minimum height=1cm] (client) at (0,11) {\text{Cliente}};
+    \node[draw, rounded corners, thick, fill=green!10, minimum width=2.5cm, minimum height=1cm] (auth) at (4,11) {\text{AuthController}};
+    \node[draw, rounded corners, thick, fill=orange!10, minimum width=2.5cm, minimum height=1cm] (service) at (8,11) {\text{AuthService}};
+    \node[draw, rounded corners, thick, fill=purple!10, minimum width=2.5cm, minimum height=1cm] (users) at (12,11) {\text{UsersService}};
+    \node[draw, rounded corners, thick, fill=cyan!10, minimum width=2.5cm, minimum height=1cm] (company) at (16,11) {\text{CompanyService}};
 
     % Linhas de vida
     \draw[dashed] (client) -- (0,-1);
@@ -431,9 +432,9 @@ O fluxo de autenticação implementa um processo seguro e eficiente em 11 etapas
 O sistema implementa isolamento de dados por empresa através de uma arquitetura multi-tenant baseada em filtros automáticos. A solução utiliza três componentes principais que trabalham em conjunto para garantir separação completa entre inquilinos:
 
 \begin{itemize}
-  \item \textbf{BaseCompanyService<T>}: Classe abstrata que implementa operações CRUD com filtro automático por \texttt{companyId}
-  \item \textbf{CompanyFilterInterceptor}: Interceptor que extrai o \texttt{companyId} do token JWT e o injeta no contexto da requisição
-  \item \textbf{@CurrentUser}: Decorator que facilita o acesso aos dados do usuário autenticado
+  \item \text{BaseCompanyService<T>}: Classe abstrata que implementa operações CRUD com filtro automático por \texttt{companyId}
+  \item \text{CompanyFilterInterceptor}: Interceptor que extrai o \texttt{companyId} do token JWT e o injeta no contexto da requisição
+  \item \text{@CurrentUser}: Decorator que facilita o acesso aos dados do usuário autenticado
 \end{itemize}
 
 A implementação garante que todas as operações de banco de dados incluam automaticamente a cláusula \texttt{WHERE companyId = ?}, eliminando a possibilidade de vazamento de dados entre empresas. O padrão é aplicado consistentemente em todos os módulos operacionais (usuários, motoristas, veículos, rotas, paradas, viagens e passagens).
@@ -443,12 +444,12 @@ A implementação garante que todas as operações de banco de dados incluam aut
   \begin{tikzpicture}[scale=0.75, every node/.style={transform shape}]
     % Single application instance
     \node[draw, rounded corners, thick, fill=blue!15, minimum width=10cm, minimum height=2cm, align=center] (app) at (7,8) {
-      \textbf{Aplicação ViaBus} - \textit{Multi-tenant}
+      \text{Aplicação ViaBus} - \textit{Multi-tenant}
     };
 
     % JWT Token extraction with better positioning
     \node[draw, rounded corners, fill=orange!20, minimum width=10cm, minimum height=1.5cm, align=center] (jwt) at (7,5.5) {
-      \textbf{JWT Token} - \textit{companyId extraído automaticamente}
+      \text{JWT Token} - \textit{companyId extraído automaticamente}
     };
 
     % Database container - background
@@ -458,17 +459,17 @@ A implementação garante que todas as operações de banco de dados incluam aut
 
     % Tenant A data - positioned above background
     \node[draw, rounded corners, fill=blue!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantA) at (2.5,2) {
-      \textbf{Empresa A}
+      \text{Empresa A}
     };
 
     % Tenant B data - positioned above background
     \node[draw, rounded corners, fill=green!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantB) at (7,2) {
-      \textbf{Empresa B}
+      \text{Empresa B}
     };
 
     % Tenant C data - positioned above background
     \node[draw, rounded corners, fill=orange!25, minimum width=3.5cm, minimum height=1.5cm, align=center] (tenantC) at (11.5,2) {
-      \textbf{Empresa C}
+      \text{Empresa C}
     };
 
     % Flow arrows with better positioning
@@ -498,59 +499,43 @@ A implementação garante que todas as operações de banco de dados incluam aut
 
 \section{Arquitetura do Frontend}
 
-O frontend implementa uma arquitetura moderna baseada em Next.js~15 (React~19) com App Router, utilizando TypeScript para tipagem estática completa. A aplicação segue padrões de arquitetura limpa e organização por domínio.
+O frontend implementa uma arquitetura moderna baseada em Next.js~15 (React~19) com seu \textit{App Router}, utilizando TypeScript para garantir uma tipagem estática completa. A aplicação foi estruturada seguindo padrões de arquitetura limpa e uma organização orientada a domínios de negócio, visando a manutenibilidade e a escalabilidade da interface.
 
 \subsection{Stack Tecnológico e Organização}
 
-O frontend utiliza um conjunto integrado de tecnologias modernas para garantir performance, experiência do usuário e manutenibilidade:
-
-\begin{itemize}
-  \item \textbf{Framework}: Next.js~15 com App Router para roteamento baseado em arquivo
-  \item \textbf{UI}: React~19 com componentes Radix UI e estilização Tailwind CSS
-  \item \textbf{Formulários}: React Hook Form + Zod para validação tipada
-  \item \textbf{Autenticação}: NextAuth v4 com JWT e provedores customizados
-  \item \textbf{Mapas}: Leaflet + React-Leaflet para funcionalidades geográficas
-  \item \textbf{Estado}: Context API do React para gerenciamento de estado global
-  \item \textbf{Tipagem}: TypeScript com definições específicas por domínio
-\end{itemize}
+Para garantir performance, uma boa experiência de usuário e manutenibilidade, o frontend utiliza um conjunto integrado de tecnologias. A base da aplicação é o \text{Next.js~15}, que, junto ao \text{React~19}, oferece uma plataforma sólida para a renderização da interface. A construção da UI segue um \textit{design system} customizado, empregando componentes primitivos do \text{Radix UI} para assegurar a acessibilidade e o \text{Tailwind CSS} para uma estilização \textit{utility-first} ágil e consistente. A gestão de formulários é responsabilidade do \text{React Hook Form} combinado com o \text{Zod} para validação tipada de dados. A autenticação é gerenciada pelo \text{NextAuth v4}, enquanto as funcionalidades geográficas são implementadas com \text{Leaflet}. O estado global da aplicação, por sua vez, é controlado de forma eficiente pela \text{Context API} nativa do \text{React}.
 
 \subsection{Arquitetura de Roteamento}
 
-A aplicação utiliza o App Router do Next.js~15 com roteamento dinâmico baseado em empresa. A estrutura principal segue o padrão \texttt{/dashboard/[company]/recurso}, permitindo isolamento completo por empresa:
-
-\begin{itemize}
-  \item \textbf{Páginas Públicas}: \texttt{/login}, \texttt{/criar-empresa}
-  \item \textbf{Dashboard Multiempresa}: \texttt{/dashboard/[company]/\{motoristas, veiculos, rotas, paradas, viagens, passagens\}}
-  \item \textbf{Layouts Aninhados}: Cada nível possui layout específico com providers e componentes apropriados
-  \item \textbf{Proteção de Rotas}: Wrapper \texttt{ProtectedPage} valida autenticação e autorização
-\end{itemize}
+A aplicação utiliza o \textit{App Router} do Next.js~15, que permite um roteamento dinâmico e baseado em arquivos. A estrutura de rotas foi projetada para suportar a natureza multiempresa do sistema, seguindo o padrão \texttt{/dashboard/[company]/recurso}. Essa abordagem garante o isolamento dos dados no nível da URL, onde cada empresa acessa seus próprios recursos, como \texttt{/motoristas} ou \texttt{/rotas}, dentro de seu próprio escopo. O sistema diferencia entre páginas públicas, como \texttt{/login} e \texttt{/criar-empresa}, e as rotas privadas do \textit{dashboard}. A proteção de rotas é garantida por um componente de ordem superior (\textit{wrapper}) chamado \texttt{ProtectedPage}, que valida a autenticação e as permissões do usuário antes de renderizar a página solicitada.
 
 \subsection{Gerenciamento de Estado e Contextos}
 
-O sistema implementa uma hierarquia de contextos React para gerenciar estado global de forma eficiente:
+O gerenciamento do estado global da aplicação é implementado através de uma hierarquia de \textit{Contextos} React, conforme ilustrado na Figura~\ref{fig:frontend-providers}. Essa abordagem permite um compartilhamento de dados eficiente e desacoplado entre os componentes. No topo da hierarquia, o \texttt{SessionProvider} gerencia a sessão do NextAuth e os tokens JWT. Abaixo dele, o \texttt{ThemeProvider} controla o tema visual da aplicação (claro/escuro). Em seguida, o \texttt{AuthProvider} expõe os dados do usuário autenticado e da empresa associada. O \texttt{CompanyProvider} mantém o estado específico da empresa que está sendo visualizada no \textit{dashboard}, enquanto o \texttt{SidebarProvider}, na camada mais interna, gerencia estados de UI, como a visibilidade do menu lateral.
+
 
 \begin{figure}[H]
   \centering
   \begin{tikzpicture}[scale=0.8, every node/.style={transform shape}]
     % Providers hierarchy
     \node[draw, rounded corners, thick, fill=blue!15, minimum width=12cm, minimum height=1.5cm, align=center] (session) at (6,6) {
-      \textbf{SessionProvider} - \textit{NextAuth Session Management}
+      \text{SessionProvider} - \textit{NextAuth Session Management}
     };
 
     \node[draw, rounded corners, thick, fill=green!15, minimum width=10cm, minimum height=1.5cm, align=center] (theme) at (6,4) {
-      \textbf{ThemeProvider} - \textit{Dark/Light Mode}
+      \text{ThemeProvider} - \textit{Dark/Light Mode}
     };
 
     \node[draw, rounded corners, thick, fill=orange!15, minimum width=8cm, minimum height=1.5cm, align=center] (auth) at (6,2) {
-      \textbf{AuthProvider} - \textit{User \& Company Context}
+      \text{AuthProvider} - \textit{User \& Company Context}
     };
 
     \node[draw, rounded corners, thick, fill=purple!15, minimum width=6cm, minimum height=1.5cm, align=center] (company) at (6,0) {
-      \textbf{CompanyProvider} - \textit{Current Company State}
+      \text{CompanyProvider} - \textit{Current Company State}
     };
 
     \node[draw, rounded corners, thick, fill=cyan!15, minimum width=4cm, minimum height=1.5cm, align=center] (sidebar) at (6,-2) {
-      \textbf{SidebarProvider} - \textit{UI State}
+      \text{SidebarProvider} - \textit{UI State}
     };
 
     % Arrows showing hierarchy
@@ -563,92 +548,27 @@ O sistema implementa uma hierarquia de contextos React para gerenciar estado glo
   \label{fig:frontend-providers}
 \end{figure}
 
-Cada contexto tem responsabilidades específicas:
-
-\begin{itemize}
-  \item \textbf{SessionProvider}: Gerencia sessão NextAuth e tokens JWT
-  \item \textbf{AuthProvider}: Expõe dados do usuário autenticado e empresa
-  \item \textbf{CompanyProvider}: Mantém contexto da empresa atual no dashboard
-  \item \textbf{ThemeProvider}: Controla tema dark/light com persistência
-  \item \textbf{SidebarProvider}: Gerencia estado da interface (sidebar, mobile)
-\end{itemize}
-
 \subsection{Sistema de Autenticação e Comunicação}
 
-A autenticação integra NextAuth com o backend NestJS através de JWT. O serviço \texttt{api.service.ts} centraliza toda comunicação HTTP:
-
-\begin{itemize}
-  \item \textbf{Token Management}: Anexa automaticamente \texttt{Bearer} tokens
-  \item \textbf{Error Handling}: Trata respostas de erro padronizadas e redireciona em 401
-  \item \textbf{Response Processing}: Extrai dados da estrutura padrão da API
-  \item \textbf{Public Endpoints}: Diferencia rotas que não requerem autenticação
-  \item \textbf{Session Validation}: Verifica validade da sessão antes de cada requisição
-\end{itemize}
+A comunicação com o backend é centralizada para garantir consistência e segurança. A autenticação integra o NextAuth com a API NestJS através de tokens JWT, e todas as requisições HTTP são gerenciadas por um serviço centralizado, o \texttt{api.service.ts}. Este serviço encapsula responsabilidades críticas: ele anexa automaticamente os \textit{Bearer tokens} de autenticação em todas as chamadas a rotas protegidas, trata respostas de erro de forma padronizada (redirecionando para a página de login em caso de erro 401, por exemplo), processa as respostas da API para extrair os dados e valida a sessão do usuário antes de cada requisição, otimizando a comunicação com o servidor.
 
 \subsection{Arquitetura de Componentes}
 
-O sistema de componentes segue uma arquitetura em camadas baseada em responsabilidades:
+O sistema de componentes foi projetado em camadas, seguindo uma lógica de composição que vai do mais simples ao mais complexo. Na base, estão os Primitivos de UI do Radix UI, que fornecem comportamento e acessibilidade sem estilização. Sobre eles, foi construído um Design System de componentes reutilizáveis e tipados (localizados em \texttt{components/ui/}), que definem a aparência visual da aplicação. Estes são, então, utilizados para compor os Componentes de Domínio, que são específicos de cada funcionalidade, como formulários de cadastro ou tabelas de dados. Por fim, as Páginas são montadas através da composição desses componentes, organizadas dentro de Layouts reutilizáveis que fornecem a estrutura de navegação e os provedores de contexto necessários.
 
-\begin{itemize}
-  \item \textbf{Primitivos UI}: Radix UI como base para acessibilidade e comportamento
-  \item \textbf{Design System}: Componentes tipados (\texttt{components/ui/}) com variantes via CVA
-  \item \textbf{Componentes de Domínio}: Específicos por funcionalidade (forms, tables, dialogs)
-  \item \textbf{Páginas}: Composição de componentes com lógica de negócio específica
-  \item \textbf{Layouts}: Estruturas reutilizáveis com providers e navegação
-\end{itemize}
 
 \subsection{Tipagem e Validação}
 
-O TypeScript é utilizado extensivamente com tipagem específica por domínio:
-
-\begin{itemize}
-  \item \textbf{Types Directory}: Definições tipadas por entidade (\texttt{User}, \texttt{Company}, \texttt{Vehicle}, etc.)
-  \item \textbf{API Responses}: Tipos padronizados para respostas da API
-  \item \textbf{Form Validation}: Schemas Zod para validação client-side
-  \item \textbf{Service Layer}: Métodos tipados para cada endpoint da API
-  \item \textbf{NextAuth Extension}: Tipos customizados para sessão e JWT payload
-\end{itemize}
-
-Esta arquitetura garante: (i) separação clara de responsabilidades, (ii) tipagem estática end-to-end, (iii) reutilização de componentes, (iv) experiência consistente multiempresa e (v) escalabilidade via modularização por domínio.
+O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do backend correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário.
 
 \section{Estratégia de Implantação}
 
-Para a implantação do sistema ViaBus, foi adotada uma arquitetura nativa da nuvem, utilizando os serviços da Google Cloud Platform (GCP). Esta abordagem foi escolhida para garantir alta disponibilidade, escalabilidade, segurança e manutenibilidade, abstraindo a complexidade do gerenciamento de infraestrutura física e alinhando-se às melhores práticas de DevOps. A estratégia foi dividida em quatro pilares: conteinerização da aplicação, implantação em ambiente serverless, gerenciamento do banco de dados e configuração dos ambientes de CI/CD.
+A implantação do sistema ViaBus foi planejada em uma arquitetura de nuvem, utilizando um conjunto de serviços da Google Cloud Platform (GCP) para automação e escalabilidade. A estratégia adotada consistiu em quatro etapas principais: conteinerização da aplicação, implantação dos serviços em ambiente \textit{serverless}, gerenciamento do banco de dados e automação da entrega (CI/CD).
 
-\subsection{Conteinerização da Aplicação com Docker}
+Para garantir a portabilidade entre os ambientes, a aplicação foi conteinerizada com Docker. Foram criados arquivos \texttt{Dockerfile} específicos para o \textit{backend} (NestJS) e o \textit{frontend} (Next.js), utilizando a abordagem de \textit{multi-stage builds} para gerar imagens otimizadas e seguras. A orquestração do ambiente de desenvolvimento local foi realizada com o Docker Compose.
 
-A fim de garantir a portabilidade e a paridade entre os ambientes de desenvolvimento e produção, a aplicação foi conteinerizada com Docker, atendendo ao requisito não funcional de portabilidade (RNF05). Foram criados Dockerfiles distintos para cada um dos serviços principais:
+Os contêineres da aplicação foram implantados na nuvem como dois serviços independentes no Google Cloud Run, uma plataforma de computação \textit{serverless}. Essa configuração permite que o \textit{frontend} e o \textit{backend} escalem de forma autônoma com base na demanda de requisições. A comunicação externa é garantida via HTTPS, com certificados TLS/SSL gerenciados automaticamente pela plataforma.
 
-Frontend (Next.js): Um Dockerfile com múltiplos estágios (multi-stage build) foi configurado. O primeiro estágio (build) é responsável por instalar as dependências e compilar a aplicação Next.js, gerando os artefatos estáticos e o servidor otimizado. O estágio final copia apenas os artefatos de produção para uma imagem base do Node.js enxuta, resultando em um contêiner leve e seguro.
+Para a persistência dos dados, foi utilizada uma instância gerenciada do PostgreSQL no serviço Google Cloud SQL. A comunicação entre a API executada no Cloud Run e o banco de dados ocorre em uma rede segura e privada, com criptografia dos dados em trânsito e em repouso. A responsabilidade por tarefas de manutenção, como backups e atualizações, é delegada ao próprio serviço da GCP.
 
-Backend (NestJS): De forma similar, o Dockerfile do backend também utiliza múltiplos estágios para compilar o código TypeScript em JavaScript e, em seguida, copiar apenas o build final e as dependências de produção para a imagem final.
-
-Para a orquestração do ambiente de desenvolvimento local, foi utilizado o Docker Compose, conforme definido no arquivo docker-compose.yml, que automatiza a criação da rede e a inicialização dos contêineres do frontend, backend e do banco de dados, garantindo que o ambiente de desenvolvimento espelhe a arquitetura de produção.
-
-\subsection{Implantação na Nuvem com Google Cloud Run}
-
-A implantação dos contêineres na nuvem foi realizada utilizando o Google Cloud Run, uma plataforma de computação serverless gerenciada. Esta escolha se deu por suas características de autoescalabilidade e modelo de cobrança baseado no uso, ideal para aplicações com demanda variável.
-
-Serviços Independentes: Os contêineres do frontend e do backend foram implantados como dois serviços distintos no Cloud Run, permitindo que escalem de forma independente e tenham configurações de recursos (CPU, memória) específicas para suas necessidades.
-
-Escalabilidade Automática: Os serviços foram configurados para escalar automaticamente com base no número de requisições concorrentes, podendo inclusive escalar a zero quando não há tráfego, otimizando os custos.
-
-Configurações de Execução: Foram definidos parâmetros como o tempo limite de requisição (request timeout), crucial para operações mais longas da API, e a alocação de memória para cada serviço. O Cloud Run também gerencia automaticamente o provisionamento de certificados TLS/SSL, garantindo a comunicação via HTTPS.
-
-\subsection{Gerenciamento do Banco de Dados com Google Cloud SQL}
-
-Para o armazenamento persistente dos dados, foi utilizado o Google Cloud SQL, um serviço de banco de dados relacional totalmente gerenciado. A escolha pelo PostgreSQL foi baseada em sua robustez e compatibilidade com o TypeORM, utilizado no backend.
-
-Alta Disponibilidade e Segurança: A instância do Cloud SQL foi configurada com backups automáticos diários para recuperação de desastres. A comunicação entre a API no Cloud Run e o banco de dados ocorre através de uma conexão segura e privada, com todos os dados sendo criptografados em trânsito e em repouso.
-
-Manutenção Gerenciada: O serviço gerencia automaticamente tarefas como aplicação de patches, atualizações e replicação, liberando a equipe de desenvolvimento da carga de administração do banco de dados.
-
-\subsection{Gerenciamento de Ambientes e CI/CD}
-
-Para garantir a integridade e a segurança do ciclo de vida da aplicação, foram adotadas práticas de gerenciamento de configuração e automação.
-
-Separação de Ambientes: Foram estruturados ambientes distintos dentro do Google Cloud para desenvolvimento e produção, cada um com sua própria instância do Cloud SQL e serviços no Cloud Run, garantindo o isolamento e evitando que testes afetem os usuários finais.
-
-Gerenciamento de Segredos: Todas as informações sensíveis, como credenciais de banco de dados e chaves de API, são gerenciadas como segredos no Google Secret Manager e injetadas nos serviços do Cloud Run como variáveis de ambiente, evitando a exposição de dados sigilosos no código-fonte.
-
-Automação de Implantação (CI/CD): Foi configurado um pipeline de integração e implantação contínuas utilizando o Google Cloud Build. O processo é automatizado para que, a cada push no repositório principal do Git, o Cloud Build seja acionado para construir as novas imagens Docker e, após a conclusão bem-sucedida, implantar a nova versão automaticamente no Cloud Run, garantindo agilidade e reduzindo a possibilidade de falha humana nas atualizações.
+Por fim, o ciclo de vida da aplicação foi automatizado com práticas de Integração e Entrega Contínuas (CI/CD). Foram estruturados ambientes isolados de desenvolvimento e produção na GCP. O gerenciamento de informações sensíveis, como chaves de API e credenciais de banco de dados, foi centralizado no Google Secret Manager. Um \textit{pipeline} no Google Cloud Build foi configurado para automatizar o processo de construção das imagens Docker e a implantação de novas versões no Cloud Run a cada atualização no repositório principal do Git.

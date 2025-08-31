@@ -1,108 +1,74 @@
 \chapter{Requisitos do Sistema}\label{cha:requisitos}
 
-Este capítulo apresenta a especificação dos requisitos funcionais e não funcionais do sistema ViaBus, obtidos através da pesquisa de mercado realizada e da experiência prática no setor de transporte de passageiros. Os requisitos foram organizados de forma a atender aos principais desafios operacionais identificados no levantamento de necessidades junto às empresas do setor.
+A concepção do sistema ViaBus partiu de uma necessidade concreta, identificada na pesquisa de mercado (\autoref{apendice:resultados}) realizada com gestores de empresas de transporte de passageiros. A pesquisa revelou um cenário operacional amplamente manual, onde ferramentas como \textit{"cadernos de anotações"} e \textit{"mensagens de WhatsApp"} são o padrão para tarefas críticas como a venda de passagens e a organização de listas de embarque. Essa dependência de métodos analógicos resulta nos principais desafios apontados pelos gestores: a dificuldade de \textit{"controlar os assentos já vendidos"}, a \textit{"perda de tempo organizando listas"} e a \textit{"comunicação com os motoristas"}.
+
+Diante desse diagnóstico, os requisitos do ViaBus foram definidos para atacar diretamente essas dores. Eles representam a digitalização e a centralização de um processo hoje fragmentado e suscetível a erros. Este capítulo detalha esses requisitos em duas perspectivas: os requisitos funcionais, que descrevem o que o sistema deve ser capaz de fazer para o usuário, e os requisitos não funcionais, que definem os atributos de qualidade e as condições sob as quais o sistema deve operar.
+
 \section{Requisitos Funcionais}
 
-Os requisitos funcionais descrevem as funcionalidades que o sistema ViaBus deve executar. A \autoref{tab:requisitos-funcionais} apresenta os requisitos organizados por módulos funcionais.
+Os requisitos funcionais foram agrupados em categorias que espelham o fluxo de trabalho de uma empresa de transporte. Eles traduzem as necessidades operacionais em funcionalidades concretas, conforme detalhado na \autoref{tab:requisitos-funcionais-fechada}.
 
+% --- Tabela de Requisitos Funcionais com Bordas ---
 \begin{table}[htbp]
+  \small
   \centering
   \caption{Requisitos funcionais do sistema ViaBus}
-  \label{tab:requisitos-funcionais}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|l|p{8cm}|}
-      \hline
-      \textbf{ID} & \textbf{Módulo}      & \textbf{Descrição}                                     \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Autenticação e Autorização}}                                   \\
-      \hline
-      RF01        & Registro             & Cadastro de usuários com validação de dados            \\
-      RF02        & Login                & Autenticação segura via e-mail e senha                 \\
-      RF03        & Permissões           & Controle de acesso com diferentes níveis de usuário    \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Gestão Multi-empresa}}                                         \\
-      \hline
-      RF04        & Empresas             & Criação e gestão de perfis de empresa                  \\
-      RF05        & Isolamento           & Separação completa de dados entre empresas             \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Gestão de Recursos}}                                           \\
-      \hline
-      RF06        & Motoristas           & CRUD de motoristas com dados pessoais e profissionais  \\
-      RF07        & Veículos             & CRUD de veículos com informações técnicas e manutenção \\
-      RF08        & Paradas              & CRUD de pontos de parada com geolocalização            \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Gestão de Rotas}}                                              \\
-      \hline
-      RF09        & Rotas                & Criação de rotas com sequência de paradas              \\
-      RF10        & Horários             & Associação de horários e preços às rotas               \\
-      RF11        & Mapas                & Visualização de rotas e paradas em mapas interativos   \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Gestão de Viagens}}                                            \\
-      \hline
-      RF12        & Agendamento          & Criação de viagens baseadas em rotas e horários        \\
-      RF13        & Atribuição           & Associação de veículos e motoristas às viagens         \\
-      RF14        & Status               & Controle de status das viagens em tempo real           \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Venda de Passagens}}                                           \\
-      \hline
-      RF15        & Interface Guiada     & Wizard para venda com fluxo orientado                  \\
-      RF16        & Embarque/Desembarque & Seleção flexível de pontos na rota                     \\
-      RF17        & Passageiros          & Cadastro completo dos dados dos passageiros            \\
-      RF18        & Anti-Overbooking     & Verificação automática de disponibilidade              \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Relatórios e Consultas}}                                       \\
-      \hline
-      RF19        & Listas               & Geração de listas de passageiros por viagem            \\
-      RF20        & Busca                & Pesquisa avançada com múltiplos filtros                \\
-      RF21        & Ocupação             & Visualização em tempo real da ocupação                 \\
-      \hline
-    \end{tabular}
-  }
+  \label{tab:requisitos-funcionais-fechada}
+  \begin{tabular}{|l|p{0.8\textwidth}|}
+    \hline
+    \multicolumn{1}{|c|}{\textbf{ID}} & \multicolumn{1}{c|}{\textbf{Descrição da Funcionalidade}}                                                                                                     \\
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Organização da Empresa e Recursos}                                                                                                                           \\
+    \hline
+    RF01                              & \RaggedRight O gestor deve poder cadastrar e gerenciar os dados da sua frota de veículos.                                                                     \\
+    RF02                              & \RaggedRight O gestor deve poder cadastrar, consultar e atualizar as informações de seus motoristas, como dados de contato e validade da CNH.                 \\
+    RF03                              & \RaggedRight O sistema deve permitir o cadastro de todos os pontos de parada (embarque/desembarque) utilizados pela empresa, incluindo sua localização.       \\
+    RF04                              & \RaggedRight O gestor deve poder criar e organizar as rotas (itinerários) da empresa, definindo a sequência de paradas e os horários de operação.             \\
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Operação e Venda de Passagens}                                                                                                                               \\
+    \hline
+    RF05                              & \RaggedRight O sistema deve permitir o agendamento de viagens futuras, associando uma rota, um veículo e um motorista.                                        \\
+    RF06                              & \RaggedRight Um vendedor ou gestor deve poder vender passagens de forma rápida e guiada, selecionando a rota e a data da viagem.                              \\
+    RF07                              & \RaggedRight Ao vender uma passagem, o sistema deve registrar as informações essenciais do passageiro.                                                        \\
+    RF08                              & \RaggedRight O sistema não deve permitir, em hipótese alguma, a venda de uma passagem para um assento que já está ocupado em uma viagem (evitar overbooking). \\
+    RF09                              & \RaggedRight O sistema deve gerar uma lista de passageiros de fácil consulta para cada viagem, que possa ser usada no momento do embarque.                    \\
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Controle e Análise}                                                                                                                                          \\
+    \hline
+    RF10                              & \RaggedRight O gestor deve poder visualizar rapidamente a taxa de ocupação de cada viagem para tomar decisões.                                                \\
+    RF11                              & \RaggedRight O sistema deve fornecer relatórios simples de vendas, mostrando o faturamento por rota ou por período.                                           \\
+    \hline
+  \end{tabular}
 \end{table}
 
 \section{Requisitos Não Funcionais}
 
-Os requisitos não funcionais definem os critérios de qualidade e restrições técnicas que o sistema deve atender. A \autoref{tab:requisitos-nao-funcionais} apresenta esses requisitos organizados por categorias.
+Os requisitos não funcionais definem os critérios de qualidade que garantem uma boa experiência de uso e a confiabilidade do sistema. Eles são apresentados na \autoref{tab:requisitos-nao-funcionais-fechada}.
 
+% --- Tabela de Requisitos Não Funcionais com Bordas ---
 \begin{table}[htbp]
+  \small
   \centering
   \caption{Requisitos não funcionais do sistema ViaBus}
-  \label{tab:requisitos-nao-funcionais}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|c|l|p{9cm}|}
-      \hline
-      \textbf{ID} & \textbf{Categoria} & \textbf{Descrição}                                                      \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Usabilidade}}                                                                 \\
-      \hline
-      RNF01       & Responsividade     & Interface adaptável a diferentes dispositivos e tamanhos de tela        \\
-      RNF02       & Navegação          & Interface intuitiva com navegação clara e feedback visual adequado      \\
-      RNF03       & Acessibilidade     & Formulários guiados com indicadores de progresso em processos complexos \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Segurança}}                                                                   \\
-      \hline
-      RNF04       & Autenticação       & Sistema de login seguro com controle de sessões                         \\
-      RNF05       & Autorização        & Controle de acesso baseado em perfis de usuário                         \\
-      RNF06       & Isolamento         & Separação total de dados entre diferentes empresas                      \\
-      RNF07       & Validação          & Validação rigorosa de todas as entradas de dados                        \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Performance}}                                                                 \\
-      \hline
-      RNF08       & Carregamento       & Tempo de resposta adequado para carregamento de páginas                 \\
-      RNF09       & Consultas          & Otimização de consultas ao banco de dados                               \\
-      RNF10       & Escalabilidade     & Suporte a crescimento do volume de dados e usuários                     \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Manutenibilidade}}                                                            \\
-      \hline
-      RNF11       & Arquitetura        & Código organizado em módulos bem definidos                              \\
-      RNF12       & Padrões            & Seguimento de padrões de codificação estabelecidos                      \\
-      RNF13       & Documentação       & API e código adequadamente documentados                                 \\
-      \hline
-      \multicolumn{3}{|c|}{\textbf{Portabilidade}}                                                               \\
-      \hline
-      RNF14       & Containerização    & Sistema deployável em containers para diferentes ambientes              \\
-      RNF15       & Configuração       & Suporte a múltiplos ambientes (desenvolvimento, teste, produção)        \\
-      \hline
-    \end{tabular}
-  }
+  \label{tab:requisitos-nao-funcionais-fechada}
+  \begin{tabular}{|l|p{0.8\textwidth}|}
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Usabilidade e Acesso}                                                                                      \\
+    \hline
+    \multicolumn{2}{|l|}{\small\bfseries Usabilidade e Acesso}                                                                                      \\
+    \hline
+    RNF01 & \RaggedRight A interface do sistema deve ser clara, organizada e intuitiva, exigindo o mínimo de treinamento para um novo usuário.      \\
+    RNF02 & \RaggedRight O sistema deve ser fácil de usar tanto em um computador no escritório quanto em um celular ou tablet na rodoviária.        \\
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Confiabilidade e Desempenho}                                                                               \\
+    \hline
+    RNF03 & \RaggedRight O sistema deve ser rápido, com telas e informações carregando em poucos segundos.                                          \\
+    RNF04 & \RaggedRight A plataforma deve estar disponível para uso a maior parte do tempo, sem quedas ou instabilidades frequentes.               \\
+    \hline
+    \multicolumn{2}{|c|}{\small\bfseries Segurança}                                                                                                 \\
+    \hline
+    RNF05 & \RaggedRight O acesso ao sistema deve ser protegido por login e senha.                                                                  \\
+    RNF06 & \RaggedRight Os dados de uma empresa de transporte não podem, sob nenhuma circunstância, ser acessados pelos usuários de outra empresa. \\
+    \hline
+  \end{tabular}
 \end{table}

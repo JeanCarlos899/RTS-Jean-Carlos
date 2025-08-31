@@ -1,6 +1,6 @@
 \chapter{Fundamentação Teórica}\label{cha:fundamentacao_teorica}
 
-Neste capítulo, são apresentados os conceitos essenciais que fundamentam o desenvolvimento deste trabalho. A primeira seção aborda o modelo \textit{Software as a Service} (SaaS), detalhando sua definição, arquitetura, vantagens e desafios. A segunda seção explora a aplicação de tecnologias no setor de transporte rodoviário, e a terceira aprofunda-se na arquitetura e nas tecnologias específicas escolhidas para a construção do protótipo.
+Neste capítulo, são apresentados os conceitos essenciais que fundamentam o desenvolvimento deste trabalho. A primeira seção aborda o modelo \textit{Software as a Service} (SaaS), detalhando sua definição, arquitetura, vantagens e desafios. A segunda seção explora a aplicação de tecnologias no setor de transporte rodoviário, conectando a teoria à prática observada. Por fim, a terceira seção aprofunda-se na arquitetura e nas tecnologias específicas escolhidas para a construção do protótipo ViaBus.
 
 \section{Software as a Service (SaaS)}
 
@@ -16,27 +16,19 @@ O modelo de negócio é baseado em assinaturas, que podem variar em preço confo
 
 \subsection{Vantagens e Desafios para PMEs}
 
-A adoção de plataformas SaaS oferece um conjunto significativo de vantagens estratégicas para as Pequenas e Médias Empresas (PMEs). A principal delas é a drástica \textbf{redução de custos}, pois o modelo de assinatura elimina a necessidade de altos investimentos de capital (CAPEX) em licenças e hardware, transformando-os em despesas operacionais (OPEX) previsíveis \cite{praxio2021vantagens}.
+A adoção de plataformas SaaS oferece um conjunto significativo de vantagens estratégicas para as Pequenas e Médias Empresas (PMEs). A principal delas é a drástica redução de custos, pois o modelo de assinatura elimina a necessidade de altos investimentos de capital (CAPEX) em licenças e hardware, transformando-os em despesas operacionais (OPEX) previsíveis \cite{praxio2021vantagens}.
 
-Outros benefícios incluem \cite{prologapp2024saas, praxio2021vantagens}:
-\begin{itemize}
-    \item \textbf{Escalabilidade e Flexibilidade:} As empresas podem facilmente aumentar ou diminuir a capacidade de uso do software para responder rapidamente às mudanças do mercado.
-    \item \textbf{Acessibilidade e Mobilidade:} Por ser acessado via internet, o software pode ser utilizado de qualquer lugar e em diferentes dispositivos, algo transformador para o setor de logística, permitindo que gestores monitorem operações remotamente e equipes externas capturem dados em tempo real.
-    \item \textbf{Foco no \textit{Core Business}:} Ao terceirizar a gestão da infraestrutura de TI, as PMEs podem dedicar mais tempo e recursos para a otimização das operações logísticas e atendimento ao cliente.
-    \item \textbf{Segurança e Disponibilidade:} Provedores de SaaS geralmente oferecem um nível de segurança e redundância de infraestrutura superior ao que uma PME poderia implementar por conta própria, garantido por Acordos de Nível de Serviço (SLAs).
-\end{itemize}
+Além da otimização financeira, outros benefícios se destacam. O modelo introduz uma notável escalabilidade e flexibilidade, permitindo que as empresas aumentem ou diminuam facilmente a capacidade de uso do software para responder rapidamente às mudanças do mercado. Soma-se a isso a acessibilidade e mobilidade intrínsecas ao serviço, que, por ser acessado via internet, pode ser utilizado de qualquer lugar e em diferentes dispositivos — algo transformador para o setor de logística. Ao terceirizar a gestão da infraestrutura de TI, as empresas também ganham maior foco no \textit{core business}, dedicando mais tempo e recursos à otimização de suas operações. Por fim, provedores de SaaS geralmente oferecem um nível de segurança e disponibilidade superior ao que uma PME poderia implementar por conta própria, garantido por Acordos de Nível de Serviço (SLAs) \cite{prologapp2024saas, praxio2021vantagens}.
 
-Apesar das vantagens, o modelo também apresenta desafios, como a dependência de uma conexão estável com a internet e opções de personalização potencialmente mais limitadas.
+Apesar das vantagens, o modelo também apresenta desafios, como a dependência de uma conexão estável com a internet e opções de personalização potencialmente mais limitadas. É justamente esse conjunto de benefícios, especialmente a redução de custos e a acessibilidade, que torna o modelo SaaS uma solução promissora para modernizar setores tradicionalmente analógicos, como o de transporte rodoviário.
 
 \section{Tecnologia e Inovação no Transporte Rodoviário}
 
-O setor de transporte rodoviário de passageiros, apesar de sua importância socioeconômica, apresenta um ritmo lento na adoção de tecnologias digitais \cite{sestsenat2021relatorio}. A ausência de soluções tecnológicas integradas, especialmente no segmento alternativo, resulta em ineficiências como a falta de controle sobre os processos, a incapacidade de atender a picos de demanda e altos índices de reclamação de clientes \cite{fateczl2022impactos}.
+O setor de transporte rodoviário de passageiros, apesar de sua importância socioeconômica, apresenta um ritmo lento na adoção de tecnologias digitais \cite{sestsenat2021relatorio}. A ausência de soluções tecnológicas integradas, especialmente no segmento alternativo, resulta em ineficiências como a falta de controle sobre os processos, a incapacidade de atender a picos de demanda e altos índices de reclamação de clientes \cite{fateczl2022impactos}. Essa carência é corroborada pela pesquisa de mercado conduzida para este trabalho (ver \autoref{apendice:resultados}), que revelou que 100\% dos gestores entrevistados ainda dependem de métodos como cadernos de anotações e mensagens de WhatsApp para gerenciar suas operações.
 
 Plataformas SaaS surgem como uma solução ideal para democratizar o acesso a tecnologias avançadas neste setor. A análise de soluções comerciais existentes, como TOTVS, iTransport e Praxio, revela uma lacuna de mercado: as ferramentas ou são muito complexas e caras para PMEs, ou são focadas em nichos específicos como o fretamento corporativo, não atendendo de forma integrada as necessidades do operador de transporte alternativo \cite{totvs2025passageiros, itransport2025gestao, praxioluna2025venda}.
 
 \section{Arquitetura Tecnológica da Solução Proposta}
-
-A concepção de uma plataforma robusta, escalável e de fácil manutenção depende das escolhas arquitetônicas e tecnológicas. Cada componente da arquitetura foi selecionado estrategicamente para maximizar a produtividade, garantir a qualidade do software e mitigar riscos de desenvolvimento.
 
 \subsection{Tecnologias do Backend}
 
@@ -63,6 +55,3 @@ A base da interface é o React, uma biblioteca JavaScript para a construção de
 
 Para a estilização, foi adotado o Tailwind CSS, um framework \textit{utility-first} que acelera o desenvolvimento e garante consistência visual \cite{medium2025cssframeworks}. Comple-mentando-o, a biblioteca de componentes \textit{shadcn/ui} foi utilizada. Diferente de bibliotecas tradicionais, seus componentes são copiados para o código-fonte do projeto, dando ao desenvolvedor controle total sobre o código e permitindo personalizações profundas sem \textit{vendor lock-in} \cite{shadcnui2025docs}.
 
-\subsection{Conteinerização com Docker}
-
-Para garantir a consistência do ambiente de desenvolvimento e simplificar o processo de implantação, a aplicação e seus serviços dependentes (como o banco de dados) foram conteinerizados usando Docker. O Docker é uma plataforma que permite empacotar uma aplicação e todas as suas dependências em uma unidade padronizada e isolada chamada contêiner. Isso garante que a aplicação funcione da mesma forma em qualquer ambiente, seja na máquina de um desenvolvedor ou em produção, eliminando o clássico problema de "funciona na minha máquina" \cite{docker2025overview}. Através de arquivos de configuração como o \texttt{Dockerfile} (que descreve como construir a imagem da aplicação) e o \texttt{docker-compose.yml} (que orquestra múltiplos contêineres), o processo de setup e implantação é simplificado e padronizado.

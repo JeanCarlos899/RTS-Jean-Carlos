@@ -1,0 +1,38 @@
+\babel@toc {brazil}{}\relax 
+\babel@toc {brazil}{}\relax 
+\contentsline {figure}{\numberline {1}{\ignorespaces Visão de alto nível da solução.}}{26}{figure.caption.21}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Agregado organizacional - estrutura multiempresa.}}{28}{figure.caption.24}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Agregado de configuração de rotas, paradas e horários.}}{28}{figure.caption.26}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Agregado de recursos operacionais - frota e motoristas.}}{29}{figure.caption.28}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Agregado de operação - viagens, recursos e vendas.}}{30}{figure.caption.30}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Organização modular do backend ViaBus.}}{30}{figure.caption.31}%
+\contentsline {figure}{\numberline {7}{\ignorespaces Pipeline de processamento de requisições.}}{31}{figure.caption.32}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Diagrama de sequência - fluxo de autenticação.}}{32}{figure.caption.33}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Arquitetura multi-tenant: uma aplicação serve múltiplas empresas com isolamento automático de dados.}}{33}{figure.caption.34}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Hierarquia de providers e contextos do frontend.}}{34}{figure.caption.35}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Tela de login do sistema ViaBus.}}{37}{figure.caption.36}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Formulário de criação de empresa.}}{38}{figure.caption.37}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Painel de controle principal com métricas e navegação.}}{39}{figure.caption.38}%
+\contentsline {figure}{\numberline {14}{\ignorespaces Listagem de paradas com funcionalidades de busca e filtros.}}{39}{figure.caption.39}%
+\contentsline {figure}{\numberline {15}{\ignorespaces Formulário de cadastro de parada com mapa interativo.}}{40}{figure.caption.40}%
+\contentsline {figure}{\numberline {16}{\ignorespaces Interface de criação de rota com seleção de paradas.}}{41}{figure.caption.41}%
+\contentsline {figure}{\numberline {17}{\ignorespaces Listagem de veículos com status operacional.}}{42}{figure.caption.42}%
+\contentsline {figure}{\numberline {18}{\ignorespaces Interface de gerenciamento de motoristas.}}{42}{figure.caption.43}%
+\contentsline {figure}{\numberline {19}{\ignorespaces Processo de agendamento de viagem.}}{43}{figure.caption.44}%
+\contentsline {figure}{\numberline {20}{\ignorespaces Seleção de rota no wizard de passagens.}}{44}{figure.caption.45}%
+\contentsline {figure}{\numberline {21}{\ignorespaces Seleção de data e horário.}}{45}{figure.caption.46}%
+\contentsline {figure}{\numberline {22}{\ignorespaces Cadastro de informações do passageiro.}}{46}{figure.caption.47}%
+\contentsline {figure}{\numberline {23}{\ignorespaces Seleção de locais de embarque e desembarque.}}{47}{figure.caption.48}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Confirmação final e geração da passagem.}}{48}{figure.caption.49}%
+\contentsline {figure}{\numberline {25}{\ignorespaces Resultado da pergunta sobre empresa ou serviço.}}{57}{figure.caption.54}%
+\contentsline {figure}{\numberline {26}{\ignorespaces Resultado da pergunta sobre tamanho da frota de veículos.}}{57}{figure.caption.55}%
+\contentsline {figure}{\numberline {27}{\ignorespaces Resultado da pergunta sobre número de rotas operadas.}}{57}{figure.caption.56}%
+\contentsline {figure}{\numberline {28}{\ignorespaces Resultado da pergunta sobre tipo de operação.}}{58}{figure.caption.57}%
+\contentsline {figure}{\numberline {29}{\ignorespaces Resultado da pergunta sobre gerenciamento atual de passagens.}}{58}{figure.caption.58}%
+\contentsline {figure}{\numberline {30}{\ignorespaces Resultado da pergunta sobre maiores desafios operacionais.}}{58}{figure.caption.59}%
+\contentsline {figure}{\numberline {31}{\ignorespaces Resultado da pergunta sobre valor de um sistema único.}}{59}{figure.caption.60}%
+\contentsline {figure}{\numberline {32}{\ignorespaces Resultado da pergunta sobre funcionalidades mais importantes.}}{59}{figure.caption.61}%
+\contentsline {figure}{\numberline {33}{\ignorespaces Resultado da pergunta sobre aplicativo como diferencial.}}{59}{figure.caption.62}%
+\contentsline {figure}{\numberline {34}{\ignorespaces Resultado da pergunta sobre modelo de parceria.}}{60}{figure.caption.63}%
+\contentsline {figure}{\numberline {35}{\ignorespaces Resultado da pergunta sobre interesse em testar a plataforma.}}{60}{figure.caption.64}%
+\contentsline {figure}{\numberline {36}{\ignorespaces Diagrama de classes detalhado do domínio ViaBus.}}{61}{figure.caption.65}%
