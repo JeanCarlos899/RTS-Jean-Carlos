@@ -32,23 +32,34 @@ O modelo de dados foi projetado para refletir as agregações de negócio, garan
 \begin{table}[H]
   \small
   \centering
-  \begin{tabular}{p{3.5cm}p{11.5cm}}
-    \toprule
-    \text{Entidade}           & \text{Descrição resumida}                                                                                                                                                \\
-    \midrule
-    \texttt{companies}        & Empresa (razão social, nome fantasia, CNPJ, slug, e-mail, telefone, logo)                                                                                                \\
-    \texttt{users}            & Usuário (nome, e-mail, senha, papel, status, telefone, foto, \texttt{company\_id})                                                                                       \\
-    \texttt{drivers}          & Motorista (nome, CPF, CNH, categoria, validade, telefone, e-mail, data nascimento, contratação, status, contato emergência, endereço, observações, \texttt{company\_id}) \\
-    \texttt{vehicles}         & Veículo (placa, modelo, marca, ano, capacidade, categoria, conforto, tipo ônibus, data aquisição, hodômetro, manutenção, status, observações, \texttt{company\_id})      \\
-    \texttt{addresses}        & Endereço (CEP, logradouro, número, complemento, bairro, cidade, estado, longitude, latitude)                                                                             \\
-    \texttt{stops}            & Parada (nome, \texttt{address\_id}, ativa, acessibilidade, abrigo, \texttt{company\_id})                                                                                 \\
-    \texttt{routes}           & Rota (nome, descrição, ativa, duração estimada, distância, \texttt{company\_id})                                                                                         \\
-    \texttt{route\_stops}     & Associação rota–parada com ordem e horário de partida opcional                                                                                                           \\
-    \texttt{route\_schedules} & Agenda por dia da semana para a rota (0-6, domingo-sábado)                                                                                                               \\
-    \texttt{trips}            & Viagem (rota, horários partida/chegada, status, preço base, assentos total/disponível, auto-gerada, observações, \texttt{company\_id})                                   \\
-    \texttt{trip\_vehicles}   & Associação viagem–veículo com motoristas primário/secundário                                                                                                             \\
-    \texttt{tickets}          & Bilhete (passageiro, documento, telefone, e-mail, assento, preço, status, pontos embarque/desembarque com coordenadas, observações, \texttt{company\_id})                \\
-    \bottomrule
+  \begin{tabular}{|p{3.5cm}|p{11.5cm}|}
+    \hline
+    \textbf{Entidade}         & \textbf{Descrição resumida}                                                                                                                                                                    \\
+    \hline
+    \texttt{companies}        & Empresa (razão social, nome fantasia, CNPJ, slug, e-mail, telefone, logo)                                                                                                                      \\
+    \hline
+    \texttt{users}            & Usuário (nome, e-mail, senha, papel, status, telefone, foto,                                                                                                             \texttt{company\_id}) \\
+    \hline
+    \texttt{drivers}          & Motorista (nome, CPF, CNH, categoria, validade, telefone, e-mail, data nascimento, contratação, status, contato emergência, endereço, observações, \texttt{company\_id})                       \\
+    \hline
+    \texttt{vehicles}         & Veículo (placa, modelo, marca, ano, capacidade, categoria, conforto, tipo ônibus, data aquisição, hodômetro, manutenção, status, observações, \texttt{company\_id})                            \\
+    \hline
+    \texttt{addresses}        & Endereço (CEP, logradouro, número, complemento, bairro, cidade, estado, longitude, latitude)                                                                                                   \\
+    \hline
+    \texttt{stops}            & Parada (nome, \texttt{address\_id}, ativa, acessibilidade, abrigo, \texttt{company\_id})                                                                                                       \\
+    \hline
+    \texttt{routes}           & Rota (nome, descrição, ativa, duração estimada, distância, \texttt{company\_id})                                                                                                               \\
+    \hline
+    \texttt{route\_stops}     & Associação rota–parada com ordem e horário de partida opcional                                                                                                                                 \\
+    \hline
+    \texttt{route\_schedules} & Agenda por dia da semana para a rota (0-6, domingo-sábado)                                                                                                                                     \\
+    \hline
+    \texttt{trips}            & Viagem (rota, horários partida/chegada, status, preço base, assentos total/disponível, auto-gerada, observações, \texttt{company\_id})                                                         \\
+    \hline
+    \texttt{trip\_vehicles}   & Associação viagem--veículo com motoristas primário/secundário                                                                                                                                  \\
+    \hline
+    \texttt{tickets}          & Bilhete (passageiro, documento, telefone, e-mail, assento, preço, status, pontos embarque/desembarque com coordenadas, observações, \texttt{company\_id})                                      \\
+    \hline
   \end{tabular}
   \caption{Principais entidades do domínio.}
   \label{tab:principais-entidades}
@@ -167,7 +178,7 @@ Este agregado modela a estrutura logística fundamental de uma empresa de transp
     % Composição: Stop "possui" um Address.
     \umlcompo[mult1=1, mult2=1]{Stop}{Address}
 
-    \umlnote[x=4,y=-2, width=10cm]{RouteStop}{
+    \umlnote[x=6,y=-2, width=10cm]{RouteStop}{
       \texttt{RouteStop} é uma classe associativa que resolve o relacionamento N:N entre \texttt{Route} e \texttt{Stop}, adicionando o atributo de ordem (\texttt{order}).
     }
   \end{tikzpicture}

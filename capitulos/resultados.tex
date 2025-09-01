@@ -4,93 +4,103 @@
 
 \section{Verificação de Requisitos}
 
-A primeira etapa da avaliação consistiu na verificação sistemática do grau de implementação dos Requisitos Funcionais (RF) e Não Funcionais (RNF) definidos no Capítulo 3. A análise buscou constatar se as funcionalidades e características planejadas foram efetivamente traduzidas em software. As Tabelas \ref{tab:verificacao-rf} e \ref{tab:verificacao-rnf} apresentam o resultado consolidado desta verificação.
+A primeira etapa da avaliação do protótipo consistiu na verificação sistemática do grau de implementação dos Requisitos Funcionais (RF) e Não Funcionais (RNF), conforme definidos no Capítulo~\ref{cha:requisitos}. Esta análise busca constatar de forma objetiva se as funcionalidades e características de qualidade planejadas foram efetivamente traduzidas no software desenvolvido. As Tabelas \ref{tab:verificacao-rf-nova} e \ref{tab:verificacao-rnf-nova} apresentam o resultado consolidado desta verificação.
 
 \begin{table}[htbp]
+  \small
   \centering
   \caption{Verificação dos Requisitos Funcionais (RF)}
-  \label{tab:verificacao-rf}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|c|p{9.5cm}|}
-      \hline
-      \textbf{Requisito}             & \textbf{Status}           & \textbf{Observações e Evidências}                                                                        \\
-      \hline
-      RF01 -- Registro               & Implementado              & Fluxo de cadastro de usuários disponível na API de autenticação, com validação de dados.                 \\
-      RF02 -- Login                  & Implementado              & Autenticação via e-mail e senha com emissão de JWT e proteção de rotas.                                  \\
-      RF03 -- Permissões             & Implementado              & Controle de acesso por perfis/roles com guards no backend e proteção de rotas no frontend.               \\
-      RF04 -- Empresas               & Implementado              & Criação e gestão de perfis de empresa disponíveis; página de criação de empresa no frontend.             \\
-      RF05 -- Isolamento             & Implementado              & Interceptor/serviço central aplica filtro por \textit{companyId} do usuário em todas as requisições.     \\
-      RF06 -- Motoristas             & Implementado              & CRUD completo de motoristas no módulo dedicado.                                                          \\
-      RF07 -- Veículos               & Implementado              & CRUD completo de veículos no módulo dedicado.                                                            \\
-      RF08 -- Paradas                & Implementado              & CRUD de pontos de parada com armazenamento de geolocalização.                                            \\
-      RF09 -- Rotas                  & Implementado              & Criação e manutenção de rotas com sequência de paradas.                                                  \\
-      RF10 -- Horários               & Parcialmente Implementado & Associação de horários e preços às rotas; serviços de \textit{schedules} no frontend.                    \\
-      RF11 -- Mapas                  & Parcialmente Implementado & Visualização de rotas e paradas disponível; ausência de mapa interativo avançado em algumas telas.       \\
-      RF12 -- Agendamento de Viagens & Implementado              & Criação de viagens baseada em rotas e horários no módulo de viagens.                                     \\
-      RF13 -- Atribuição             & Implementado              & Associação de veículos e motoristas às viagens.                                                          \\
-      RF14 -- Status de Viagens      & Parcialmente Implementado & Atualização de status disponível; sem comunicação em tempo real por WebSocket.                           \\
-      RF15 -- Wizard de Venda        & Implementado              & Fluxo guiado de venda com \textit{wizard} no frontend.                                                   \\
-      RF16 -- Embarque/Desembarque   & Implementado              & Seleção flexível de pontos ao longo da rota no ato da venda.                                             \\
-      RF17 -- Passageiros            & Implementado              & Coleta e armazenamento dos dados completos dos passageiros.                                              \\
-      RF18 -- Anti-Overbooking       & Implementado              & Verificação de disponibilidade antes da emissão; criação de ticket bloqueada com erro 409 quando lotado. \\
-      RF19 -- Listas                 & Implementado              & Geração/visualização de listas de passageiros por viagem nas telas operacionais.                         \\
-      RF20 -- Busca                  & Parcialmente Implementado & Filtros múltiplos disponíveis nas listagens; oportunidades de ampliar critérios e combinações.           \\
-      RF21 -- Ocupação em Tempo Real & Parcialmente Implementado & Visualização de ocupação por viagem; ausência de atualização \textit{push} em tempo real.                \\
-      \hline
-    \end{tabular}%
-  }
+  \label{tab:verificacao-rf-nova}
+  \begin{tabular}{|p{1cm}|p{2.5cm}|p{11cm}|}
+    \hline
+    \textbf{ID} & \textbf{Status}             & \textbf{Observações e Evidências}                                                                                                                                                                                                                                                                 \\
+    \hline
+    RF01        & Implementado                & \RaggedRight O gestor pode cadastrar e gerenciar a frota de veículos através do módulo dedicado, conforme demonstrado na Figura~\ref{fig:veiculos}.                                                                                                                                               \\
+    \hline
+    RF02        & Implementado                & \RaggedRight O módulo de motoristas permite o CRUD completo das informações dos condutores (Figura~\ref{fig:motoristas}).                                                                                                                                                                         \\
+    \hline
+    RF03        & Implementado                & \RaggedRight O sistema permite o cadastro de pontos de parada, incluindo sua localização via mapa interativo (Figuras~\ref{fig:listagem-paradas} e \ref{fig:formulario-parada}).                                                                                                                  \\
+    \hline
+    RF04        & Implementado                & \RaggedRight A funcionalidade de criação e organização de rotas, com sequência de paradas, está implementada (Figura~\ref{fig:criacao-rota}).                                                                                                                                                     \\
+    \hline
+    RF05        & Implementado                & \RaggedRight O agendamento de viagens, associando rota, veículo e motorista, é funcional, como visto na Figura~\ref{fig:agendamento-viagem}.                                                                                                                                                      \\
+    \hline
+    RF06        & Implementado                & \RaggedRight O assistente (\textit{wizard}) de venda de passagens guia o usuário pelo processo de forma rápida, conforme demonstrado a partir da Figura~\ref{fig:wizard-rota}.                                                                                                                    \\
+    \hline
+    RF07        & Implementado                & \RaggedRight O formulário de venda de passagens coleta e armazena as informações essenciais do passageiro (Figura~\ref{fig:wizard-passageiro}).                                                                                                                                                   \\
+    \hline
+    RF08        & Parcialmente \-Implementado & \RaggedRight O sistema controla o número total de assentos disponíveis, impedindo a venda acima da capacidade (overbooking). A funcionalidade de gerenciamento de assentos específicos (mapa de assentos) foi definida como uma melhoria futura.                                                  \\
+    \hline
+    RF09        & Parcialmente \-Implementado & \RaggedRight A geração de listas de passageiros por viagem é funcional. No entanto, a opção de imprimir um manifesto e um módulo dedicado ao motorista para controle de embarque não foram contemplados no escopo deste protótipo.                                                                \\
+    \hline
+    RF10        & Parcialmente \-Implementado & \RaggedRight O sistema exibe o número de assentos livres, permitindo ao gestor inferir a ocupação. A visualização direta da "taxa de ocupação" em formato de dashboard (Figura~\ref{fig:dashboard}) é uma representação visual que, em futuras iterações, será conectada aos dados em tempo real. \\
+    \hline
+    RF11        & Não Implementado            & \RaggedRight A geração de relatórios financeiros foi deixada fora do escopo do protótipo devido a limitações de tempo, sendo um requisito prioritário para versões futuras do sistema.                                                                                                            \\
+    \hline
+  \end{tabular}
 \end{table}
 
 \begin{table}[htbp]
+  \small
   \centering
   \caption{Verificação dos Requisitos Não Funcionais (RNF)}
-  \label{tab:verificacao-rnf}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{|l|c|p{9.5cm}|}
-      \hline
-      \textbf{Requisito}                  & \textbf{Status}           & \textbf{Observações e Evidências}                                                         \\
-      \hline
-      RNF01 -- Responsividade             & Implementado              & Interface responsiva, componentes padronizados e adaptação a diferentes tamanhos de tela. \\
-      RNF02 -- Navegação                  & Parcialmente Implementado & Fluxos principais claros; avaliação heurística indica melhorias na prevenção de erros.    \\
-      RNF03 -- Acessibilidade             & Parcialmente Implementado & Formulários com indicadores de progresso; faltam recursos avançados de acessibilidade.    \\
-      RNF04 -- Autenticação               & Implementado              & Login seguro com JWT e controle de sessão.                                                \\
-      RNF05 -- Autorização                & Implementado              & Acesso baseado em perfis com guards e verificação centralizada.                           \\
-      RNF06 -- Isolamento                 & Implementado              & Separação de dados por empresa garantida via filtro automático por \textit{companyId}.    \\
-      RNF07 -- Validação                  & Implementado              & Validação de entrada no backend (DTOs/validators) e no frontend.                          \\
-      RNF08 -- Desempenho de Carregamento & Implementado              & Páginas com tempos de resposta adequados nos fluxos críticos.                             \\
-      RNF09 -- Otimização de Consultas    & Parcialmente Implementado & Consultas indexadas nos módulos principais; há espaço para otimizações adicionais.        \\
-      RNF10 -- Escalabilidade             & Parcialmente Implementado & Arquitetura modular; ausência de escalonamento horizontal automático e fila de mensagens. \\
-      RNF11 -- Arquitetura                & Implementado              & Código organizado por módulos com camadas bem definidas.                                  \\
-      RNF12 -- Padrões                    & Implementado              & Padrões de codificação consistentes e lint configurado.                                   \\
-      RNF13 -- Documentação               & Parcialmente Implementado & Documentação básica presente; falta detalhamento abrangente de API e decisões de projeto. \\
-      RNF14 -- Containerização            & Implementado              & Dockerfile no frontend e backend; orquestração via \texttt{docker-compose}.               \\
-      RNF15 -- Configuração de Ambientes  & Implementado              & Suporte a múltiplos ambientes com variáveis de ambiente.                                  \\
-      \hline
-    \end{tabular}%
-  }
+  \label{tab:verificacao-rnf-nova}
+  \begin{tabular}{|p{1.5cm}|p{3cm}|p{10cm}|}
+    \hline
+    \textbf{ID} & \textbf{Status} & \textbf{Observações e Evidências}                                                                                                                                                 \\
+    \hline
+    RNF01       & Implementado    & \RaggedRight A interface se mostrou clara e intuitiva nos principais fluxos de trabalho. A avaliação heurística, discutida na próxima seção, aponta pontos de melhoria pontuais.  \\
+    \hline
+    RNF02       & Implementado    & \RaggedRight O sistema foi desenvolvido com Tailwind CSS, garantindo a responsividade e a adaptação da interface a diferentes tamanhos de tela (desktop, tablet e mobile).        \\
+    \hline
+    RNF03       & Implementado    & \RaggedRight As tecnologias escolhidas (Next.js com SSR) resultaram em tempos de carregamento de página adequados para os fluxos de trabalho testados.                            \\
+    \hline
+    RNF04       & Implementado    & \RaggedRight A arquitetura de implantação no Google Cloud Run foi projetada para alta disponibilidade, embora testes de estresse em larga escala não tenham sido parte do escopo. \\
+    \hline
+    RNF05       & Implementado    & \RaggedRight O acesso é protegido por autenticação baseada em JWT, com rotas do backend e do frontend devidamente protegidas.                                                     \\
+    \hline
+    RNF06       & Implementado    & \RaggedRight A arquitetura multi-tenant com filtro automático por \textit{companyId} garante o isolamento lógico dos dados de cada empresa na camada de aplicação.                \\
+    \hline
+  \end{tabular}
 \end{table}
 
-\section{Avaliação Heurística}
-A segunda etapa da avaliação do protótipo consistiu em uma Avaliação Heurística, método de inspeção de usabilidade consolidado por Nielsen (1994). Atuando como avaliador especialista, foram analisados os principais fluxos de interação do sistema, como o cadastro de rotas e a venda de passagens, com o objetivo de identificar potenciais problemas e pontos de aderência a boas práticas de design de interface. A seguir, são discutidos os achados mais relevantes, agrupados pelas heurísticas correspondentes.
+\section{Avaliação Heurística da Interface}
 
-Visibilidade do status do sistema (Heurística 1)
-O sistema se destaca na aplicação desta heurística. Em operações que demandam tempo, como o carregamento de tabelas de dados, a interface exibe componentes de skeleton loading (Figura X, a ser inserida por você, mostrando a tabela "carregando"), comunicando claramente ao usuário que uma ação está em progresso. Adicionalmente, ações de sucesso ou falha, como salvar um novo veículo, disparam notificações do tipo toast no canto da tela, como ilustrado na Figura \ref{fig:toast-success}, fornecendo feedback imediato e não intrusivo.
+Após a verificação dos requisitos, foi realizada uma Avaliação Heurística no protótipo do ViaBus, com o objetivo de identificar possíveis problemas de usabilidade na interface. Este método consiste na inspeção da interface por um avaliador, que a analisa com base em um conjunto de princípios e diretrizes de usabilidade reconhecidos, conhecidos como "heurísticas" \cite{Nielsen1994}. Para esta análise, foram utilizadas as 10 Heurísticas de Usabilidade de Jakob Nielsen, um dos conjuntos de princípios mais consolidados na área de Interação Humano-Computador.
 
-Correspondência entre o sistema e o mundo real (Heurística 2)
-A plataforma utiliza uma linguagem e iconografia familiar ao usuário-alvo. Termos como "Frota", "Motoristas", "Paradas" e "Rotas" são diretos e correspondem à terminologia do setor. A utilização de mapas interativos para a gestão de paradas e visualização de rotas, como visto na Figura \ref{fig:mapa-paradas}, cria uma representação visual que espelha diretamente a operação logística do mundo real, facilitando o entendimento e a manipulação dos dados.
+A avaliação buscou identificar tanto os pontos fortes do design proposto quanto as oportunidades de melhoria. Os resultados são discutidos a seguir, agrupados pelas heurísticas mais relevantes para o contexto do protótipo.
 
-Consistência e padronização (Heurística 4)
-Este é um dos pontos mais fortes do protótipo. A utilização sistemática da biblioteca de componentes shadcn/ui garante uma alta consistência visual e de interação. Elementos como botões, formulários, tabelas e modais, como o de cadastro de nova parada (Figura \ref{fig:modal-parada}), mantêm uma identidade e um comportamento padronizados em todos os módulos. Essa consistência reduz a carga cognitiva do usuário e acelera a curva de aprendizado da ferramenta.
+\subsubsection{Pontos Fortes da Interface}
 
-Prevenção de erros (Heurística 5)
-Neste ponto, foram identificadas oportunidades de melhoria. No formulário de criação de rotas (Figura \ref{fig:form-rotas}), o sistema atualmente permite que o usuário avance e tente salvar uma rota sem ter selecionado nenhuma parada. Isso representa um erro potencial, pois uma rota sem paradas é funcionalmente inútil e pode gerar dados inconsistentes. Uma melhoria recomendada seria a implementação de uma validação no frontend que desabilite o botão "Salvar" ou exiba uma mensagem de alerta enquanto a lista de paradas da rota estiver vazia.
+O design do protótipo demonstrou forte aderência a diversas heurísticas fundamentais, resultando em uma base de interação sólida.
 
-Reconhecimento em vez de memorização (Heurística 6)
-A interface faz um bom trabalho ao manter as opções e informações visíveis. O menu lateral persistente (Figura \ref{fig:sidebar}) permite que o usuário navegue entre os módulos sem precisar memorizar o caminho. No entanto, no fluxo de venda de passagens, o sistema poderia melhorar ao exibir um resumo da seleção (ex: "Rota: Picos x Teresina, Data: 29/08/2025") em todos os passos do assistente, para que o usuário não precise memorizar as informações inseridas nos passos anteriores.
+\begin{itemize}
+  \item \textbf{Heurística 1: Visibilidade do status do sistema.} O sistema se comunica de forma eficaz com o usuário. Como visto na Figura~\ref{fig:wizard-rota}, o assistente de venda de passagens exibe claramente em qual das cinco etapas o usuário se encontra. Além disso, o uso consistente de \textit{toasts} de notificação (Figura~\ref{fig:tela-rotas}, por exemplo) para confirmar ações como "Rota criada com sucesso!" fornece feedback imediato e claro, mantendo o usuário informado sobre o resultado de suas operações.
 
-Estética e design minimalista (Heurística 8)
-A interface do ViaBus é limpa e funcional. Não há excesso de informações ou elementos visuais que possam distrair o usuário de suas tarefas. O uso de espaços em branco e a hierarquia visual clara, como visto no Dashboard (Figura \ref{fig:dashboard}), contribuem para um design minimalista que prioriza o conteúdo e a funcionalidade.
+  \item \textbf{Heurística 4: Consistência e padronização.} A interface do ViaBus mantém um alto grau de consistência visual e de interação. A estrutura de navegação, com o menu lateral (\textit{sidebar}) presente em todas as telas de gerenciamento (Figura~\ref{fig:dashboard}), e o padrão de tabelas com filtros e botões de ação (Figuras~\ref{fig:listagem-paradas} e \ref{fig:veiculos}) se repetem em todos os módulos. Essa padronização reduz a carga cognitiva do usuário, que não precisa reaprender a usar o sistema a cada nova tela.
 
+  \item \textbf{Heurística 8: Estética e design minimalista.} A interface adota um design limpo e focado no conteúdo, evitando elementos visuais desnecessários que poderiam distrair o usuário. Os formulários, como o de criação de parada (Figura~\ref{fig:formulario-parada}), são um bom exemplo: os campos são claramente rotulados e organizados, apresentando apenas as informações essenciais para a tarefa em questão.
+\end{itemize}
+
+\subsubsection{Oportunidades de Melhoria}
+
+A avaliação também identificou pontos onde a interface pode ser aprimorada para evitar erros e reduzir a fricção do usuário.
+
+\begin{itemize}
+  \item \textbf{Heurística 5: Prevenção de erros.} Embora o sistema valide os dados no backend, a interface poderia ser mais proativa na prevenção de erros. Por exemplo, ao confirmar um agendamento de passagem (Figura~\ref{fig:agendamento-viagem}), o botão "Confirmar" não deve estar ativo se as informações como paradas de embarque e desembarque e preço total da passagem não forem informadas.
+
+  \item \textbf{Heurística 6: Reconhecimento em vez de memorização.} Na interface de agendamento de viagem (Figura~\ref{fig:agendamento-viagem}), os campos para associar veículo e motorista são campos de busca. Embora funcional, o gestor precisa memorizar a placa do veículo ou o nome do motorista para encontrá-los. Uma melhoria significativa seria substituir esses campos por um seletor (\textit{dropdown}) ou uma busca com sugestões automáticas, que listaria os recursos disponíveis. Isso trocaria a necessidade de memorização pela simples tarefa de reconhecimento, tornando o processo mais rápido e menos propenso a erros.
+\end{itemize}
+
+Em suma, a avaliação heurística indica que o protótipo do ViaBus possui uma base de usabilidade sólida, com destaque para a clareza, consistência e design minimalista. As principais oportunidades de aprimoramento concentram-se na implementação de mecanismos para a prevenção de erros e na redução da carga de memorização do usuário em fluxos de trabalho específicos.
 \section{Discussão dos Resultados}
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+A análise dos resultados indica que o protótipo do ViaBus atingiu seu objetivo primário: materializar as funcionalidades essenciais para a digitalização da gestão de transporte alternativo. A verificação de requisitos demonstrou que o núcleo operacional do sistema — abrangendo o gerenciamento de recursos como frotas e motoristas, e a execução de operações como agendamento de viagens e vendas — foi implementado com sucesso. Contudo, a análise também revelou que funcionalidades analíticas avançadas, como a de relatórios, foram designadas como trabalhos futuros devido a limitações no escopo do projeto. Do ponto de vista da usabilidade, a avaliação heurística revelou uma base de interface sólida e consistente, mas também apontou para a necessidade de refinar mecanismos de prevenção de erros para garantir uma operação mais segura no dia a dia.
+
+A principal contribuição do protótipo reside na sua capacidade de atacar diretamente os desafios operacionais revelados pela pesquisa de mercado (ver \autoref{apendice:resultados}). A dependência de "cadernos de anotações" e processos manuais via WhatsApp, uma realidade para 100\% dos gestores entrevistados, é diretamente substituída pelo assistente de venda de passagens (Figuras \ref{fig:wizard-rota} a \ref{fig:wizard-confirmacao}), que centraliza e digitaliza o processo. O requisito RF08 (Anti-Overbooking), que foi implementado, soluciona uma das maiores preocupações operacionais — a venda de assentos acima da capacidade —, um problema recorrente no controle manual. Da mesma forma, a geração automática da lista de passageiros (RF09) elimina a "perda de tempo organizando listas", um dos principais entraves à eficiência citados na pesquisa.
+
+Apesar dos avanços, é crucial reconhecer as limitações funcionais do protótipo em seu estado atual. A não implementação do módulo de relatórios financeiros (RF11) é a lacuna mais significativa, pois impede que o gestor extraia inteligência de negócio a partir dos dados coletados, uma das vantagens centrais prometidas pelo modelo SaaS. Adicionalmente, a implementação parcial do RF09, que não inclui um manifesto de viagem ou módulo dedicado ao motorista, significa que a "comunicação com os motoristas" — outro desafio identificado na pesquisa — ainda não está totalmente digitalizada no protótipo, resolvendo apenas parte do problema de comunicação entre a gestão e a operação de embarque.
+
+A avaliação heurística reforça que a usabilidade da plataforma é um ponto forte, especialmente sua consistência e clareza (aderência às Heurísticas 4 e 8 de Nielsen), o que é vital para um público-alvo que pode não ter familiaridade com sistemas complexos. Contudo, a falha identificada na "Prevenção de Erros" (Heurística 5) — a ausência de confirmação antes de ações destrutivas — representa um risco operacional real. Em um ambiente de produção, um clique acidental poderia levar à exclusão de uma rota inteira, demonstrando que a robustez de um sistema não depende apenas de sua funcionalidade, mas também de mecanismos que protejam o usuário de erros inadvertidos.
+
+Finalmente, ao contrastar o protótipo com as soluções de mercado citadas na Fundamentação Teórica, fica evidente o nicho que o ViaBus busca ocupar. Comparado a sistemas de grande porte, ele é funcionalmente mais enxuto. No entanto, sua proposta de valor não reside na competição direta de funcionalidades, mas na simplicidade, usabilidade e baixo custo de entrada, preenchendo a lacuna de mercado para pequenas e médias empresas de transporte alternativo que consideram as soluções existentes complexas ou com um custo proibitivo.
