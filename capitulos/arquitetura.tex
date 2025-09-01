@@ -1,11 +1,11 @@
 \chapter{Arquitetura e Modelagem do Sistema} \label{cha:arquitetura}
 
 \section{Arquitetura da Solução}
-Esta seção descreve a organização estrutural do sistema ViaBus, que provê funções de gestão de transporte para empresas: cadastro de empresas, usuários, motoristas, veículos, rotas, paradas, viagens e bilhetes. A solução adota uma arquitetura web em camadas, com separação clara entre apresentação (frontend), lógica de negócio e APIs (backend) e persistência (banco de dados).
+Esta seção descreve a organização estrutural do sistema ViaBus, que provê funções de gestão de transporte para empresas: cadastro de empresas, usuários, motoristas, veículos, rotas, paradas, viagens e bilhetes. A solução adota uma arquitetura web em camadas, com separação clara entre apresentação (\textit{frontend}), lógica de negócio e APIs (\textit{backend}) e persistência (banco de dados).
 
-No \textit{frontend}, utiliza-se Next.js~15 com roteamento via App Router, estado de sessão via NextAuth (estratégia \textit{JWT}) e componentes React tipados (TypeScript). O \textit{frontend} consome APIs REST autenticadas, mantém contexto de usuário/empresa e incorpora mapas e edição geográfica com Leaflet/React-Leaflet para operações sobre rotas e paradas.
+No \textit{frontend}, utiliza-se Next.js~15 com roteamento via \textit{App Router}, estado de sessão via NextAuth (estratégia JWT) e componentes React tipados (TypeScript). O \textit{frontend} consome APIs REST autenticadas, mantém contexto de usuário/empresa e incorpora mapas e edição geográfica com Leaflet/React-Leaflet para operações sobre rotas e paradas.
 
-O \textit{backend} é implementado com NestJS~11, estruturado por módulos de domínio (\textit{auth}, \textit{users}, \textit{companies}, \textit{drivers}, \textit{vehicles}, \textit{stops}, \textit{routes}, \textit{trips}, \textit{tickets}, etc.). As regras de negócio são expostas por controladores REST, protegidos por autenticação \textit{JWT} e autorização baseada em papéis. A multiempresa é tratada por \textit{companyId} e por um interceptor que injeta o contexto de empresa a partir do token. A persistência usa TypeORM com PostgreSQL.
+O \textit{backend} é implementado com NestJS~11, estruturado por módulos de domínio (\textit{auth}, \textit{users}, \textit{companies}, \textit{drivers}, \textit{vehicles}, \textit{stops}, \textit{routes}, \textit{trips}, \textit{tickets}, etc.). As regras de negócio são expostas por controladores REST, protegidos por autenticação JWT e autorização baseada em papéis. A multiempresa é tratada por \textit{companyId} e por um interceptor que injeta o contexto de empresa a partir do token. A persistência usa TypeORM com PostgreSQL.
 
 \begin{figure}[H]
   \centering
@@ -71,7 +71,7 @@ Para facilitar a análise do domínio e a compreensão das decisões de modelage
 
 \subsubsection*{Agregado Organizacional: Empresas e Usuários}
 
-O pilar da arquitetura multi-tenant do sistema reside neste agregado. A entidade \texttt{Company} é a raiz de todos os dados operacionais. A decisão de incluir a chave estrangeira \texttt{companyId} na entidade \texttt{User} estabelece o vínculo fundamental que garante que cada usuário pertença inequivocamente a uma única empresa. Este design é a base para o filtro de isolamento de dados que será aplicado em todas as consultas subsequentes, conforme detalhado na seção de arquitetura do backend.
+O pilar da arquitetura \textit{multi-tenant} do sistema reside neste agregado. A entidade \texttt{Company} é a raiz de todos os dados operacionais. A decisão de incluir a chave estrangeira \texttt{companyId} na entidade \texttt{User} estabelece o vínculo fundamental que garante que cada usuário pertença inequivocamente a uma única empresa. Este design é a base para o filtro de isolamento de dados que será aplicado em todas as consultas subsequentes, conforme detalhado na seção de arquitetura do \textit{backend}.
 
 \begin{figure}[H]
   \centering
@@ -332,7 +332,7 @@ Este é o agregado central que conecta a configuração (Rotas) com os recursos 
 
 \section{Arquitetura do Backend}
 
-O backend implementa uma arquitetura modular baseada no framework NestJS 11, seguindo os princípios de \textit{Separation of Concerns} e \textit{Dependency Injection}. A aplicação é estruturada em 10 módulos de domínio, com camadas bem definidas de segurança, validação e persistência.
+O \textit{backend} implementa uma arquitetura modular baseada no \textit{framework} NestJS 11, seguindo os princípios de \textit{Separation of Concerns} e \textit{Dependency Injection}. A aplicação é estruturada em 10 módulos de domínio, com camadas bem definidas de segurança, validação e persistência.
 
 \subsection{Organização Modular}
 
@@ -387,7 +387,7 @@ A organização modular agrupa os componentes por responsabilidade funcional. Os
 
 \subsection{Pipeline de Processamento}
 
-Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, interceptors e filters, garantindo segurança e consistência.
+Cada requisição HTTP passa por um \textit{pipeline} estruturado de \textit{middleware}, \textit{guards}, \textit{interceptors} e \textit{filters}, garantindo segurança e consistência.
 
 \begin{figure}[H]
   \centering
@@ -421,11 +421,11 @@ Cada requisição HTTP passa por um pipeline estruturado de middleware, guards, 
   \label{fig:request-pipeline}
 \end{figure}
 
-O pipeline garante que cada requisição passe por validações sequenciais obrigatórias. Inicialmente, o \text{Morgan} registra logs e o \text{CORS} valida origens permitidas. A autenticação via \text{JwtAuthGuard} verifica tokens válidos, seguida da autorização por \text{RolesGuard} que confirma permissões do usuário. O \text{ValidationPipe} valida DTOs de entrada. O \text{CompanyFilterInterceptor} injeta o contexto multiempresa antes do processamento pelo \text{Controller} e \text{Service}. Finalmente, o \text{TypeORM} persiste dados e os \text{Exception Filters} tratam erros de forma padronizada.
+O \textit{pipeline} garante que cada requisição passe por validações sequenciais obrigatórias. Inicialmente, o \text{Morgan} registra \textit{logs} e o \text{CORS} valida origens permitidas. A autenticação via \text{JwtAuthGuard} verifica \textit{tokens} válidos, seguida da autorização por \text{RolesGuard} que confirma permissões do usuário. O \text{ValidationPipe} valida DTOs de entrada. O \text{CompanyFilterInterceptor} injeta o contexto multiempresa antes do processamento pelo \text{Controller} e \text{Service}. Finalmente, o \text{TypeORM} persiste dados e os \text{Exception Filters} tratam erros de forma padronizada.
 
 \subsection{Fluxo de Autenticação}
 
-O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A \autoref{fig:auth-sequence} detalha o processo completo.
+O sistema utiliza autenticação baseada em JWT com suporte a \textit{multi-tenancy}. A \autoref{fig:auth-sequence} detalha o processo completo.
 
 \begin{figure}[H]
   \centering
@@ -464,11 +464,11 @@ O sistema utiliza autenticação baseada em JWT com suporte a multi-tenancy. A \
   \label{fig:auth-sequence}
 \end{figure}
 
-O fluxo de autenticação implementa um processo seguro e eficiente em 11 etapas. O cliente envia credenciais via POST para o \texttt{AuthController}, que delega ao \texttt{AuthService} a validação. O \texttt{UsersService} busca o usuário por email (incluindo senha hash), valida a senha fornecida e retorna o resultado. Confirmada a autenticação, o \texttt{AuthService} consulta os dados da empresa via \texttt{CompanyService} e cria o payload JWT contendo informações do usuário e contexto empresarial. A resposta final inclui o token de acesso, dados do usuário e informações da empresa, permitindo que o frontend mantenha o contexto de sessão multiempresa.
+O fluxo de autenticação implementa um processo seguro e eficiente em 11 etapas. O cliente envia credenciais via POST para o \texttt{AuthController}, que delega ao \texttt{AuthService} a validação. O \texttt{UsersService} busca o usuário por email (incluindo senha hash), valida a senha fornecida e retorna o resultado. Confirmada a autenticação, o \texttt{AuthService} consulta os dados da empresa via \texttt{CompanyService} e cria o \textit{payload} JWT contendo informações do usuário e contexto empresarial. A resposta final inclui o \textit{token} de acesso, dados do usuário e informações da empresa, permitindo que o \textit{frontend} mantenha o contexto de sessão multiempresa.
 
 \subsection{Arquitetura Multi-tenant}
 
-O sistema implementa isolamento de dados por empresa através de uma arquitetura multi-tenant baseada em filtros automáticos. A solução utiliza três componentes principais que trabalham em conjunto para garantir separação completa entre inquilinos:
+O sistema implementa isolamento de dados por empresa através de uma arquitetura \textit{multi-tenant} baseada em filtros automáticos. A solução utiliza três componentes principais que trabalham em conjunto para garantir separação completa entre inquilinos:
 
 \begin{itemize}
   \item \text{BaseCompanyService<T>}: Classe abstrata que implementa operações CRUD com filtro automático por \texttt{companyId}
@@ -560,11 +560,11 @@ A implementação garante que todas as operações de banco de dados incluam aut
 
 \section{Arquitetura do Frontend}
 
-O frontend implementa uma arquitetura moderna baseada em Next.js~15 (React~19) com seu \textit{App Router}, utilizando TypeScript para garantir uma tipagem estática completa. A aplicação foi estruturada seguindo padrões de arquitetura limpa e uma organização orientada a domínios de negócio, visando a manutenibilidade e a escalabilidade da interface.
+O \textit{frontend} implementa uma arquitetura moderna baseada em Next.js~15 (React~19) com seu \textit{App Router}, utilizando TypeScript para garantir uma tipagem estática completa. A aplicação foi estruturada seguindo padrões de arquitetura limpa e uma organização orientada a domínios de negócio, visando a manutenibilidade e a escalabilidade da interface.
 
 \subsection{Stack Tecnológico e Organização}
 
-Para garantir performance, uma boa experiência de usuário e manutenibilidade, o frontend utiliza um conjunto integrado de tecnologias. A base da aplicação é o \text{Next.js~15}, que, junto ao \text{React~19}, oferece uma plataforma sólida para a renderização da interface. A construção da UI segue um \textit{design system} customizado, empregando componentes primitivos do \text{Radix UI} para assegurar a acessibilidade e o \text{Tailwind CSS} para uma estilização \textit{utility-first} ágil e consistente. A gestão de formulários é responsabilidade do \text{React Hook Form} combinado com o \text{Zod} para validação tipada de dados. A autenticação é gerenciada pelo \text{NextAuth v4}, enquanto as funcionalidades geográficas são implementadas com \text{Leaflet}. O estado global da aplicação, por sua vez, é controlado de forma eficiente pela \text{Context API} nativa do \text{React}.
+Para garantir \textit{performance}, uma boa experiência de usuário e manutenibilidade, o \textit{frontend} utiliza um conjunto integrado de tecnologias. A base da aplicação é o \text{Next.js~15}, que, junto ao \text{React~19}, oferece uma plataforma sólida para a renderização da interface. A construção da UI segue um \textit{design system} customizado, empregando componentes primitivos do \text{Radix UI} para assegurar a acessibilidade e o \text{Tailwind CSS} para uma estilização \textit{utility-first} ágil e consistente. A gestão de formulários é responsabilidade do \text{React Hook Form} combinado com o \text{Zod} para validação tipada de dados. A autenticação é gerenciada pelo \text{NextAuth v4}, enquanto as funcionalidades geográficas são implementadas com \text{Leaflet}. O estado global da aplicação, por sua vez, é controlado de forma eficiente pela \text{Context API} nativa do \text{React}.
 
 \subsection{Arquitetura de Roteamento}
 
@@ -572,20 +572,20 @@ A aplicação utiliza o \textit{App Router} do Next.js~15, que permite um roteam
 
 \subsection{Gerenciamento de Estado e Contextos}
 
-O gerenciamento do estado global da aplicação é implementado através de uma hierarquia de \textit{Contextos} React. Essa abordagem permite um compartilhamento de dados eficiente e desacoplado entre os componentes. No topo da hierarquia, o \texttt{SessionProvider} gerencia a sessão do NextAuth e os tokens JWT. Abaixo dele, o \texttt{ThemeProvider} controla o tema visual da aplicação (claro/escuro). Em seguida, o \texttt{AuthProvider} expõe os dados do usuário autenticado e da empresa associada. O \texttt{CompanyProvider} mantém o estado específico da empresa que está sendo visualizada no \textit{dashboard}, enquanto o \texttt{SidebarProvider}, na camada mais interna, gerencia estados de UI, como a visibilidade do menu lateral.
+O gerenciamento do estado global da aplicação é implementado através de uma hierarquia de \textit{Contextos} React. Essa abordagem permite um compartilhamento de dados eficiente e desacoplado entre os componentes. No topo da hierarquia, o \texttt{SessionProvider} gerencia a sessão do NextAuth e os \textit{tokens} JWT. Abaixo dele, o \texttt{ThemeProvider} controla o tema visual da aplicação (claro/escuro). Em seguida, o \texttt{AuthProvider} expõe os dados do usuário autenticado e da empresa associada. O \texttt{CompanyProvider} mantém o estado específico da empresa que está sendo visualizada no \textit{dashboard}, enquanto o \texttt{SidebarProvider}, na camada mais interna, gerencia estados de UI, como a visibilidade do menu lateral.
 
 \subsection{Sistema de Autenticação e Comunicação}
 
-A comunicação com o backend é centralizada para garantir consistência e segurança. A autenticação integra o NextAuth com a API NestJS através de tokens JWT, e todas as requisições HTTP são gerenciadas por um serviço centralizado, o \texttt{api.service.ts}. Este serviço encapsula responsabilidades críticas: ele anexa automaticamente os \textit{Bearer tokens} de autenticação em todas as chamadas a rotas protegidas, trata respostas de erro de forma padronizada (redirecionando para a página de login em caso de erro 401, por exemplo), processa as respostas da API para extrair os dados e valida a sessão do usuário antes de cada requisição, otimizando a comunicação com o servidor.
+A comunicação com o \textit{backend} é centralizada para garantir consistência e segurança. A autenticação integra o NextAuth com a API NestJS através de \textit{tokens} JWT, e todas as requisições HTTP são gerenciadas por um serviço centralizado, o \texttt{api.service.ts}. Este serviço encapsula responsabilidades críticas: ele anexa automaticamente os \textit{Bearer tokens} de autenticação em todas as chamadas a rotas protegidas, trata respostas de erro de forma padronizada (redirecionando para a página de \textit{login} em caso de erro 401, por exemplo), processa as respostas da API para extrair os dados e valida a sessão do usuário antes de cada requisição, otimizando a comunicação com o servidor.
 
 \subsection{Arquitetura de Componentes}
 
-O sistema de componentes foi projetado em camadas, seguindo uma lógica de composição que vai do mais simples ao mais complexo. Na base, estão os Primitivos de UI do Radix UI, que fornecem comportamento e acessibilidade sem estilização. Sobre eles, foi construído um Design System de componentes reutilizáveis e tipados (localizados em \texttt{components/ui/}), que definem a aparência visual da aplicação. Estes são, então, utilizados para compor os Componentes de Domínio, que são específicos de cada funcionalidade, como formulários de cadastro ou tabelas de dados. Por fim, as Páginas são montadas através da composição desses componentes, organizadas dentro de Layouts reutilizáveis que fornecem a estrutura de navegação e os provedores de contexto necessários.
+O sistema de componentes foi projetado em camadas, seguindo uma lógica de composição que vai do mais simples ao mais complexo. Na base, estão os Primitivos de UI do Radix UI, que fornecem comportamento e acessibilidade sem estilização. Sobre eles, foi construído um \textit{Design System} de componentes reutilizáveis e tipados (localizados em \texttt{components/ui/}), que definem a aparência visual da aplicação. Estes são, então, utilizados para compor os Componentes de Domínio, que são específicos de cada funcionalidade, como formulários de cadastro ou tabelas de dados. Por fim, as Páginas são montadas através da composição desses componentes, organizadas dentro de \textit{Layouts} reutilizáveis que fornecem a estrutura de navegação e os provedores de contexto necessários.
 
 
 \subsection{Tipagem e Validação}
 
-O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do backend correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário.
+O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do \textit{backend} correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário.
 
 \begin{figure}[htbp]
   \centering

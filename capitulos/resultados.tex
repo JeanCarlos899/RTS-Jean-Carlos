@@ -68,7 +68,7 @@ A primeira etapa da avaliação do protótipo consistiu na verificação sistem�
 
 Após a verificação dos requisitos, foi realizada uma Avaliação Heurística no protótipo do ViaBus, com o objetivo de identificar possíveis problemas de usabilidade na interface. Este método consiste na inspeção da interface por um avaliador, que a analisa com base em um conjunto de princípios e diretrizes de usabilidade reconhecidos, conhecidos como "heurísticas" \cite{Nielsen1994}. Para esta análise, foram utilizadas as 10 Heurísticas de Usabilidade de Jakob Nielsen, um dos conjuntos de princípios mais consolidados na área de Interação Humano-Computador.
 
-A avaliação buscou identificar tanto os pontos fortes do design proposto quanto as oportunidades de melhoria. Os resultados são discutidos a seguir, agrupados pelas heurísticas mais relevantes para o contexto do protótipo.
+A avaliação buscou identificar tanto os pontos fortes do \textit{design} proposto quanto as oportunidades de melhoria. Os resultados são discutidos a seguir, agrupados pelas heurísticas mais relevantes para o contexto do protótipo.
 
 \subsubsection{Pontos Fortes da Interface}
 
@@ -87,7 +87,7 @@ O design do protótipo demonstrou forte aderência a diversas heurísticas funda
 A avaliação também identificou pontos onde a interface pode ser aprimorada para evitar erros e reduzir a fricção do usuário.
 
 \begin{itemize}
-  \item \textbf{Heurística 5: Prevenção de erros.} Embora o sistema valide os dados no backend, a interface poderia ser mais proativa na prevenção de erros. Por exemplo, ao confirmar um agendamento de passagem (Figura~\ref{fig:agendamento-viagem}), o botão "Confirmar" não deve estar ativo se as informações como paradas de embarque e desembarque e preço total da passagem não forem informadas.
+  \item \textbf{Heurística 5: Prevenção de erros.} Embora o sistema valide os dados no \textit{backend}, a interface poderia ser mais proativa na prevenção de erros. Por exemplo, ao confirmar um agendamento de passagem (Figura~\ref{fig:agendamento-viagem}), o botão "Confirmar" não deve estar ativo se as informações como paradas de embarque e desembarque e preço total da passagem não forem informadas.
 
   \item \textbf{Heurística 6: Reconhecimento em vez de memorização.} Na interface de agendamento de viagem (Figura~\ref{fig:agendamento-viagem}), os campos para associar veículo e motorista são campos de busca. Embora funcional, o gestor precisa memorizar a placa do veículo ou o nome do motorista para encontrá-los. Uma melhoria significativa seria substituir esses campos por um seletor (\textit{dropdown}) ou uma busca com sugestões automáticas, que listaria os recursos disponíveis. Isso trocaria a necessidade de memorização pela simples tarefa de reconhecimento, tornando o processo mais rápido e menos propenso a erros.
 \end{itemize}

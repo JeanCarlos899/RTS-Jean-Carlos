@@ -5,11 +5,10 @@ Em um país de dimensões continentais, o transporte rodoviário de passageiros 
 No estado do Piauí, esta modalidade é uma realidade consolidada, cuja organização é definida pela Lei Nº 8.562 de 2025, que dispõe sobre o Sistema de Transporte Rodoviário Intermunicipal de Passageiros do Estado do Piauí (STRIP/PI). A referida lei classifica o "serviço alternativo"\ como uma das categorias oficiais do sistema, designando a Secretaria dos Transportes (SETRANS) como o poder concedente \cite{PIAUI2025}. Este serviço, prestado por veículos de menor porte, surge para suprir as lacunas deixadas pelo sistema convencional. A existência de uma legislação específica demonstra a relevância do setor, mas também evidencia a necessidade de ferramentas de gestão que se adaptem às suas particularidades operacionais.
 
 Diante desse cenário, este trabalho propõe o desenvolvimento de uma plataforma
-baseada no modelo Software como Serviço (\textit{SaaS, Software as a Service})
+baseada no modelo Software como Serviço (SaaS, \textit{Software as a Service})
 para a gestão integrada de empresas de transporte rodoviário alternativo.
 A escolha por este modelo se fundamenta na definição de Chong e Carraro
-(2006 apud \textcite{melo2007software}) como um "software implementado
-como um serviço hospedado e acessado pela Internet", o que permite que empresas
+(2006 apud \textcite{melo2007software}) como um "\textit{software} implementado como um serviço hospedado e acessado pela Internet", o que permite que empresas
 utilizem soluções baseadas em nuvem com custos operacionais reduzidos e alta
 escalabilidade --- características especialmente vantajosas para o setor em foco.
 
@@ -17,9 +16,9 @@ Este cenário, onde um serviço regulamentado e essencial como o transporte alte
 
 \section{Justificativa}
 
-O transporte rodoviário alternativo de passageiros no Brasil, embora essencial para a conectividade regional, opera de forma majoritariamente analógica e fragmentada. Uma pesquisa de mercado realizada para este estudo (\autoref{apendice:resultados}) revelou que a gestão de frotas e a venda de passagens ainda são fortemente dependentes de processos manuais, como o uso de cadernos de anotações e planilhas. Essa carência de ferramentas digitais integradas limita a eficiência e o potencial de crescimento do setor. Neste contexto, a adoção de plataformas \textit{SaaS} surge como uma solução estratégica para transformar esse cenário, otimizando recursos e reduzindo custos operacionais. Estudos de mercado mais amplos corroboram essa visão, indicando que tecnologias no setor de transportes podem elevar a eficiência logística em até 15\% \cite{setcepar2023}.
+O transporte rodoviário alternativo de passageiros no Brasil, embora essencial para a conectividade regional, opera de forma majoritariamente analógica e fragmentada. Uma pesquisa de mercado realizada para este estudo (\autoref{apendice:resultados}) revelou que a gestão de frotas e a venda de passagens ainda são fortemente dependentes de processos manuais, como o uso de cadernos de anotações e planilhas. Essa carência de ferramentas digitais integradas limita a eficiência e o potencial de crescimento do setor. Neste contexto, a adoção de plataformas SaaS surge como uma solução estratégica para transformar esse cenário, otimizando recursos e reduzindo custos operacionais. Estudos de mercado mais amplos corroboram essa visão, indicando que tecnologias no setor de transportes podem elevar a eficiência logística em até 15\% \cite{setcepar2023}.
 
-Além disso, uma plataforma \textit{SaaS} voltada para o transporte alternativo pode facilitar o acesso à inovação para pequenas e médias empresas, sem exigir altos investimentos. Esse modelo permite automação da bilhetagem, gestão integrada de rotas e melhor experiência para o passageiro. Essas soluções já demonstram impacto positivo em outros segmentos do transporte, aumentando a competitividade e garantindo serviços mais confiáveis \cite{prologapp2024}. Assim, a digitalização do setor não só fortalece as empresas, mas também melhora a mobilidade interurbana, tornando os serviços mais eficientes e acessíveis.
+Além disso, uma plataforma SaaS voltada para o transporte alternativo pode facilitar o acesso à inovação para pequenas e médias empresas, sem exigir altos investimentos. Esse modelo permite automação da bilhetagem, gestão integrada de rotas e melhor experiência para o passageiro. Essas soluções já demonstram impacto positivo em outros segmentos do transporte, aumentando a competitividade e garantindo serviços mais confiáveis \cite{prologapp2024}. Assim, a digitalização do setor não só fortalece as empresas, mas também melhora a mobilidade interurbana, tornando os serviços mais eficientes e acessíveis.
 
 \section{Objetivos}
 
@@ -30,13 +29,13 @@ Desenvolver um protótipo funcional de uma plataforma SaaS para a gestão integr
 \subsection{Específicos}
 
 \begin{itemize}
-    \item Realizar uma pesquisa de mercado para identificar as dores e os processos manuais de empresas do setor de transporte alternativo;
+  \item Realizar uma pesquisa de mercado para identificar as dores e os processos manuais de empresas do setor de transporte alternativo;
 
-    \item Especificar os requisitos funcionais e não funcionais de um sistema de gestão com base nas necessidades levantadas na pesquisa;
+  \item Especificar os requisitos funcionais e não funcionais de um sistema de gestão com base nas necessidades levantadas na pesquisa;
 
-    \item Desenvolver um protótipo funcional da plataforma ViaBus, implementando os módulos de gestão de rotas, paradas, veículos, motoristas e um fluxo para agendamento de passagens;
+  \item Desenvolver um protótipo funcional da plataforma ViaBus, implementando os módulos de gestão de rotas, paradas, veículos, motoristas e um fluxo para agendamento de passagens;
 
-    \item Realizar uma verificação técnica do protótipo para analisar a aderência do software aos requisitos especificados e conduzir uma avaliação heurística para identificar possíveis melhorias de usabilidade na interface.
+  \item Realizar uma verificação técnica do protótipo para analisar a aderência do software aos requisitos especificados e conduzir uma avaliação heurística para identificar possíveis melhorias de usabilidade na interface.
 \end{itemize}
 
 \section{Metodologia}
@@ -47,4 +46,4 @@ A primeira etapa, de levantamento de requisitos, utilizou uma abordagem mista, p
 
 A segunda etapa, de desenvolvimento do protótipo, seguiu um processo iterativo alinhado a práticas de prototipagem evolutiva, onde o software é construído e refinado em ciclos contínuos \cite{sommerville2011software}. Adotou-se a estratégia \textit{Frontend-First}, que prioriza a construção da interface do usuário (UI) como guia para o desenvolvimento do sistema. Utilizando o framework Next.js e a biblioteca de componentes shadcn/ui, todas as telas da aplicação foram inicialmente desenvolvidas com dados estáticos (\textit{mockados}), permitindo a validação dos fluxos de interação antes da implementação da lógica de negócio no backend.
 
-Por fim, a terceira etapa consistiu na avaliação do protótipo. Devido à impossibilidade de realizar testes com usuários finais, optou-se por uma verificação interna em duas frentes. A primeira foi uma \textit{Verificação de Requisitos}, na qual se analisou sistematicamente o atendimento aos requisitos funcionais e não funcionais. A segunda foi uma \textit{Avaliação Heurística}, um método de inspeção consolidado para encontrar problemas de usabilidade em interfaces \cite{Nielsen1994}. Atuando como avaliador especialista, o autor inspecionou o sistema com base nas 10 heurísticas de usabilidade de Nielsen, cujos resultados detalhados são apresentados no Capítulo 5.
+Por fim, a terceira etapa consistiu na avaliação do protótipo. Devido à impossibilidade de realizar testes com usuários finais, optou-se por uma verificação interna em duas frentes. A primeira foi uma \textit{Verificação de Requisitos}, na qual se analisou sistematicamente o atendimento aos requisitos funcionais e não funcionais. A segunda foi uma \textit{Avaliação Heurística}, um método de inspeção consolidado para encontrar problemas de usabilidade em interfaces \cite{Nielsen1994}. Atuando como avaliador especialista, o autor inspecionou o sistema com base nas 10 heurísticas de usabilidade de Nielsen, cujos resultados detalhados são apresentados no \autoref{cha:resultados}.
