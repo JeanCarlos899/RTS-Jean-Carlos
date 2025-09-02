@@ -6,6 +6,8 @@ Esta seção descreve a organização estrutural do sistema ViaBus, que provê f
 No \textit{frontend}, utiliza-se Next.js~15 com roteamento via \textit{App Router}, estado de sessão via NextAuth (estratégia JWT) e componentes React tipados (TypeScript). O \textit{frontend} consome APIs REST autenticadas, mantém contexto de usuário/empresa e incorpora mapas e edição geográfica com Leaflet/React-Leaflet para operações sobre rotas e paradas.
 
 O \textit{backend} é implementado com NestJS~11, estruturado por módulos de domínio (\textit{auth}, \textit{users}, \textit{companies}, \textit{drivers}, \textit{vehicles}, \textit{stops}, \textit{routes}, \textit{trips}, \textit{tickets}, etc.). As regras de negócio são expostas por controladores REST, protegidos por autenticação JWT e autorização baseada em papéis. A multiempresa é tratada por \textit{companyId} e por um interceptor que injeta o contexto de empresa a partir do token. A persistência usa TypeORM com PostgreSQL.
+ 
+A \autoref{fig:visao-alto-nivel} ilustra essa arquitetura em camadas.
 
 \begin{figure}[H]
   \centering
@@ -23,6 +25,7 @@ O \textit{backend} é implementado com NestJS~11, estruturado por módulos de do
     \draw[<->, thick, dashed] (fe) -- node[left, font=\small]{Visualização} (maps);
   \end{tikzpicture}
   \caption{Visão de alto nível da solução.}
+  \label{fig:visao-alto-nivel}
 \end{figure}
 
 \section{Modelagem do Banco de Dados}
@@ -71,7 +74,7 @@ Para facilitar a análise do domínio e a compreensão das decisões de modelage
 
 \subsubsection*{Agregado Organizacional: Empresas e Usuários}
 
-O pilar da arquitetura \textit{multi-tenant} do sistema reside neste agregado. A entidade \texttt{Company} é a raiz de todos os dados operacionais. A decisão de incluir a chave estrangeira \texttt{companyId} na entidade \texttt{User} estabelece o vínculo fundamental que garante que cada usuário pertença inequivocamente a uma única empresa. Este design é a base para o filtro de isolamento de dados que será aplicado em todas as consultas subsequentes, conforme detalhado na seção de arquitetura do \textit{backend}.
+O pilar da arquitetura \textit{multi-tenant} do sistema reside neste agregado. A entidade \texttt{Company} é a raiz de todos os dados operacionais. A decisão de incluir a chave estrangeira \texttt{companyId} na entidade \texttt{User} estabelece o vínculo fundamental que garante que cada usuário pertença inequivocamente a uma única empresa. Este design é a base para o filtro de isolamento de dados que será aplicado em todas as consultas subsequentes, conforme detalhado na seção de arquitetura do \textit{backend}. \autoref{fig:agregado-organizacional} ilustra este agregado.
 
 \begin{figure}[H]
   \centering
@@ -108,11 +111,12 @@ O pilar da arquitetura \textit{multi-tenant} do sistema reside neste agregado. A
     \umlnote[x=0,y=-4, width=12cm]{Company}{Escopo multiempresa: todas as entidades operacionais possuem \texttt{companyId} para isolamento de dados}
   \end{tikzpicture}
   \caption{Agregado organizacional - estrutura multiempresa.}
+  \label{fig:agregado-organizacional}
 \end{figure}
 
 \subsubsection*{Agregado de Configuração: Rotas e Paradas}
 
-Este agregado modela a estrutura logística fundamental de uma empresa de transporte. A decisão mais crítica aqui foi a criação da entidade associativa \texttt{RouteStop}. Em vez de uma relação simples, a \texttt{RouteStop} foi necessária para resolver o relacionamento N:N entre \texttt{Route} e \texttt{Stop}, permitindo que uma mesma parada (ex: "Rodoviária de Picos") possa pertencer a múltiplas rotas. Mais importante, esta entidade armazena o atributo \texttt{order}, que é a regra de negócio central para definir a sequência do trajeto, transformando um conjunto de pontos em um itinerário ordenado. Adicionalmente, a entidade \texttt{RouteSchedule} foi criada para desacoplar a definição da rota de sua frequência operacional, permitindo que uma mesma rota tenha horários diferentes dependendo do dia da semana.
+Este agregado (\autoref{fig:agregado-configuracao}) modela a estrutura logística fundamental de uma empresa de transporte. A decisão mais crítica aqui foi a criação da entidade associativa \texttt{RouteStop}. Em vez de uma relação simples, a \texttt{RouteStop} foi necessária para resolver o relacionamento N:N entre \texttt{Route} e \texttt{Stop}, permitindo que uma mesma parada (ex: "Rodoviária de Picos") possa pertencer a múltiplas rotas. Mais importante, esta entidade armazena o atributo \texttt{order}, que é a regra de negócio central para definir a sequência do trajeto, transformando um conjunto de pontos em um itinerário ordenado. Adicionalmente, a entidade \texttt{RouteSchedule} foi criada para desacoplar a definição da rota de sua frequência operacional, permitindo que uma mesma rota tenha horários diferentes dependendo do dia da semana.
 
 \begin{figure}[H]
   \centering
@@ -183,11 +187,12 @@ Este agregado modela a estrutura logística fundamental de uma empresa de transp
     }
   \end{tikzpicture}
   \caption{Agregado de configuração de rotas, paradas e horários.}
+  \label{fig:agregado-configuracao}
 \end{figure}
 
 \subsubsection*{Agregado de Recursos Operacionais: Veículos e Motoristas}
 
-Este agregado representa os ativos físicos e humanos da empresa. As entidades \texttt{Vehicle} e \texttt{Driver} são recursos independentes que são dinamicamente alocados às viagens. A modelagem através da entidade associativa \texttt{TripVehicle} foi uma decisão deliberada para conferir flexibilidade operacional. Em vez de vincular um motorista fixo a um veículo, a \texttt{TripVehicle} permite que a alocação seja feita por viagem, refletindo a realidade das operações de transporte. A inclusão de campos para motorista primário e secundário (\texttt{primaryDriverId}, \texttt{secondaryDriverId}) nesta entidade já prevê a complexidade de viagens longas ou que necessitam de revezamento, demonstrando a escalabilidade do modelo.
+Este agregado (\autoref{fig:agregado-recursos-operacionais}) representa os ativos físicos e humanos da empresa. As entidades \texttt{Vehicle} e \texttt{Driver} são recursos independentes que são dinamicamente alocados às viagens. A modelagem através da entidade associativa \texttt{TripVehicle} foi uma decisão deliberada para conferir flexibilidade operacional. Em vez de vincular um motorista fixo a um veículo, a \texttt{TripVehicle} permite que a alocação seja feita por viagem, refletindo a realidade das operações de transporte. A inclusão de campos para motorista primário e secundário (\texttt{primaryDriverId}, \texttt{secondaryDriverId}) nesta entidade já prevê a complexidade de viagens longas ou que necessitam de revezamento, demonstrando a escalabilidade do modelo.
 
 \begin{figure}[H]
   \centering
@@ -256,11 +261,12 @@ Este agregado representa os ativos físicos e humanos da empresa. As entidades \
     }
   \end{tikzpicture}
   \caption{Agregado de recursos operacionais - frota e motoristas.}
+  \label{fig:agregado-recursos-operacionais}
 \end{figure}
 
 \subsubsection*{Agregado de Operação e Vendas: Viagens e Bilhetes}
 
-Este é o agregado central que conecta a configuração (Rotas) com os recursos (Veículos/Motoristas) e a atividade comercial (Bilhetes). A entidade \texttt{Trip} é a instância de uma \texttt{Route} em uma data e horário específicos. Uma decisão de modelagem importante na entidade \texttt{Ticket} foi a inclusão de campos para registrar os pontos de embarque e desembarque (\texttt{boardingStopId}, \texttt{landingStopId}), permitindo a venda de bilhetes para trechos seccionados da viagem. Além disso, a flexibilidade foi aumentada ao permitir que os pontos de embarque/desembarque possam ser tanto uma parada pré-cadastrada quanto uma localização customizada (com descrição e coordenadas), atendendo à demanda do transporte alternativo onde pontos de encontro podem ser flexíveis.
+Este é o agregado central que conecta a configuração (Rotas) com os recursos (Veículos/Motoristas) e a atividade comercial (Bilhetes), ilustrado na \autoref{fig:agregado-operacao-vendas}. A entidade \texttt{Trip} é a instância de uma \texttt{Route} em uma data e horário específicos. Uma decisão de modelagem importante na entidade \texttt{Ticket} foi a inclusão de campos para registrar os pontos de embarque e desembarque (\texttt{boardingStopId}, \texttt{landingStopId}), permitindo a venda de bilhetes para trechos seccionados da viagem. Além disso, a flexibilidade foi aumentada ao permitir que os pontos de embarque/desembarque possam ser tanto uma parada pré-cadastrada quanto uma localização customizada (com descrição e coordenadas), atendendo à demanda do transporte alternativo onde pontos de encontro podem ser flexíveis.
 
 \begin{figure}[H]
   \centering
@@ -328,6 +334,7 @@ Este é o agregado central que conecta a configuração (Rotas) com os recursos 
     }
   \end{tikzpicture}
   \caption{Agregado de operação - viagens, recursos e vendas.}
+  \label{fig:agregado-operacao-vendas}
 \end{figure}
 
 \section{Arquitetura do Backend}
@@ -387,7 +394,7 @@ A organização modular agrupa os componentes por responsabilidade funcional. Os
 
 \subsection{Pipeline de Processamento}
 
-Cada requisição HTTP passa por um \textit{pipeline} estruturado de \textit{middleware}, \textit{guards}, \textit{interceptors} e \textit{filters}, garantindo segurança e consistência.
+Cada requisição HTTP passa por um \textit{pipeline} estruturado de \textit{middleware}, \textit{guards}, \textit{interceptors} e \textit{filters}, garantindo segurança e consistência. A \autoref{fig:request-pipeline} ilustra este pipeline.
 
 \begin{figure}[H]
   \centering
@@ -476,7 +483,7 @@ O sistema implementa isolamento de dados por empresa através de uma arquitetura
   \item \text{@CurrentUser}: Decorator que facilita o acesso aos dados do usuário autenticado
 \end{itemize}
 
-A implementação garante que todas as operações de banco de dados incluam automaticamente a cláusula \texttt{WHERE companyId = ?}, eliminando a possibilidade de vazamento de dados entre empresas. O padrão é aplicado consistentemente em todos os módulos operacionais (usuários, motoristas, veículos, rotas, paradas, viagens e passagens).
+A implementação garante que todas as operações de banco de dados incluam automaticamente a cláusula \texttt{WHERE companyId = ?}, eliminando a possibilidade de vazamento de dados entre empresas. O padrão é aplicado consistentemente em todos os módulos operacionais (usuários, motoristas, veículos, rotas, paradas, viagens e passagens). A \autoref{fig:arquitetura-multi-tenant} ilustra esta arquitetura.
 
 \begin{figure}[H]
   \centering
@@ -555,7 +562,7 @@ A implementação garante que todas as operações de banco de dados incluam aut
 
   \end{tikzpicture}
   \caption{Arquitetura multi-tenant: uma única aplicação com dados logicamente isolados por empresa no banco de dados.}
-  \label{fig:multi-tenant-melhorada}
+  \label{fig:arquitetura-multi-tenant}
 \end{figure}
 
 \section{Arquitetura do Frontend}
@@ -585,7 +592,7 @@ O sistema de componentes foi projetado em camadas, seguindo uma lógica de compo
 
 \subsection{Tipagem e Validação}
 
-O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do \textit{backend} correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário.
+O TypeScript é utilizado de forma extensiva para garantir a integridade dos dados em toda a aplicação. Um diretório central de tipos (\textit{Types Directory}) contém as definições para cada entidade de negócio (\texttt{User}, \texttt{Company}, etc.), servindo como uma fonte única da verdade para a estrutura de dados. Essa tipagem se estende às respostas da API, garantindo que os dados recebidos do \textit{backend} correspondam ao esperado. No lado do cliente, a validação de formulários é realizada com \textit{Schemas} Zod, que asseguram a consistência dos dados antes do envio. Essa abordagem cria uma arquitetura com tipagem estática de ponta a ponta (\textit{end-to-end}), desde o banco de dados até a interface do usuário. A \autoref{fig:arquitetura-frontend-simplificada} ilustra esta arquitetura.
 
 \begin{figure}[htbp]
   \centering

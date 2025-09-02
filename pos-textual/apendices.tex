@@ -201,11 +201,12 @@
 
   \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[scale=0.4, every node/.style={transform shape}]
-      \tikzumlset{font=\tiny}
+    \begin{tikzpicture}[scale=0.6, every node/.style={transform shape}]
+      \tikzumlset{font=\footnotesize}
 
-      % NÍVEL 1: Empresa (topo da hierarquia)
-      \umlclass[x=18,y=25]{Company}{
+      % --- AGRUPAMENTO SUPERIOR: Organizacional e Recursos ---
+      % Company é a raiz central. User, Driver e Vehicle são seus recursos diretos.
+      \umlclass[x=8, y=16]{Company}{
         id: uuid\\
         legalName: string\\
         tradeName: string\\
@@ -213,13 +214,10 @@
         cnpj: string\\
         email: string\\
         phone: string\\
-        logoUrl: string\\
-        createdAt: Date\\
-        updatedAt: Date
+        logoUrl: string
       }{ }
 
-      % NÍVEL 2: Gestão de usuários e recursos
-      \umlclass[x=3,y=18]{User}{
+      \umlclass[x=0, y=16]{User}{
         id: uuid\\
         name: string\\
         email: string\\
@@ -228,31 +226,10 @@
         password: string\\
         role: UserRole\\
         status: UserStatus\\
-        companyId: uuid\\
-        createdAt: Date\\
-        updatedAt: Date
-      }{ }
-
-      \umlclass[x=18,y=18]{Vehicle}{
-        id: uuid\\
-        plate: string\\
-        model: string\\
-        brand: string\\
-        year: number\\
-        capacity: number\\
-        category: VehicleCategory\\
-        comfortConfiguration: ComfortConfiguration\\
-        busType: BusType\\
-        acquisitionDate: Date\\
-        odometer: number\\
-        lastMaintenance: Date\\
-        nextMaintenance: Date\\
-        status: VehicleStatus\\
-        notes: string\\
         companyId: uuid
       }{ }
 
-      \umlclass[x=33,y=18]{Driver}{
+      \umlclass[x=15, y=16]{Driver}{
         id: uuid\\
         name: string\\
         cpf: string\\
@@ -271,28 +248,29 @@
         companyId: uuid
       }{ }
 
-      % NÍVEL 3: Configuração de rotas
-      \umlclass[x=8,y=11]{Route}{
+      \umlclass[x=13, y=6.5]{Vehicle}{
         id: uuid\\
-        name: string\\
-        description: string\\
-        isActive: boolean\\
-        estimatedDuration: string\\
-        distance: number\\
+        plate: string\\
+        model: string\\
+        brand: string\\
+        year: number\\
+        capacity: number\\
+        category: VehicleCategory\\
+        comfortConfiguration: ComfortConfiguration\\
+        busType: BusType\\
+        acquisitionDate: Date\\
+        odometer: number\\
+        lastMaintenance: Date\\
+        nextMaintenance: Date\\
+        status: VehicleStatus\\
+        notes: string\\
         companyId: uuid
       }{ }
 
-      \umlclass[x=23,y=11]{Stop}{
-        id: uuid\\
-        name: string\\
-        addressId: uuid\\
-        isActive: boolean\\
-        hasAccessibility: boolean\\
-        hasShelter: boolean\\
-        companyId: uuid
-      }{ }
 
-      \umlclass[x=38,y=11]{Address}{
+      % --- AGRUPAMENTO ESQUERDA/CENTRO: Configuração de Rotas ---
+      % Itens que definem a estrutura das viagens: Endereços, Paradas e Rotas.
+      \umlclass[x=-6, y=8]{Address}{
         id: uuid\\
         cep: string\\
         street: string\\
@@ -302,22 +280,30 @@
         city: string\\
         state: string\\
         longitude: number\\
-        latitude: number\\
-        createdAt: Date\\
-        updatedAt: Date
+        latitude: number
       }{ }
 
-      % NÍVEL 4: Relacionamentos de configuração
-      \umlclass[x=8,y=4]{RouteSchedule}{
+      \umlclass[x=0, y=8]{Stop}{
         id: uuid\\
-        routeId: uuid\\
-        dayOfWeek: number\\
+        name: string\\
+        addressId: uuid\\
         isActive: boolean\\
-        createdAt: Date\\
-        updatedAt: Date
+        hasAccessibility: boolean\\
+        hasShelter: boolean\\
+        companyId: uuid
       }{ }
 
-      \umlclass[x=23,y=4]{RouteStop}{
+      \umlclass[x=4, y=0]{Route}{
+        id: uuid\\
+        name: string\\
+        description: string\\
+        isActive: boolean\\
+        estimatedDuration: string\\
+        distance: number\\
+        companyId: uuid
+      }{ }
+
+      \umlclass[x=-4, y=0]{RouteStop}{
         id: uuid\\
         routeId: uuid\\
         stopId: uuid\\
@@ -325,20 +311,17 @@
         departureTime: string
       }{ }
 
-      % NÍVEL 5: Operação - Viagens
-      \umlclass[x=3,y=-3]{TripVehicle}{
+      \umlclass[x=11, y=0]{RouteSchedule}{
         id: uuid\\
-        tripId: uuid\\
-        vehicleId: uuid\\
-        primaryDriverId: uuid\\
-        secondaryDriverId: uuid\\
-        isActive: boolean\\
-        observations: string\\
-        createdAt: Date\\
-        updatedAt: Date
+        routeId: uuid\\
+        dayOfWeek: number\\
+        isActive: boolean
       }{ }
 
-      \umlclass[x=18,y=-3]{Trip}{
+
+      % --- AGRUPAMENTO INFERIOR: Operacional ---
+      % Entidades que representam a execução: Viagens, Bilhetes e alocação de veículos/motoristas.
+      \umlclass[x=8, y=-8]{Trip}{
         id: uuid\\
         routeId: uuid\\
         departureTime: Date\\
@@ -351,13 +334,20 @@
         availableSeats: number\\
         isAutoGenerated: boolean\\
         observations: string\\
-        companyId: uuid\\
-        createdAt: Date\\
-        updatedAt: Date
+        companyId: uuid
       }{ }
 
-      % NÍVEL 6: Vendas - Bilhetes
-      \umlclass[x=33,y=-3]{Ticket}{
+      \umlclass[x=15, y=-8]{TripVehicle}{
+        id: uuid\\
+        tripId: uuid\\
+        vehicleId: uuid\\
+        primaryDriverId: uuid\\
+        secondaryDriverId: uuid\\
+        isActive: boolean\\
+        observations: string
+      }{ }
+
+      \umlclass[x=0, y=-8]{Ticket}{
         id: uuid\\
         tripId: uuid\\
         passengerName: string\\
@@ -381,44 +371,37 @@
         companyId: uuid
       }{ }
 
-      % RELACIONAMENTOS HIERÁRQUICOS PRINCIPAIS
-      % Company -> Recursos
-      \umlassoc[mult1=1,mult2=*]{Company}{User}
-      \umlassoc[mult1=1,mult2=*]{Company}{Vehicle}
-      \umlassoc[mult1=1,mult2=*]{Company}{Driver}
 
-      % Company -> Configuração
-      \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Route}
-      \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=90]{Company}{Stop}
+      % --- RELACIONAMENTOS ---
 
-      % Configuração de endereços
-      \umlassoc[mult1=1,mult2=*]{Address}{Stop}
+      % Composição: Company é a raiz de tudo
+      \umlcompo[mult1=1, mult2=*]{Company}{User}
+      \umlcompo[mult1=1, mult2=*]{Company}{Vehicle}
+      \umlcompo[mult1=1, mult2=*]{Company}{Driver}
+      \umlcompo[mult1=1, mult2=*]{Company}{Stop}
+      \umlcompo[mult1=1, mult2=*]{Company}{Route}
+      \umlcompo[mult1=1, mult2=*]{Company}{Trip}
 
-      % FLUXO PRINCIPAL: Route -> RouteStop <- Stop
-      \umlassoc[mult1=1,mult2=*]{Route}{RouteStop}
-      \umlassoc[mult1=1,mult2=*]{Stop}{RouteStop}
+      % Composição no agregado de Configuração
+      \umlcompo[mult1=1, mult2=1]{Stop}{Address}
+      \umlcompo[mult1=1, mult2=*]{Route}{RouteSchedule}
+      \umlcompo[mult1=1, mult2=*]{Route}{RouteStop}
+      \umluniassoc[mult1=*, mult2=1]{RouteStop}{Stop} % Associação (referência)
 
-      % Horários das rotas
-      \umlassoc[mult1=1,mult2=*]{Route}{RouteSchedule}
+      % Composição no agregado Operacional
+      \umlcompo[mult1=1, mult2=*]{Trip}{TripVehicle}
+      \umlcompo[mult1=1, mult2=*]{Trip}{Ticket}
 
-      % FLUXO OPERACIONAL: Route -> Trip
-      \umlassoc[mult1=1,mult2=*]{Route}{Trip}
-      \umlassoc[mult1=1,mult2=*,arm1=-135,arm2=90]{Company}{Trip}
-
-      % Trip -> TripVehicle (associação veículo/motorista)
-      \umlassoc[mult1=1,mult2=*]{Trip}{TripVehicle}
-      \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=90]{Vehicle}{TripVehicle}
-      \umlassoc[mult1=1,mult2=*,arm1=-90,arm2=135,stereo=<<primaryDriver>>]{Driver}{TripVehicle}
-
-      % FLUXO DE VENDAS: Trip -> Ticket
-      \umlassoc[mult1=1,mult2=*]{Trip}{Ticket}
-      \umlassoc[mult1=1,mult2=*,arm1=-45,arm2=135]{Company}{Ticket}
-
-      % Relacionamento opcional: Stop -> Ticket (embarque/desembarque específico)
-      \umldep[stereo=<<boarding/landing>>,mult1=0..1,mult2=*,arm1=-90,arm2=135]{Stop}{Ticket}
+      % Associações (referências) entre agregados
+      \umluniassoc[mult1=*, mult2=1]{Trip}{Route}
+      \umluniassoc[mult1=*, mult2=1]{TripVehicle}{Driver}
+      \umluniassoc[mult1=*, mult2=0..1]{TripVehicle}{Driver}
+      \umluniassoc[mult1=*, mult2=1]{TripVehicle}{Vehicle}
+      \umluniassoc[mult1=*, mult2=0..1]{Ticket}{Stop}
+      \umluniassoc[mult1=*, mult2=0..1]{Ticket}{Stop}
 
     \end{tikzpicture}
-    \caption{Diagrama de classes detalhado do domínio ViaBus.}
+    \caption{Diagrama de classes do domínio ViaBus.}
     \label{fig:uml-dominio}
   \end{figure}
 
